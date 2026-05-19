@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ──────────────────────────────────────────────────────────────
+   Design tokens
+   These map directly to Tailwind v4 utility classes:
+   --color-background → bg-background, --color-muted → text-muted, etc.
+   ────────────────────────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Surfaces */
+  --color-background: #050810;
+  --color-background-elevated: #0a0f1a;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-strong: rgba(255, 255, 255, 0.07);
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --color-foreground: #e6edf6;
+  --color-muted: #8a94a7;
+  --color-subtle: #5b6577;
+
+  /* Accents */
+  --color-accent: #22d3ee;
+  --color-accent-strong: #06b6d4;
+  --color-accent-soft: #1e3a5f;
+
+  /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Layout */
+  --container-max: 1200px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base */
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Slightly more comfortable selection colour on dark */
+::selection {
+  background: rgba(34, 211, 238, 0.25);
+  color: #ffffff;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Utility classes
+   ────────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Canonical glassmorphism surface */
+  .glass {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  .glass-strong {
+    background-color: var(--color-surface-strong);
+    border: 1px solid var(--color-border-strong);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  /* Foreground → accent gradient text */
+  .text-gradient {
+    background: linear-gradient(120deg, #ffffff 0%, #c5e8f5 45%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle dot grid background for the hero */
+  .bg-grid {
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+  }
+
+  /* Faint inner top highlight, used on premium glass surfaces */
+  .ring-highlight {
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  }
 }
