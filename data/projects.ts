@@ -73,7 +73,7 @@ export const projects: Project[] = [
   },
   {
     slug: "bouldering-app",
-    title: "Bouldering tracker",
+    title: "Bouldering training simulator",
     tagline: "Log routes, track progress, and review your climbing sessions.",
     description:
       "A mobile-first app for indoor bouldering — log attempts, tag routes by grade and gym, and visualise progress over time. Born from a personal need; built with a clean, focused UX.",
