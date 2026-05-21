@@ -2,69 +2,64 @@ import type { CSSProperties } from "react";
 import { AzecIcon } from "@/components/brand/AzecIcon";
 
 /**
- * Right-side hero visual — the AZEC Digital "developer system" piece.
+ * Hero visual — AZEC Digital "developer system" piece.
  *
- * Composition (desktop):
- *   - Central AZEC icon tile, with a soft AZEC-blue underglow
- *   - Three concentric orbit rings (hairline)
- *   - Six floating capability chips orbiting at different speeds
- *   - Top-right terminal-style status panel (build watcher + cursor)
- *   - Bottom-left dashboard-style panel (active projects + bar)
- *   - Subtle dot-grid in the centre, masked to a circle
+ * Two distinct components, one per viewport tier:
  *
- * Mobile fallback: just the AzecIcon tile + soft glow. Lighter, calmer.
+ *   <HeroVisualMobile />  — compact composition. Just the AZEC icon,
+ *                           one subtle ring, a soft underglow. No orbits,
+ *                           no chips, no panels. Fixed height ~180px.
  *
- * Every animation uses transform / opacity / offset-distance only — no
- * JS loop, no libraries. prefers-reduced-motion stops them all via
- * the shared override in globals.css.
+ *   <HeroVisual />        — full desktop system. Three orbit rings, six
+ *                           orbiting capability chips, two developer panels,
+ *                           soft underglow, central icon tile.
+ *                           Square, max 460px wide.
  *
- * Decorative — pointer-events disabled across the whole tree so it can
- * never block scroll/clicks.
+ * Hero.tsx places each in its respective layout (mobile flex / desktop grid)
+ * so we never carry the wrong variant in the DOM.
+ *
+ * All animations use transform / opacity / offset-distance only — no JS,
+ * no libraries. prefers-reduced-motion stops every animation via the
+ * shared override in globals.css. Decorative: pointer-events disabled.
  */
+
+/* ──────────────────────────────────────────────────────────────
+   Mobile — compact, ~180px tall
+   ────────────────────────────────────────────────────────────── */
+export function HeroVisualMobile() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none relative mx-auto grid h-[180px] w-full place-items-center"
+    >
+      {/* Soft underglow */}
+      <div
+        className="absolute h-[200px] w-[200px] rounded-full opacity-50 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(45,123,255,0.42) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* One subtle ring around the icon */}
+      <div className="absolute h-[150px] w-[150px] rounded-full border border-border opacity-50" />
+
+      {/* Central AZEC tile */}
+      <AzecIcon className="relative h-[104px] w-[104px] drop-shadow-[0_8px_24px_rgba(45,123,255,0.25)]" />
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Desktop — full animated system
+   ────────────────────────────────────────────────────────────── */
 export function HeroVisual() {
   return (
     <div
       aria-hidden
       className="pointer-events-none relative mx-auto aspect-square w-full max-w-[460px]"
     >
-      {/* Mobile fallback — static icon, no orbits */}
-      <div className="absolute inset-0 grid place-items-center lg:hidden">
-        <StaticIcon />
-      </div>
-
-      {/* Desktop composition */}
-      <div className="absolute inset-0 hidden lg:block">
-        <AnimatedSystem />
-      </div>
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Mobile — quieter, just an iconic seal
-   ────────────────────────────────────────────────────────────── */
-function StaticIcon() {
-  return (
-    <div className="relative">
-      <div
-        className="absolute -inset-12 -z-10 rounded-full opacity-40 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(45,123,255,0.40) 0%, transparent 70%)",
-        }}
-      />
-      <AzecIcon className="h-24 w-24 sm:h-28 sm:w-28" />
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Desktop animated system
-   ────────────────────────────────────────────────────────────── */
-function AnimatedSystem() {
-  return (
-    <div className="relative h-full w-full">
-      {/* Masked dot grid — work surface around the icon */}
+      {/* Masked dot grid */}
       <div
         className="bg-dots absolute inset-0"
         style={{
@@ -79,17 +74,17 @@ function AnimatedSystem() {
       <Ring radius={150} opacity={0.36} />
       <Ring radius={200} opacity={0.24} />
 
-      {/* Soft underglow behind the icon — larger, more diffused */}
+      {/* Soft underglow behind the icon */}
       <div
-        className="animate-glow-pulse absolute top-1/2 left-1/2 -z-10 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+        className="animate-glow-pulse absolute top-1/2 left-1/2 -z-10 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
         style={{
           background:
-            "radial-gradient(circle, rgba(45,123,255,0.32) 0%, transparent 65%)",
+            "radial-gradient(circle, rgba(45,123,255,0.34) 0%, transparent 65%)",
         }}
       />
 
       {/* Central AZEC tile */}
-      <div className="absolute top-1/2 left-1/2 h-[140px] w-[140px] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_12px_36px_rgba(45,123,255,0.22)]">
+      <div className="absolute top-1/2 left-1/2 h-[152px] w-[152px] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_14px_38px_rgba(45,123,255,0.24)]">
         <AzecIcon className="h-full w-full" />
       </div>
 
@@ -98,18 +93,12 @@ function AnimatedSystem() {
         <OrbitChip key={chip.label} chip={chip} />
       ))}
 
-      {/* Top-right terminal panel */}
       <TerminalPanel />
-
-      {/* Bottom-left dashboard panel */}
       <DashboardPanel />
     </div>
   );
 }
 
-/* ──────────────────────────────────────────────────────────────
-   Orbit ring
-   ────────────────────────────────────────────────────────────── */
 function Ring({ radius, opacity }: { radius: number; opacity: number }) {
   return (
     <div
@@ -123,9 +112,6 @@ function Ring({ radius, opacity }: { radius: number; opacity: number }) {
   );
 }
 
-/* ──────────────────────────────────────────────────────────────
-   Capability chips
-   ────────────────────────────────────────────────────────────── */
 interface ChipDef {
   label: string;
   radius: number;
@@ -163,9 +149,6 @@ function OrbitChip({ chip }: { chip: ChipDef }) {
   );
 }
 
-/* ──────────────────────────────────────────────────────────────
-   Developer panels — premium, slightly more breathing room
-   ────────────────────────────────────────────────────────────── */
 function TerminalPanel() {
   return (
     <div
