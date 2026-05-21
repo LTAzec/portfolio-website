@@ -4,8 +4,8 @@ import type { Project } from "@/lib/types";
  * Single source of truth for portfolio projects.
  *
  * The home page derives its lists from here:
- *   - <FeaturedProjects />  → projects.filter(p => p.featured)
- *   - <OtherProjects />     → projects.filter(p => !p.featured)
+ *   - <FeaturedProjects />  -> projects.filter(p => p.featured)
+ *   - <OtherProjects />     -> projects.filter(p => !p.featured)
  *
  * Add a new project by appending an entry. Toggle `featured` to promote it.
  * The order in this array is the order shown on the page.
@@ -47,9 +47,7 @@ export const projects: Project[] = [
     status: "in-progress",
     featured: true,
     accent: "blue",
-    links: {
-      // case: "/projects/jarvis", // future detail page
-    },
+    links: {},
   },
   {
     slug: "jansen-car-detailing",
@@ -67,13 +65,11 @@ export const projects: Project[] = [
     status: "live",
     featured: true,
     accent: "cyan",
-    links: {
-      // live: "https://jansencardetailing.be", // TODO: confirm final URL
-    },
+    links: {},
   },
   {
     slug: "bouldering-app",
-    title: "Bouldering training simulator",
+    title: "Bouldering tracker",
     tagline: "Log routes, track progress, and review your climbing sessions.",
     description:
       "A mobile-first app for indoor bouldering — log attempts, tag routes by grade and gym, and visualise progress over time. Born from a personal need; built with a clean, focused UX.",

@@ -14,38 +14,33 @@ import { site } from "@/data/site";
  *           hairline rings, and two developer-style status panels.
  *
  * Mobile collapses to a single stacked column. The global <Backdrop />
- * already carries the grid + wordmark watermark + soft blue zone — the
- * hero adds no decoration of its own.
+ * carries the page-wide grid + wordmark watermark + soft blue zone.
  */
 export function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden">
       <Container className="relative pt-24 pb-24 sm:pt-32 sm:pb-28 lg:pt-32 lg:pb-32">
-        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-12">
+        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-20">
           {/* ── Left column ─────────────────────────────────────── */}
           <div className="flex flex-col lg:col-span-7">
-            {/* Editorial index label */}
             <span className="text-eyebrow flex items-center gap-3">
               <span className="text-accent">01</span>
               <span className="h-px w-6 bg-faint" />
               <span>Studio</span>
             </span>
 
-            {/* Headline — "clean" carries the AZEC blue underline */}
             <h1 className="mt-8 text-balance text-[2.625rem] font-medium leading-[1.04] tracking-[-0.03em] text-foreground sm:text-[3.5rem] lg:text-[4.25rem] lg:leading-[1.02]">
               Building{" "}
               <span className="accent-underline">clean</span>{" "}
-              digital products,
-              <br className="hidden sm:block" /> web experiences and practical
-              software tools.
+              software,
+              <br className="hidden sm:block" /> modern interfaces and practical
+              internal tooling.
             </h1>
 
-            {/* Subline */}
             <p className="mt-8 max-w-xl text-pretty text-base leading-relaxed text-muted sm:text-lg sm:leading-[1.7]">
               {site.description}
             </p>
 
-            {/* CTAs */}
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
               <Button href="#projects" variant="primary" size="lg">
                 View work
@@ -65,7 +60,6 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Availability */}
             <div className="mt-10 inline-flex items-center gap-2.5 text-[12px] text-muted">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />

@@ -17,19 +17,19 @@ export const site = {
   location: "Belgium",
   /** Positioning headline (also used by SEO description fallback). */
   tagline:
-    "Building clean digital products, web experiences and practical software tools.",
+    "Building clean software, modern interfaces and practical internal tooling.",
   /** Long-form description used for the hero subline and SEO. */
   description:
-    "AZEC Digital is an independent studio building clean software for product teams and operators — from internal tooling to web experiences and AI products.",
+    "An independent studio building software, interfaces and tooling for product teams. Clean execution, shipped end-to-end.",
   email: "yannisbertels@gmail.com",
   availability: "Available for new projects",
   /** Studio founded year, displayed in editorial meta strips. */
   founded: 2025,
-  url: "https://azec.digital", // TODO: confirm final domain
+  url: "https://azec.digital",
 } as const;
 
 export const socials: SocialLink[] = [
-  { label: "GitHub", href: "https://github.com/", icon: "github" }, // TODO
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" }, // TODO
+  { label: "GitHub", href: "https://github.com/", icon: "github" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
   { label: "Email", href: `mailto:${site.email}`, icon: "mail" },
 ];
