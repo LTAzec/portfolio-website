@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import {
   HeroVisual,
@@ -8,23 +9,10 @@ import { site } from "@/data/site";
 
 /**
  * Editorial hero — minimal, brand-led.
+ * Two layouts: mobile flex column + desktop 7/5 grid. Shared content
+ * blocks defined once as local JSX vars.
  *
- * The headline is intentionally just "AZEC Digital" — the brand IS the
- * intro. The subtitle carries the portfolio context, and the accent
- * underline finds its home on "clean" inside the closing phrase
- * "clean execution", mirroring the wordmark's blue E-bar.
- *
- * Two distinct layouts:
- *
- *   Mobile (default → <lg)
- *     vertical flex column: eyebrow → headline → subtitle → CTAs →
- *     compact visual → availability.
- *
- *   Desktop (lg+)
- *     asymmetric 7/5 grid: text left, full HeroVisual right.
- *
- * Shared content blocks are defined once as local JSX vars and rendered
- * in both layouts — no duplication of copy.
+ * CTAs route to the new dedicated pages (/projects, /contact).
  */
 export function Hero() {
   const eyebrow = (
@@ -51,12 +39,12 @@ export function Hero() {
 
   const ctas = (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-      <Button href="#projects" variant="primary" size="lg">
+      <Button href="/projects" variant="primary" size="lg">
         View work
         <Arrow />
       </Button>
-      <a
-        href="#contact"
+      <Link
+        href="/contact"
         className="group inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground transition-colors hover:text-accent"
       >
         Get in touch
@@ -66,7 +54,7 @@ export function Hero() {
         >
           →
         </span>
-      </a>
+      </Link>
     </div>
   );
 
@@ -83,7 +71,6 @@ export function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden">
       <Container className="relative pt-16 pb-16 sm:pt-24 sm:pb-24 lg:pt-32 lg:pb-32">
-        {/* ── Mobile layout (single column, fixed order) ───────── */}
         <div className="flex flex-col gap-7 lg:hidden">
           {eyebrow}
           {headline}
@@ -93,7 +80,6 @@ export function Hero() {
           {availability}
         </div>
 
-        {/* ── Desktop layout (asymmetric 7/5 grid) ─────────────── */}
         <div className="hidden lg:grid lg:grid-cols-12 lg:items-center lg:gap-20">
           <div className="flex flex-col gap-8 lg:col-span-7">
             {eyebrow}
@@ -107,23 +93,22 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ── Bottom editorial rule ────────────────────────────── */}
         <div className="mt-12 border-t border-border pt-5 sm:mt-20 lg:mt-32">
           <div className="text-eyebrow flex flex-wrap items-center justify-between gap-y-2 text-[10px]">
             <span>{site.location} · Remote</span>
             <span className="hidden sm:inline">Est. {site.founded}</span>
-            <a
-              href="#projects"
+            <Link
+              href="/projects"
               className="group inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
             >
-              <span>Scroll</span>
+              <span>See projects</span>
               <span
                 aria-hidden
-                className="transition-transform duration-200 group-hover:translate-y-0.5"
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
               >
-                ↓
+                →
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </Container>

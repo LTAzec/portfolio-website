@@ -1,17 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navLinks } from "@/data/nav";
 import { cn } from "@/lib/utils";
 
 /**
- * Client-only mobile menu trigger and overlay.
- * Lives inside <Navbar /> and only renders the hamburger on small screens.
+ * Mobile menu trigger + full-screen overlay.
+ * Lives inside <Navbar /> and only renders on small screens.
  */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
 
-  // Lock body scroll while the overlay is open.
   useEffect(() => {
     if (!open) return;
     const original = document.body.style.overflow;
@@ -21,7 +21,6 @@ export function MobileNav() {
     };
   }, [open]);
 
-  // Close on Escape.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -44,31 +43,28 @@ export function MobileNav() {
         <Hamburger open={open} />
       </button>
 
-      {/* Overlay */}
       <div
         className={cn(
           "fixed inset-0 z-40 transition-opacity duration-300",
           open ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-background/85 backdrop-blur-xl"
+          className="absolute inset-0 bg-background/90 backdrop-blur-xl"
           onClick={() => setOpen(false)}
         />
 
-        {/* Menu content */}
         <nav className="relative flex h-full flex-col items-center justify-center gap-8 px-8">
           <ul className="flex flex-col items-center gap-6">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className="text-2xl font-medium tracking-tight text-foreground transition-colors hover:text-accent"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -89,7 +85,7 @@ function Hamburger({ open }: { open: boolean }) {
       />
       <span
         className={cn(
-          "absolute left-0 top-1.5 block h-px w-5 bg-current transition-opacity duration-200",
+          "absolute top-1.5 left-0 block h-px w-5 bg-current transition-opacity duration-200",
           open ? "opacity-0" : "opacity-100",
         )}
       />

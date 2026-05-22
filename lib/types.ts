@@ -8,7 +8,21 @@ export type ProjectStatus = "live" | "in-progress" | "private" | "concept";
 export interface ProjectLinks {
   live?: string;
   repo?: string;
-  case?: string; // future detail page route, e.g. /projects/jarvis
+  case?: string;
+}
+
+export interface ProjectMedia {
+  type: "image" | "video";
+  src: string;
+  poster?: string;
+  alt?: string;
+}
+
+export interface ProjectCaseStudy {
+  overview: string;
+  problem: string;
+  solution: string;
+  result: string;
 }
 
 export interface Project {
@@ -25,6 +39,8 @@ export interface Project {
   links?: ProjectLinks;
   image?: string;
   accent?: "cyan" | "blue" | "violet";
+  media?: ProjectMedia;
+  caseStudy?: ProjectCaseStudy;
 }
 
 export interface NavLink {
@@ -35,6 +51,21 @@ export interface NavLink {
 export interface SocialLink {
   label: string;
   href: string;
-  /** Short identifier used to pick an icon component, e.g. "github". */
   icon: "github" | "linkedin" | "mail" | "x";
+}
+
+/** Capability category used by the Capabilities section and About page. */
+export interface Capability {
+  title: string;
+  description: string;
+  items: string[];
+}
+
+/** Timeline entry used by the About page's experience/education timeline. */
+export interface TimelineItem {
+  year: string;
+  title: string;
+  meta?: string;
+  description?: string;
+  type: "work" | "education" | "studio" | "milestone";
 }
