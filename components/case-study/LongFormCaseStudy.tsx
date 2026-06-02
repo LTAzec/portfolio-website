@@ -1,0 +1,263 @@
+import Link from "next/link";
+import type { Project } from "@/lib/types";
+import { Container } from "@/components/layout/Container";
+import { Tag } from "@/components/ui/Tag";
+import { assetExists } from "@/lib/asset-utils";
+import { discoverInternalProjectMedia } from "@/lib/discover-internal-project-media";
+import { resolveProjectHeroMedia } from "@/lib/resolve-project-media";
+import { CaseStudyHero } from "./CaseStudyHero";
+import { EditorialSection, EditorialProse } from "./EditorialSection";
+import { MediaStack } from "./MediaStack";
+import { WorkflowSection } from "./WorkflowSection";
+import { EngineeringApproachGrid } from "./EngineeringApproachGrid";
+import { ProjectGallery } from "./ProjectGallery";
+import { MetricsRail } from "./MetricsRail";
+import {
+  InternalProjectsShowcase,
+  type InternalProjectWithMedia,
+} from "./InternalProjectsShowcase";
+import { Reveal } from "./Reveal";
+
+interface LongFormCaseStudyProps {
+  project: Project;
+  nextProject?: Project;
+}
+
+/**
+ * Editorial long-form case study renderer.
+ *
+ * Composes:
+ *   1. Back link
+ *   2. Editorial hero (title slab + meta rail + hero media)
+ *   3. Context
+ *   4. Problem detail (copy left, supporting visuals right — collapses
+ *      to single-column when no supporting visuals are present)
+ *   5. Multi-project tab showcase (when `internalProjects` is set) —
+ *      otherwise falls back to the legacy Tooling + Visual Showcase
+ *      sections used by future projects without a sub-app breakdown.
+ *   6. Engineering approach grid
+ *   7. Results (paragraphs + optional metrics)
+ *   8. Built with
+ *   9. Closing block
+ *   10. Next project
+ *   11. Bottom back link
+ */
+export function LongFormCaseStudy({
+  project,
+  nextProject,
+}: LongFormCaseStudyProps) {
+  const lf = project.caseStudy?.longForm;
+  if (!lf) return null;
+
+  const problemMediaAvailable = lf.problemDetail.media.some((img) =>
+    assetExists(img.src),
+  );
+
+  // Server-side: enrich each declared internal project with the media files
+  // currently sitting in its folder. The client tab navigator just renders
+  // what it receives.
+  const internalProjects: InternalProjectWithMedia[] = (
+    lf.internalProjects ?? []
+  ).map((p) => ({
+    ...p,
+    discoveredMedia: discoverInternalProjectMedia(p),
+  }));
+
+  // Resolve the hero media via the shared helper. Order:
+  //   1. Declared heroMedia.src if the file exists on disk.
+  //   2. First discovered VIDEO across any internal project's mediaDir.
+  //   3. First discovered IMAGE across any internal project's mediaDir.
+  //   4. Declared heroMedia unchanged (VideoPanel/EditorialImage falls back
+  //      to its slot placeholder).
+  // Note: we deliberately don't fall back to the canonical
+  // /project_afbeeldingen/az-turnhout/voorraadbeheer-loop.mp4 — that file
+  // exists as a 29 KB truncated stub that browsers cannot decode, so
+  // preferring it would render a black frame.
+  const heroProject = resolveProjectHeroMedia(project);
+
+  return (
+    <article>
+      {/* ── Top back link ─────────────────────────────────────────── */}
+      <section className="pt-28 sm:pt-32">
+        <Container>
+          <Link
+            href="/projects"
+            className="text-eyebrow group inline-flex items-center gap-2 transition-colors hover:text-foreground"
+          >
+            <span
+              aria-hidden
+              className="transition-transform duration-200 group-hover:-translate-x-0.5"
+            >
+              ←
+            </span>
+            Back to projects
+          </Link>
+        </Container>
+      </section>
+
+      {/* ── Hero + meta strip + hero media ────────────────────────── */}
+      <CaseStudyHero project={heroProject} />
+
+      {/* ── 2. Context ────────────────────────────────────────────── */}
+      <EditorialSection eyebrow="Context" heading="Where this lives">
+        <EditorialProse paragraphs={lf.context} />
+      </EditorialSection>
+
+      {/* ── 3. Problem detail ─────────────────────────────────────── */}
+      <section className="border-b border-border py-16 sm:py-20">
+        <Container>
+          <Reveal>
+            <span className="text-eyebrow">The problem</span>
+          </Reveal>
+          <div
+            className={
+              problemMediaAvailable
+                ? "mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12"
+                : "mt-8"
+            }
+          >
+            <div className={problemMediaAvailable ? "lg:col-span-6" : ""}>
+              <Reveal delay={60}>
+                <EditorialProse paragraphs={lf.problemDetail.paragraphs} />
+              </Reveal>
+            </div>
+            {problemMediaAvailable && (
+              <div className="lg:col-span-6">
+                <MediaStack
+                  images={lf.problemDetail.media}
+                  primary="right"
+                  hideIfMissing
+                />
+              </div>
+            )}
+          </div>
+        </Container>
+      </section>
+
+      {/* ── 4. Multi-project tab showcase OR legacy tooling/gallery ─ */}
+      {internalProjects.length > 0 ? (
+        <InternalProjectsShowcase projects={internalProjects} />
+      ) : (
+        <>
+          <WorkflowSection
+            eyebrow="Tooling"
+            heading="What was actually built"
+            description="Each module is a single workflow with its own UI, its own permissions, and a strict data contract on the SQL Server back-end."
+            modules={lf.tooling}
+          />
+          <ProjectGallery
+            eyebrow="Showcase"
+            heading="The system in motion"
+            description="Real screens and recordings from the running tooling. Sensitive identifiers are redacted; the UI and data flow are otherwise untouched."
+            items={lf.showcase}
+          />
+        </>
+      )}
+
+      {/* ── 5. Engineering approach ───────────────────────────────── */}
+      <EngineeringApproachGrid
+        eyebrow="Engineering"
+        heading="How it holds up"
+        description="The non-glamourous parts of internal hospital software — auditability, idempotency, data migration discipline."
+        cards={lf.engineering}
+      />
+
+      {/* ── 6. Results ────────────────────────────────────────────── */}
+      <EditorialSection eyebrow="Outcome" heading="What changed">
+        <EditorialProse paragraphs={lf.results.paragraphs} />
+        {lf.results.metrics && lf.results.metrics.length > 0 && (
+          <div className="mt-10">
+            <MetricsRail metrics={lf.results.metrics} />
+          </div>
+        )}
+      </EditorialSection>
+
+      {/* ── Built with ────────────────────────────────────────────── */}
+      <section className="border-b border-border py-12 sm:py-16">
+        <Container>
+          <Reveal>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
+              <div className="lg:col-span-4">
+                <span className="text-eyebrow">Built with</span>
+              </div>
+              <div className="lg:col-span-8">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.stack.map((tech) => (
+                    <Tag key={tech}>{tech}</Tag>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* ── Closing block ─────────────────────────────────────────── */}
+      <section className="border-b border-border py-16 sm:py-24">
+        <Container>
+          <Reveal>
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+              <div className="lg:col-span-4">
+                <span className="text-eyebrow">Note</span>
+              </div>
+              <div className="lg:col-span-8">
+                <EditorialProse paragraphs={lf.closing} />
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* ── Next project ──────────────────────────────────────────── */}
+      {nextProject && (
+        <section className="py-16 sm:py-24">
+          <Container>
+            <span className="text-eyebrow">Next case</span>
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="ring-highlight group mt-5 flex flex-col gap-6 rounded-xl border border-border bg-charcoal/60 p-6 transition-colors hover:border-border-strong hover:bg-charcoal-strong/70 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+            >
+              <div>
+                <div className="text-eyebrow text-[10px]">
+                  <span className="text-accent">{nextProject.stack[0]}</span>
+                  <span className="mx-1.5 text-faint">·</span>
+                  <span>{nextProject.year}</span>
+                </div>
+                <h3 className="mt-2 text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+                  {nextProject.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-sm text-muted">
+                  {nextProject.tagline}
+                </p>
+              </div>
+              <span
+                aria-hidden
+                className="font-mono text-2xl text-muted transition-all group-hover:translate-x-1 group-hover:text-accent"
+              >
+                →
+              </span>
+            </Link>
+          </Container>
+        </section>
+      )}
+
+      {/* ── Bottom back link ──────────────────────────────────────── */}
+      <section className="border-t border-border py-14 sm:py-20">
+        <Container>
+          <Link
+            href="/projects"
+            className="text-eyebrow group inline-flex items-center gap-2 transition-colors hover:text-foreground"
+          >
+            <span
+              aria-hidden
+              className="transition-transform duration-200 group-hover:-translate-y-0.5"
+            >
+              ↑
+            </span>
+            Back to all projects
+          </Link>
+        </Container>
+      </section>
+    </article>
+  );
+}

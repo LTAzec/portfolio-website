@@ -5,6 +5,7 @@ import { CTASection } from "@/components/ui/CTASection";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { featuredProjects, otherProjects } from "@/data/projects";
+import { resolveProjectsCardMedia } from "@/lib/resolve-project-media";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
+  const featured = resolveProjectsCardMedia(featuredProjects);
+  const other = resolveProjectsCardMedia(otherProjects);
+
   return (
     <>
       <PageHeader
@@ -37,7 +41,7 @@ export default function ProjectsPage() {
           </div>
 
           <div className="mt-2">
-            <ProjectGrid projects={featuredProjects} />
+            <ProjectGrid projects={featured} />
           </div>
         </Container>
       </section>
@@ -54,7 +58,7 @@ export default function ProjectsPage() {
             </div>
 
             <div className="mt-2">
-              <ProjectGrid projects={otherProjects} layout="compact" />
+              <ProjectGrid projects={other} layout="compact" />
             </div>
           </Container>
         </section>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CaseStudyVisuals } from "@/components/case-study/CaseStudyVisuals";
 import { Container } from "@/components/layout/Container";
 import { ProjectMediaFrame } from "@/components/ui/ProjectMedia";
 import { Tag } from "@/components/ui/Tag";
@@ -89,6 +90,10 @@ export function CaseStudy({ project, nextProject }: CaseStudyProps) {
           />
         </Container>
       </section>
+
+      {(cs?.gallery?.length ?? 0) > 0 || (cs?.galleryVideos?.length ?? 0) > 0 ? (
+        <CaseStudyVisuals images={cs?.gallery} videos={cs?.galleryVideos} />
+      ) : null}
 
       {/* ── Case study body ────────────────────────────────────── */}
       <CaseBlock label="Overview" content={cs?.overview ?? project.description} />
@@ -217,6 +222,7 @@ function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1.5">
       <dt className="text-eyebrow text-[10px]">{label}</dt>
+      <dd className="text-[13px] text-foreground">{value}</dd>
       <dd className="text-[13px] text-foreground">{value}</dd>
     </div>
   );

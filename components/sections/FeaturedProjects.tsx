@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/Container";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { featuredProjects, projects } from "@/data/projects";
+import { resolveProjectsCardMedia } from "@/lib/resolve-project-media";
 
 /**
  * Selected work — editorial case-study list on the home page.
@@ -13,6 +14,7 @@ import { featuredProjects, projects } from "@/data/projects";
  * making the multi-page structure of the site obvious.
  */
 export function FeaturedProjects() {
+  const resolvedFeatured = resolveProjectsCardMedia(featuredProjects);
   const hasMore = projects.length > featuredProjects.length;
 
   return (
@@ -26,7 +28,7 @@ export function FeaturedProjects() {
         />
 
         <div className="mt-16">
-          <ProjectGrid projects={featuredProjects} />
+          <ProjectGrid projects={resolvedFeatured} />
         </div>
 
         <div className="mt-10 flex items-center justify-between">

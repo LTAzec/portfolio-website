@@ -1,0 +1,202 @@
+/**
+ * Scans public/projects and writes data/project-media-manifest.ts.
+ * Run: npm run media:discover
+ */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.join(__dirname, "..");
+const projectsDir = path.join(root, "public", "projects");
+
+const SLUGS = [
+  "az-turnhout-tooling",
+  "jarvis",
+  "jansen-car-detailing",
+  "bouldering-app",
+];
+
+/** Folder name on disk → portfolio slug */
+const FOLDER_TO_SLUG = {
+  "az-turnhout-tooling": "az-turnhout-tooling",
+  "az-turnhout": "az-turnhout-tooling",
+  jarvis: "jarvis",
+  "jansen-car-detailing": "jansen-car-detailing",
+  "bouldering-app": "bouldering-app",
+};
+
+const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif"]);
+const VIDEO_EXT = new Set([".mp4", ".webm", ".mov", ".m4v"]);
+const MEDIA_EXT = new Set([...IMAGE_EXT, ...VIDEO_EXT]);
+
+const CARD_NAMES = [
+  "cover",
+  "hero",
+  "card",
+  "thumb",
+  "thumbnail",
+  "preview",
+  "poster",
+];
+
+function walk(dir, base = dir) {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, ent.name);
+    if (ent.isDirectory()) out.push(...walk(full, base));
+    else if (ent.isFile()) {
+      const ext = path.extname(ent.name).toLowerCase();
+      if (MEDIA_EXT.has(ext)) {
+        const rel = path.relative(base, full).split(path.sep).join("/");
+        out.push({ rel, ext, name: ent.name, base: path.basename(ent.name, ext) });
+      }
+    }
+  }
+  return out;
+}
+
+function toPublicUrl(dirName, rel) {
+  const segments = ["/projects", dirName, ...rel.split("/")];
+  return segments.map((s) => encodeURI(s)).join("/");
+}
+
+function pickGalleryVideos(files, cardSrc, dirName) {
+  return files
+    .filter((f) => VIDEO_EXT.has(f.ext))
+    .sort((a, b) => a.rel.localeCompare(b.rel))
+    .map((f) => {
+      const src = toPublicUrl(dirName, f.rel);
+      if (src === cardSrc) return null;
+      return {
+        src,
+        alt: f.base.replace(/[-_]/g, " "),
+        caption: f.name,
+        aspect: "aspect-[16/10]",
+      };
+    })
+    .filter(Boolean);
+}
+
+function pickCard(files, dirName) {
+  const score = (f) => {
+    const lower = f.base.toLowerCase();
+    const cardIdx = CARD_NAMES.findIndex((n) => lower === n || lower.startsWith(`${n}-`) || lower.startsWith(`${n}_`));
+    if (cardIdx >= 0) return cardIdx;
+    if (lower.includes("hero")) return CARD_NAMES.length;
+    if (lower.includes("cover")) return CARD_NAMES.length + 1;
+    return 999;
+  };
+
+  const images = files.filter((f) => IMAGE_EXT.has(f.ext));
+  const videos = files.filter((f) => VIDEO_EXT.has(f.ext));
+  const sorted = [...images, ...videos].sort((a, b) => {
+    const sa = score(a);
+    const sb = score(b);
+    if (sa !== sb) return sa - sb;
+    return a.rel.localeCompare(b.rel);
+  });
+  const pick = sorted[0];
+  if (!pick) return null;
+
+  const src = toPublicUrl(dirName, pick.rel);
+  if (VIDEO_EXT.has(pick.ext)) {
+    const poster = images.find((f) => f.base.toLowerCase().includes("poster"));
+    return {
+      type: "video",
+      src,
+      poster: poster ? toPublicUrl(dirName, poster.rel) : undefined,
+      alt: pick.base.replace(/[-_]/g, " "),
+    };
+  }
+  return {
+    type: "image",
+    src,
+    alt: pick.base.replace(/[-_]/g, " "),
+  };
+}
+
+function toGallery(files, cardSrc, dirName) {
+  const images = files
+    .filter((f) => IMAGE_EXT.has(f.ext))
+    .sort((a, b) => a.rel.localeCompare(b.rel));
+
+  return images
+    .map((f) => {
+      const src = toPublicUrl(dirName, f.rel);
+      if (src === cardSrc) return null;
+      return {
+        src,
+        slot: f.rel,
+        alt: f.base.replace(/[-_]/g, " "),
+        caption: f.name,
+        aspect: "aspect-[16/10]",
+      };
+    })
+    .filter(Boolean);
+}
+
+function main() {
+  if (!fs.existsSync(projectsDir)) {
+    console.error(`Missing ${projectsDir}`);
+    process.exit(1);
+  }
+
+  const bySlug = {};
+  const scanned = {};
+
+  for (const ent of fs.readdirSync(projectsDir, { withFileTypes: true })) {
+    if (!ent.isDirectory()) continue;
+    const slug = FOLDER_TO_SLUG[ent.name];
+    if (!slug) {
+      console.warn(`Skipping unmapped folder: ${ent.name}`);
+      continue;
+    }
+    const files = walk(path.join(projectsDir, ent.name));
+    scanned[slug] = { dir: ent.name, files: files.map((f) => f.rel) };
+    const card = pickCard(files, ent.name);
+    const gallery = card
+      ? toGallery(files, card.type === "image" ? card.src : undefined, ent.name)
+      : toGallery(files, undefined, ent.name);
+    const galleryVideos = pickGalleryVideos(
+      files,
+      card?.src,
+      ent.name,
+    );
+    bySlug[slug] = { card, gallery, galleryVideos };
+  }
+
+  const outPath = path.join(root, "data", "project-media-manifest.ts");
+  const body = `/**
+ * AUTO-GENERATED by scripts/discover-project-media.mjs — do not edit by hand.
+ * Regenerate: npm run media:discover
+ *
+ * Scanned folders: ${JSON.stringify(scanned, null, 2).replace(/\n/g, "\n * ")}
+ */
+import type {
+  CaseStudyVideoRef,
+  EditorialImageRef,
+  ProjectMedia,
+} from "@/lib/types";
+
+export interface ProjectMediaManifestEntry {
+  card?: ProjectMedia;
+  gallery: EditorialImageRef[];
+  galleryVideos: CaseStudyVideoRef[];
+}
+
+export const projectMediaBySlug: Record<string, ProjectMediaManifestEntry> = ${JSON.stringify(bySlug, null, 2)};
+`;
+
+  fs.writeFileSync(outPath, body, "utf8");
+  console.log(`Wrote ${outPath}`);
+  for (const slug of SLUGS) {
+    const e = bySlug[slug];
+    console.log(
+      `  ${slug}: card=${e?.card?.src ?? "—"} images=${e?.gallery?.length ?? 0} videos=${e?.galleryVideos?.length ?? 0}`,
+    );
+  }
+}
+
+main();
