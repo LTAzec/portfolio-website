@@ -39,7 +39,20 @@ export interface DiscoveredMedia {
 export function discoverInternalProjectMedia(
   project: InternalProject,
 ): DiscoveredMedia {
-  const dir = project.mediaDir;
+  return discoverMediaFolder(project.mediaDir, project.mediaOverrides);
+}
+
+/**
+ * Generic media folder scanner — used both by InternalProject (tab-based
+ * AZ Turnhout study) and by the LongFormCaseStudy.mediaDir field
+ * (Jansen-style single-folder study). Same semantics either way:
+ * recursive walk, supported image/video extensions only, optional
+ * per-filename overrides.
+ */
+export function discoverMediaFolder(
+  dir: string | undefined,
+  mediaOverrides?: Record<string, Partial<EditorialImageRef>>,
+): DiscoveredMedia {
   if (!dir) return { images: [], videos: [] };
 
   const decodedDir = decodeURI(dir);
@@ -70,7 +83,7 @@ export function discoverInternalProjectMedia(
     const url = `${dir}/${encodedRel}`;
 
     const overrides =
-      project.mediaOverrides?.[file.name] ?? project.mediaOverrides?.[file.rel];
+      mediaOverrides?.[file.name] ?? mediaOverrides?.[file.rel];
 
     if (IMAGE_EXT.has(ext)) {
       images.push({

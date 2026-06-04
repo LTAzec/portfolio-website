@@ -48,6 +48,25 @@ export function CaseStudyHero({ project }: CaseStudyHeroProps) {
               {project.tagline}
             </p>
           </Reveal>
+
+          {project.links?.live && (
+            <Reveal delay={200}>
+              <a
+                href={project.links.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ring-highlight group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/35 bg-accent-soft px-5 py-2.5 text-[13px] font-medium tracking-[0.005em] text-accent shadow-[0_10px_30px_-14px_rgba(45,123,255,0.5),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/55 hover:bg-[rgba(45,123,255,0.16)] hover:text-foreground hover:shadow-[0_16px_38px_-12px_rgba(45,123,255,0.65),inset_0_1px_0_0_rgba(255,255,255,0.1)] sm:mt-8"
+              >
+                <span>Visit live site</span>
+                <span
+                  aria-hidden
+                  className="inline-flex items-center text-[14px] leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                >
+                  ↗
+                </span>
+              </a>
+            </Reveal>
+          )}
         </Container>
       </section>
 

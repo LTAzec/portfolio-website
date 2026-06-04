@@ -3,7 +3,10 @@ import type { Project } from "@/lib/types";
 import { Container } from "@/components/layout/Container";
 import { Tag } from "@/components/ui/Tag";
 import { assetExists } from "@/lib/asset-utils";
-import { discoverInternalProjectMedia } from "@/lib/discover-internal-project-media";
+import {
+  discoverInternalProjectMedia,
+  discoverMediaFolder,
+} from "@/lib/discover-internal-project-media";
 import { resolveProjectHeroMedia } from "@/lib/resolve-project-media";
 import { CaseStudyHero } from "./CaseStudyHero";
 import { EditorialSection, EditorialProse } from "./EditorialSection";
@@ -11,6 +14,7 @@ import { MediaStack } from "./MediaStack";
 import { WorkflowSection } from "./WorkflowSection";
 import { EngineeringApproachGrid } from "./EngineeringApproachGrid";
 import { ProjectGallery } from "./ProjectGallery";
+import { MediaShowcase } from "./MediaShowcase";
 import { MetricsRail } from "./MetricsRail";
 import {
   InternalProjectsShowcase,
@@ -75,6 +79,39 @@ export function LongFormCaseStudy({
   // preferring it would render a black frame.
   const heroProject = resolveProjectHeroMedia(project);
 
+  // For single-folder long-form studies (Jansen / future client work):
+  // auto-discover media from lf.mediaDir so the same drop-files-and-go
+  // workflow applies. Falls back to legacy WorkflowSection + ProjectGallery
+  // when neither internalProjects nor mediaDir is configured.
+  const mediaShowcaseMedia =
+    !lf.internalProjects?.length && lf.mediaDir
+      ? discoverMediaFolder(lf.mediaDir, lf.mediaOverrides)
+      : null;
+
+  // Per-section label overrides — let each project frame its own narrative.
+  const lbl = lf.sectionLabels ?? {};
+  const labels = {
+    problemEyebrow: lbl.problem?.eyebrow ?? "The problem",
+    toolingEyebrow: lbl.tooling?.eyebrow ?? "Tooling",
+    toolingHeading: lbl.tooling?.heading ?? "What was actually built",
+    toolingDescription:
+      lbl.tooling?.description ??
+      "Each module is a single workflow with its own UI, its own permissions, and a strict data contract on the SQL Server back-end.",
+    engineeringEyebrow: lbl.engineering?.eyebrow ?? "Engineering",
+    engineeringHeading: lbl.engineering?.heading ?? "How it holds up",
+    engineeringDescription:
+      lbl.engineering?.description ??
+      "The non-glamourous parts of internal hospital software — auditability, idempotency, data migration discipline.",
+    showcaseEyebrow: lbl.showcase?.eyebrow ?? "Showcase",
+    showcaseHeading: lbl.showcase?.heading ?? "The system in motion",
+    showcaseDescription:
+      lbl.showcase?.description ??
+      "Real screens and recordings from the running tooling. Sensitive identifiers are redacted; the UI and data flow are otherwise untouched.",
+    resultsEyebrow: lbl.results?.eyebrow ?? "Outcome",
+    resultsHeading: lbl.results?.heading ?? "What changed",
+    closingEyebrow: lbl.closing?.eyebrow ?? "Note",
+  };
+
   return (
     <article>
       {/* ── Top back link ─────────────────────────────────────────── */}
@@ -107,7 +144,7 @@ export function LongFormCaseStudy({
       <section className="border-b border-border py-16 sm:py-20">
         <Container>
           <Reveal>
-            <span className="text-eyebrow">The problem</span>
+            <span className="text-eyebrow">{labels.problemEyebrow}</span>
           </Reveal>
           <div
             className={
@@ -134,21 +171,38 @@ export function LongFormCaseStudy({
         </Container>
       </section>
 
-      {/* ── 4. Multi-project tab showcase OR legacy tooling/gallery ─ */}
+      {/* ── 4. Multi-project tabs OR single-folder MediaShowcase OR legacy ─ */}
       {internalProjects.length > 0 ? (
         <InternalProjectsShowcase projects={internalProjects} />
+      ) : mediaShowcaseMedia ? (
+        <>
+          {lf.tooling.length > 0 && (
+            <WorkflowSection
+              eyebrow={labels.toolingEyebrow}
+              heading={labels.toolingHeading}
+              description={labels.toolingDescription}
+              modules={lf.tooling}
+            />
+          )}
+          <MediaShowcase
+            media={mediaShowcaseMedia}
+            eyebrow={labels.showcaseEyebrow}
+            heading={labels.showcaseHeading}
+            description={labels.showcaseDescription}
+          />
+        </>
       ) : (
         <>
           <WorkflowSection
-            eyebrow="Tooling"
-            heading="What was actually built"
-            description="Each module is a single workflow with its own UI, its own permissions, and a strict data contract on the SQL Server back-end."
+            eyebrow={labels.toolingEyebrow}
+            heading={labels.toolingHeading}
+            description={labels.toolingDescription}
             modules={lf.tooling}
           />
           <ProjectGallery
-            eyebrow="Showcase"
-            heading="The system in motion"
-            description="Real screens and recordings from the running tooling. Sensitive identifiers are redacted; the UI and data flow are otherwise untouched."
+            eyebrow={labels.showcaseEyebrow}
+            heading={labels.showcaseHeading}
+            description={labels.showcaseDescription}
             items={lf.showcase}
           />
         </>
@@ -156,14 +210,14 @@ export function LongFormCaseStudy({
 
       {/* ── 5. Engineering approach ───────────────────────────────── */}
       <EngineeringApproachGrid
-        eyebrow="Engineering"
-        heading="How it holds up"
-        description="The non-glamourous parts of internal hospital software — auditability, idempotency, data migration discipline."
+        eyebrow={labels.engineeringEyebrow}
+        heading={labels.engineeringHeading}
+        description={labels.engineeringDescription}
         cards={lf.engineering}
       />
 
       {/* ── 6. Results ────────────────────────────────────────────── */}
-      <EditorialSection eyebrow="Outcome" heading="What changed">
+      <EditorialSection eyebrow={labels.resultsEyebrow} heading={labels.resultsHeading}>
         <EditorialProse paragraphs={lf.results.paragraphs} />
         {lf.results.metrics && lf.results.metrics.length > 0 && (
           <div className="mt-10">
@@ -198,7 +252,7 @@ export function LongFormCaseStudy({
           <Reveal>
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-4">
-                <span className="text-eyebrow">Note</span>
+                <span className="text-eyebrow">{labels.closingEyebrow}</span>
               </div>
               <div className="lg:col-span-8">
                 <EditorialProse paragraphs={lf.closing} />

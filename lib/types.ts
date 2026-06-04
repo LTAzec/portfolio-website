@@ -148,6 +148,26 @@ export interface LongFormCaseStudy {
   };
   /** Section 8 — closing block. */
   closing: string[];
+  /** Optional project-wide media folder. When set (and no internalProjects),
+   *  the renderer auto-discovers files and renders a non-tabbed
+   *  MediaShowcase. Used by single-folder case studies (Jansen / future
+   *  client work). */
+  mediaDir?: string;
+  /** Optional explicit overrides for the auto-discovered media — keyed by
+   *  bare filename or relative path under mediaDir. */
+  mediaOverrides?: Record<string, Partial<EditorialImageRef>>;
+  /** Optional per-section label overrides. Lets each project frame its own
+   *  sections — e.g. Jansen reads "Design direction" / "Service catalog" /
+   *  "Performance" instead of AZ Turnhout's "The problem" / "Tooling" /
+   *  "Engineering". */
+  sectionLabels?: {
+    problem?: { eyebrow?: string };
+    tooling?: { eyebrow?: string; heading?: string; description?: string };
+    engineering?: { eyebrow?: string; heading?: string; description?: string };
+    showcase?: { eyebrow?: string; heading?: string; description?: string };
+    results?: { eyebrow?: string; heading?: string };
+    closing?: { eyebrow?: string };
+  };
   /** Optional multi-project showcase. When present, the case study page
    *  renders a tab navigator over these internal projects in place of
    *  the generic Tooling + Visual Showcase sections. */

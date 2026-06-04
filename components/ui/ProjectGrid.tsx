@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProjectMediaFrame } from "@/components/ui/ProjectMedia";
 import { Tag } from "@/components/ui/Tag";
 import type { Project } from "@/lib/types";
@@ -54,9 +55,18 @@ function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
         isCompact ? "py-8 sm:py-10" : "py-12 sm:py-16",
       )}
     >
+      {/* Stretched link overlay — makes the entire card navigate to the case
+          study. Internal Live/Source links sit above this on z-[2], so their
+          clicks never reach the overlay. */}
+      <Link
+        href={caseHref(project)}
+        aria-label={`View ${project.title} case study`}
+        className="absolute inset-0 z-[1] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      />
+
       <span
         aria-hidden
-        className="pointer-events-none absolute top-0 left-0 h-px w-0 bg-accent transition-[width] duration-700 ease-out group-hover:w-full"
+        className="pointer-events-none absolute top-0 left-0 z-[3] h-px w-0 bg-accent transition-[width] duration-700 ease-out group-hover:w-full group-focus-within:w-full"
       />
 
       <div
@@ -129,26 +139,32 @@ function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
           </div>
 
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-            <a
-              href={caseHref(project)}
-              className="group/case inline-flex items-center gap-1.5 font-medium text-foreground transition-colors hover:text-accent"
+            {/* Decorative CTA — actual navigation is on the stretched
+                Link overlay. Hover state is driven by the parent group
+                so that hovering anywhere on the card lights this up. */}
+            <span
+              aria-hidden
+              className="inline-flex items-center gap-1.5 font-medium text-foreground transition-colors group-hover:text-accent"
             >
               View case
-              <span
-                aria-hidden
-                className="transition-transform duration-200 group-hover/case:translate-x-0.5"
-              >
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5">
                 →
               </span>
-            </a>
+            </span>
             {project.links?.live && (
               <a
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-foreground"
+                className="ring-highlight relative z-[2] group/live inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent-soft px-3.5 py-1.5 text-[12px] font-medium tracking-[0.005em] text-accent shadow-[0_6px_18px_-10px_rgba(45,123,255,0.45),inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/55 hover:bg-[rgba(45,123,255,0.16)] hover:text-foreground hover:shadow-[0_10px_24px_-10px_rgba(45,123,255,0.6),inset_0_1px_0_0_rgba(255,255,255,0.08)]"
               >
-                Live site <span aria-hidden>↗</span>
+                Live site
+                <span
+                  aria-hidden
+                  className="text-[13px] leading-none transition-transform duration-200 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"
+                >
+                  ↗
+                </span>
               </a>
             )}
             {project.links?.repo && (
@@ -156,7 +172,7 @@ function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
                 href={project.links.repo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-foreground"
+                className="relative z-[2] inline-flex items-center gap-1.5 text-muted transition-colors hover:text-foreground"
               >
                 Source <span aria-hidden>↗</span>
               </a>

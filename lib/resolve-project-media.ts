@@ -6,7 +6,10 @@ import type {
   ProjectMedia,
 } from "@/lib/types";
 import { assetExists } from "@/lib/asset-utils";
-import { discoverInternalProjectMedia } from "@/lib/discover-internal-project-media";
+import {
+  discoverInternalProjectMedia,
+  discoverMediaFolder,
+} from "@/lib/discover-internal-project-media";
 
 interface DiscoveredFallback {
   videos: CaseStudyVideoRef[];
@@ -21,14 +24,27 @@ interface DiscoveredFallback {
 function collectInternalFallbacks(
   lf: LongFormCaseStudy | undefined,
 ): DiscoveredFallback {
-  if (!lf?.internalProjects?.length) return { videos: [], images: [] };
+  if (!lf) return { videos: [], images: [] };
   const videos: CaseStudyVideoRef[] = [];
   const images: EditorialImageRef[] = [];
-  for (const ip of lf.internalProjects) {
+
+  // 1) Multi-project studies: walk every internal project's mediaDir.
+  for (const ip of lf.internalProjects ?? []) {
     const discovered = discoverInternalProjectMedia(ip);
     videos.push(...discovered.videos);
     images.push(...discovered.images);
   }
+
+  // 2) Single-folder studies (Jansen / future client work): walk the
+  //    long-form-level mediaDir. We do this regardless of whether internal
+  //    projects also exist — both sources can contribute, and the existing
+  //    "first video wins" ordering downstream still picks a sensible primary.
+  if (lf.mediaDir) {
+    const discovered = discoverMediaFolder(lf.mediaDir, lf.mediaOverrides);
+    videos.push(...discovered.videos);
+    images.push(...discovered.images);
+  }
+
   return { videos, images };
 }
 

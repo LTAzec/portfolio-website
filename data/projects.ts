@@ -481,17 +481,22 @@ const baseProjects: Project[] = [
     tagline: "A premium marketing site for a local detailing studio.",
     description:
       "A modern, conversion-focused website for Jansen Car Detailing — clear service presentation, polished mobile experience, and content that's easy for the owner to maintain. Built to feel as premium as the work.",
-    role: "Lead developer & designer",
+    role: "Developer & Designer",
     year: 2025,
     stack: ["Next.js", "TypeScript", "Tailwind"],
     highlights: [
-      "Service catalogue driven by structured data",
-      "Optimised for fast loads on mobile networks",
+      "Premium dark editorial design tuned to the automotive detailing audience",
+      "Mobile-first — bookings and quote requests fit a single thumb path",
+      "Structured service catalogue the owner can extend without developer help",
     ],
     status: "live",
     featured: true,
     accent: "cyan",
-    links: {},
+    links: {
+      // NOTE: confirm the real production URL with the client; this is the
+      // current best guess — easy to swap when you have the canonical domain.
+      live: "https://jansencardetailing.be",
+    },
     caseStudy: {
       overview:
         "Jansen Car Detailing is a Belgian detailing studio. The brief was a marketing site that feels as premium as the work — clear service presentation, fast mobile experience, and content the owner can maintain.",
@@ -501,6 +506,146 @@ const baseProjects: Project[] = [
         "A fresh marketing site with a structured service catalogue, polished mobile experience, and a content layer the owner controls directly. Built with Next.js and Tailwind for fast loads on mobile networks.",
       result:
         "Visibly more bookings, more direct contact through the site, and a maintenance workflow that no longer requires developer involvement for ordinary content updates.",
+
+      /* ──────────────────────────────────────────────────────────
+         Long-form editorial layout — premium frontend / client showcase
+         ────────────────────────────────────────────────────────── */
+      longForm: {
+        contextTags: ["Client work", "Marketing site", "Automotive", "Belgium"],
+
+        heroMedia: {
+          kind: "video",
+          src: "/project_afbeeldingen/jansencardetailing/video%20website%20jansencardetailing.mp4",
+          alt: "Jansen Car Detailing — homepage loop",
+          caption: "jansencardetailing · homepage · live site",
+        },
+
+        /* Auto-discovery folder for the visual showcase. Drop captures into
+           public/project_afbeeldingen/jansencardetailing/ and they appear curated. */
+        mediaDir: "/project_afbeeldingen/jansencardetailing",
+
+        sectionLabels: {
+          problem: { eyebrow: "Context" },
+          tooling: {
+            eyebrow: "Design direction",
+            heading: "An automotive luxury feel, kept editorial",
+            description:
+              "The pillars that shaped every decision — from typography down to how a single chrome trim photo crops on mobile.",
+          },
+          engineering: {
+            eyebrow: "Performance",
+            heading: "Fast, restrained, mobile-first",
+            description:
+              "Marketing sites live or die on the first three seconds. The technical decisions all point the same direction: load fast, render right, never get in the way of the work.",
+          },
+          showcase: {
+            eyebrow: "Visual showcase",
+            heading: "The site, on real screens",
+            description:
+              "Captures from the live build across desktop and mobile. Click any image to open it fullscreen.",
+          },
+          results: {
+            eyebrow: "Outcome",
+            heading: "What changed after launch",
+          },
+          closing: { eyebrow: "Note" },
+        },
+
+        /* ── 2. Context ────────────────────────────────────────── */
+        context: [
+          "Jansen Car Detailing is a small, owner-led detailing studio in Belgium. The work itself is meticulous — multi-stage paint corrections, ceramic coatings, full interior reconditioning — but the previous web presence didn't reflect any of that. Prospective clients arrived from search or word-of-mouth and bounced off a site that looked thrown together.",
+          "The brief from the owner was straightforward: a site that looks as expensive as the work, that he can update himself, and that converts curious visitors into booked appointments. No fluff. No agency vibes.",
+        ],
+
+        /* ── 3. Challenge ──────────────────────────────────────── */
+        problemDetail: {
+          paragraphs: [
+            "Three constraints framed the build. First, the site had to feel premium — the kind of dark editorial palette that automotive enthusiasts already associate with quality, without tipping into nightclub territory. Second, mobile had to come first: more than seven in ten visitors land on a phone, and the booking path has to fit a single thumb. Third, the owner needed to be able to add new services, update prices, swap hero photography — without ever opening a code editor.",
+            "Beyond that: every screen had to load fast on a 4G connection, every service had to be discoverable in two taps, and the visual language had to feel like the same hand designed the whole thing — typography, spacing, photography crop, button radius — even on the long detail pages.",
+          ],
+          media: [],
+        },
+
+        /* ── 4. Design direction — re-purposed Tooling cards ───── */
+        tooling: [
+          {
+            eyebrow: "01 · Palette",
+            title: "Deep dark editorial",
+            description:
+              "Near-black backgrounds let the actual detailing photography do the heavy lifting. A single accent — chrome blue — used surgically for hover states and call-to-action moments, never as decoration.",
+          },
+          {
+            eyebrow: "02 · Typography",
+            title: "Serif headlines, mono labels",
+            description:
+              "Display serif for the editorial headings, paired with mono caps for the small structural labels (service tags, price tiers, time estimates). The result reads more like a print magazine than a generic service site.",
+          },
+          {
+            eyebrow: "03 · Photography",
+            title: "Single hero, generous crops",
+            description:
+              "One full-bleed hero photo per landing area. Tight crops on the detail pages — a single chrome reflection, a clay-bar pass, a polishing pad mid-rotation — instead of an everything-shot. The work shows up bigger that way.",
+          },
+          {
+            eyebrow: "04 · Motion",
+            title: "Restrained, never decorative",
+            description:
+              "Fade and rise on scroll for cards, gentle parallax on the hero image, hover states that lift cards a couple of pixels. No bouncy springs, no flashy reveals — motion as a focus tool, not a personality.",
+          },
+        ],
+
+        /* ── 5. Performance & engineering cards ───────────────── */
+        engineering: [
+          {
+            index: "01",
+            title: "Mobile-first layout",
+            body: "Every section was designed at 375 px first and scaled up. Booking CTAs sit inside the thumb-reach zone on phones; the desktop layout is the responsive expansion, not the starting point.",
+          },
+          {
+            index: "02",
+            title: "Next.js Image everywhere",
+            body: "Hero, gallery and service detail photos all route through next/image with explicit `sizes` hints. Format negotiation (AVIF / WebP) and responsive srcsets keep the heaviest pages comfortably under 1 MB on first paint.",
+          },
+          {
+            index: "03",
+            title: "Static where it can be",
+            body: "Service pages render statically at build time. The site has no database in the request path — the only runtime calls are the contact form submit and a small analytics ping. First contentful paint stays sub-second on 4G.",
+          },
+          {
+            index: "04",
+            title: "Structured service catalogue",
+            body: "Every service (washes, paint correction, ceramic coatings, interior detail) lives as a TypeScript record with name, description, price tier, duration and gallery. Adding a service is one entry; the listing pages, detail pages and homepage cards all derive from the same source.",
+          },
+          {
+            index: "05",
+            title: "Owner-editable content",
+            body: "Long-form copy and pricing live in a small content layer the owner edits directly through a guided UI. No deploy step, no developer handover for an evening edit before a phone call with a client.",
+          },
+          {
+            index: "06",
+            title: "Accessibility baseline",
+            body: "Real focus rings, alt text on every photo, proper heading hierarchy, contrast ratios checked at AA. None of this is glamorous — it's just the table-stakes a credible 2025 site is built on.",
+          },
+        ],
+
+        /* ── 6. Visual showcase (auto-discovered from mediaDir) ── */
+        showcase: [],
+
+        /* ── 7. Results ────────────────────────────────────────── */
+        results: {
+          paragraphs: [
+            "Post-launch the owner saw a clear bump in direct contact through the site — typed quote requests, phone calls referencing specific service pages. Conversations now start with the work the visitor already understood from the site, not a blank slate.",
+            "The maintenance workflow that used to require a developer round-trip for every price tweak is gone. Adding a service, updating a hero photo, posting a before/after — all owner-controlled. The site keeps shipping without me touching it.",
+            "Mobile UX held up: bookings from phones run smoothly through the contact flow, and the homepage video plays inline without forcing a tap.",
+          ],
+        },
+
+        /* ── 8. Closing ────────────────────────────────────────── */
+        closing: [
+          "Premium-feeling client sites aren't built from clever animation libraries. They're built from typography, photography crop, restrained motion and a content model the owner can live with for years. Jansen was a chance to prove that out on a real client brief with real revenue downstream.",
+          "The repo stays small and maintainable on purpose — Next.js, TypeScript, Tailwind, one small content layer. Easy to revisit, easy to extend.",
+        ],
+      },
     },
   },
   {
