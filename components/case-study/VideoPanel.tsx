@@ -13,6 +13,16 @@ interface VideoPanelProps {
    *  slot placeholder. Used by showcase rows that should collapse cleanly
    *  when the loop isn't available yet. */
   hideIfMissing?: boolean;
+  /** Video fit inside the frame. "cover" (default) crops to fill the
+   *  aspect frame; "contain" shows the whole video in its native aspect
+   *  with no crop and no baseline scale — the frame hugs the video. */
+  fit?: "cover" | "contain";
+  /** CSS scale factor — when set, overrides the default 1.02 baseline
+   *  scale. Use a higher value (e.g. 1.05) to crop past source-video
+   *  letterbox edges. Ignored under fit="contain". */
+  zoom?: number;
+  /** CSS object-position for fine-tuning the visible crop. */
+  objectPosition?: string;
 }
 
 /**
@@ -31,16 +41,27 @@ export function VideoPanel({
   aspect = "aspect-[16/10]",
   className,
   hideIfMissing = false,
+  fit = "cover",
+  zoom,
+  objectPosition,
 }: VideoPanelProps) {
   const present = assetExists(src);
 
   if (!present && hideIfMissing) return null;
 
+  const isContain = fit === "contain";
+
+  // Under contain the aspect ratio lives on the video element itself
+  // (w-full h-auto) so the bordered frame shrink-wraps the video with no
+  // letterbox padding. Under cover the frame owns the aspect and the video
+  // fills it absolutely.
   const frame = (
     <div
       className={cn(
         "ring-highlight relative w-full overflow-hidden rounded-xl border border-border bg-charcoal-strong shadow-[0_22px_56px_-26px_rgba(0,0,0,0.7)]",
-        aspect,
+        // Cover always owns the aspect; contain hands it to the video so the
+        // frame hugs it — except for the placeholder, which needs a sized box.
+        (!isContain || !present) && aspect,
         className,
       )}
     >
@@ -53,7 +74,25 @@ export function VideoPanel({
           loop
           playsInline
           aria-label={alt}
-          className="h-full w-full scale-[1.02] object-cover will-change-transform"
+          className={cn(
+            "will-change-transform",
+            // Contain: no forced aspect box — the video sizes to its own
+            // intrinsic ratio (h-auto) so the bordered frame wraps the real
+            // pixels exactly, with no pillarbox/letterbox gap.
+            isContain
+              ? "block h-auto w-full object-contain"
+              : "h-full w-full object-cover",
+            // Default baseline scale only under cover, when no zoom is set.
+            !isContain && zoom === undefined && "scale-[1.02]",
+          )}
+          style={
+            !isContain && (zoom !== undefined || objectPosition)
+              ? {
+                  transform: zoom !== undefined ? `scale(${zoom})` : undefined,
+                  objectPosition,
+                }
+              : undefined
+          }
         />
       ) : (
         <VideoSlotPlaceholder src={src} alt={alt} />

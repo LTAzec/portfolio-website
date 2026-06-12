@@ -12,18 +12,16 @@ const projectsDir = path.join(root, "public", "projects");
 
 const SLUGS = [
   "az-turnhout-tooling",
-  "jarvis",
+  // "aria" and "boulder-buddy" wire their media explicitly in
+  // data/projects.ts (under /project_afbeeldingen/) — not scanned here.
   "jansen-car-detailing",
-  "bouldering-app",
 ];
 
 /** Folder name on disk → portfolio slug */
 const FOLDER_TO_SLUG = {
   "az-turnhout-tooling": "az-turnhout-tooling",
   "az-turnhout": "az-turnhout-tooling",
-  jarvis: "jarvis",
   "jansen-car-detailing": "jansen-car-detailing",
-  "bouldering-app": "bouldering-app",
 };
 
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif"]);

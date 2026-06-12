@@ -16,6 +16,15 @@ export interface ProjectMedia {
   src: string;
   poster?: string;
   alt?: string;
+  /** Optional subtle label rendered under the tile in card layouts that
+   *  support it (e.g. cardMediaLayout="stacked-platforms"). */
+  label?: string;
+  /** CSS object-position for fine-tuning the visible crop under cover. */
+  objectPosition?: string;
+  /** CSS scale factor applied via transform — lets a video zoom past
+   *  its own letterbox edges when the source aspect doesn't exactly
+   *  match the frame. Typical values 1.02 – 1.08. */
+  zoom?: number;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -50,6 +59,29 @@ export interface EditorialImageRef {
   mask?: "fade-bottom" | "fade-top" | "fade-edges" | "none";
   /** Tailwind aspect class for the frame. */
   aspect?: string;
+  /** Image fit treatment inside its frame. Defaults to "cover" — crops
+   *  to fill the frame, ideal for product screenshots and photography.
+   *  Use "contain" for long-form text screenshots or document-style
+   *  captures where the full content needs to remain readable (the
+   *  letterbox bars become the frame background, no cropping). */
+  fit?: "cover" | "contain";
+  /** Frame presentation style. "default" renders full-width within its
+   *  container. "mockup" presents as a narrow, centered portrait card —
+   *  used for mobile/document-style screenshots that shouldn't stretch to
+   *  full-bleed. Defaults fit to "contain"; pass an explicit fit="cover"
+   *  to tightly crop an app/product screenshot inside the mockup frame. */
+  frame?: "default" | "mockup";
+  /** CSS object-position for fine-tuning the visible crop region under
+   *  fit="cover". e.g. "center top" or "center 30%". */
+  objectPosition?: string;
+  /** CSS scale factor applied via transform — lets a cover-fit screenshot
+   *  zoom past its own empty padding so the actual UI fills more of the
+   *  frame. Values typically 1.1 – 1.6; 1 (or undefined) is no scaling. */
+  zoom?: number;
+  /** Optional display label rendered above the media tile in layouts that
+   *  support it (e.g. MediaShowcase platform-split). Used to identify a
+   *  surface — "Admin / Backend", "Mobile App", etc. */
+  label?: string;
   /** Native dimensions used by next/image when src exists. */
   width?: number;
   height?: number;
@@ -127,7 +159,37 @@ export interface LongFormCaseStudy {
   /** Hero media — large frame above the meta strip. */
   heroMedia?:
     | { kind: "image"; ref: EditorialImageRef }
-    | { kind: "video"; src: string; poster?: string; alt: string; caption?: string };
+    | {
+        kind: "video";
+        src: string;
+        poster?: string;
+        alt: string;
+        caption?: string;
+        /** Tailwind aspect class for the frame. Defaults to 16/9. */
+        aspect?: string;
+        /** Video fit inside its frame. "cover" (default) crops to fill;
+         *  "contain" shows the whole video in its native aspect with no
+         *  crop and no baseline scale — the frame hugs the video. */
+        fit?: "cover" | "contain";
+        /** CSS object-position for fine-tuning the visible crop. */
+        objectPosition?: string;
+        /** CSS scale factor for cropping past source-video letterbox edges. */
+        zoom?: number;
+      };
+  /** Hero composition. "default" stacks the title slab, meta strip and a
+   *  full-width heroMedia frame vertically. "split" places heroMedia
+   *  beside the title text on desktop (text col-7 + media col-5) and
+   *  collapses to a vertical stack on mobile. Use "split" for product/
+   *  SaaS-style heroes where the screenshot belongs visually inside the
+   *  hero, not below it. */
+  heroLayout?: "default" | "split";
+  /** MediaShowcase layout. "default" = primary tile + secondary 2-col
+   *  grid (Jansen-style). "platform-split" = 2-tile asymmetric grid
+   *  (lg:col-span-2 + lg:col-span-1) with optional labels above each
+   *  tile — used to present a wide surface (admin/web) next to a narrow
+   *  surface (mobile) for full-stack platform case studies. Both tiles
+   *  keep their native aspect via per-media aspect overrides. */
+  showcaseLayout?: "default" | "platform-split";
   /** Section 2 — context paragraphs. */
   context: string[];
   /** Section 3 — problem detail (copy left, supporting visuals right). */
@@ -156,6 +218,11 @@ export interface LongFormCaseStudy {
   /** Optional explicit overrides for the auto-discovered media — keyed by
    *  bare filename or relative path under mediaDir. */
   mediaOverrides?: Record<string, Partial<EditorialImageRef>>;
+  /** Optional explicit ordering for the auto-discovered media — listed
+   *  filenames come first in the given order; unlisted files fall back to
+   *  alphabetical sort. Use when the natural filename sort doesn't match the
+   *  desired narrative sequence and renaming the files isn't an option. */
+  mediaOrder?: string[];
   /** Optional per-section label overrides. Lets each project frame its own
    *  sections — e.g. Jansen reads "Design direction" / "Service catalog" /
    *  "Performance" instead of AZ Turnhout's "The problem" / "Tooling" /
@@ -181,6 +248,16 @@ export interface CaseStudyVideoRef {
   alt: string;
   caption?: string;
   aspect?: string;
+  /** CSS object-position for fine-tuning the visible crop under cover. */
+  objectPosition?: string;
+  /** CSS scale factor applied via transform — same semantics as on
+   *  ProjectMedia. Default VideoPanel/VideoTile scale is 1.02; pass a
+   *  higher value (e.g. 1.05) to crop past source-video letterbox edges. */
+  zoom?: number;
+  /** Optional display label rendered above the video tile in layouts that
+   *  support it (e.g. MediaShowcase platform-split). Used to identify a
+   *  surface — "Admin / Backend", "Mobile App", etc. */
+  label?: string;
 }
 
 export interface ProjectCaseStudy {
@@ -211,6 +288,15 @@ export interface Project {
   image?: string;
   accent?: "cyan" | "blue" | "violet";
   media?: ProjectMedia;
+  /** Opt-in card media layout. Default (undefined) renders the single
+   *  `media` tile exactly as before. "split-platforms" places the primary
+   *  `media` (wide backend/admin loop, ~72%) beside `cardMediaSecondary`
+   *  (narrow mobile loop, ~28%), both shown uncropped in their native
+   *  ratio — used by full-stack projects that have two surfaces. */
+  cardMediaLayout?: "split-platforms";
+  /** Secondary card media — the narrow right tile under
+   *  cardMediaLayout="split-platforms" (e.g. the mobile app loop). */
+  cardMediaSecondary?: ProjectMedia;
   caseStudy?: ProjectCaseStudy;
 }
 

@@ -29,22 +29,6 @@ interface LongFormCaseStudyProps {
 
 /**
  * Editorial long-form case study renderer.
- *
- * Composes:
- *   1. Back link
- *   2. Editorial hero (title slab + meta rail + hero media)
- *   3. Context
- *   4. Problem detail (copy left, supporting visuals right — collapses
- *      to single-column when no supporting visuals are present)
- *   5. Multi-project tab showcase (when `internalProjects` is set) —
- *      otherwise falls back to the legacy Tooling + Visual Showcase
- *      sections used by future projects without a sub-app breakdown.
- *   6. Engineering approach grid
- *   7. Results (paragraphs + optional metrics)
- *   8. Built with
- *   9. Closing block
- *   10. Next project
- *   11. Bottom back link
  */
 export function LongFormCaseStudy({
   project,
@@ -67,26 +51,40 @@ export function LongFormCaseStudy({
     discoveredMedia: discoverInternalProjectMedia(p),
   }));
 
-  // Resolve the hero media via the shared helper. Order:
-  //   1. Declared heroMedia.src if the file exists on disk.
-  //   2. First discovered VIDEO across any internal project's mediaDir.
-  //   3. First discovered IMAGE across any internal project's mediaDir.
-  //   4. Declared heroMedia unchanged (VideoPanel/EditorialImage falls back
-  //      to its slot placeholder).
-  // Note: we deliberately don't fall back to the canonical
-  // /project_afbeeldingen/az-turnhout/voorraadbeheer-loop.mp4 — that file
-  // exists as a 29 KB truncated stub that browsers cannot decode, so
-  // preferring it would render a black frame.
+  // Resolve the hero media via the shared helper.
   const heroProject = resolveProjectHeroMedia(project);
 
   // For single-folder long-form studies (Jansen / future client work):
   // auto-discover media from lf.mediaDir so the same drop-files-and-go
   // workflow applies. Falls back to legacy WorkflowSection + ProjectGallery
   // when neither internalProjects nor mediaDir is configured.
-  const mediaShowcaseMedia =
+  //
+  // After discovery: if heroMedia is set and points at a file that also
+  // lives in mediaDir, filter that file out of the showcase — but ONLY
+  // when the hero uses the default full-width media frame (where the same
+  // image as the showcase primary would be a literal duplicate). Under
+  // heroLayout="split" the hero shows a compact product mockup beside
+  // the title; the same screenshot then legitimately also appears in the
+  // showcase as part of the user-flow sequence (e.g. form → output 1 →
+  // output 2) and we want to keep it.
+  let mediaShowcaseMedia =
     !lf.internalProjects?.length && lf.mediaDir
-      ? discoverMediaFolder(lf.mediaDir, lf.mediaOverrides)
+      ? discoverMediaFolder(lf.mediaDir, lf.mediaOverrides, lf.mediaOrder)
       : null;
+  if (
+    mediaShowcaseMedia &&
+    lf.heroMedia &&
+    lf.heroLayout !== "split"
+  ) {
+    const heroSrc =
+      lf.heroMedia.kind === "video"
+        ? lf.heroMedia.src
+        : lf.heroMedia.ref.src;
+    mediaShowcaseMedia = {
+      images: mediaShowcaseMedia.images.filter((i) => i.src !== heroSrc),
+      videos: mediaShowcaseMedia.videos.filter((v) => v.src !== heroSrc),
+    };
+  }
 
   // Per-section label overrides — let each project frame its own narrative.
   const lbl = lf.sectionLabels ?? {};
@@ -189,6 +187,7 @@ export function LongFormCaseStudy({
             eyebrow={labels.showcaseEyebrow}
             heading={labels.showcaseHeading}
             description={labels.showcaseDescription}
+            variant={lf.showcaseLayout}
           />
         </>
       ) : (

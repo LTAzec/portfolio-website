@@ -1,3 +1,4 @@
+import type * as React from "react";
 import Image from "next/image";
 import { assetExists } from "@/lib/asset-utils";
 import { cn } from "@/lib/utils";
@@ -45,7 +46,16 @@ export function EditorialImage({
   priority = false,
   hideIfMissing = false,
 }: EditorialImageProps) {
-  const aspect = image.aspect ?? "aspect-[16/10]";
+  // Mockup framing — narrow centered portrait card. Defaults to
+  // fit="contain" (letterbox a document/screenshot inside the frame),
+  // but an explicit fit="cover" wins so a product screenshot can tight-
+  // crop inside the same mockup card. Mask overlay is suppressed under
+  // contain (mask + letterbox bars don't compose well).
+  const isMockup = image.frame === "mockup";
+  const isContain =
+    image.fit === "contain" || (image.fit === undefined && isMockup);
+  const aspect =
+    image.aspect ?? (isMockup ? "aspect-[4/5]" : "aspect-[16/10]");
   const present = assetExists(image.src);
 
   if (!present && hideIfMissing) return null;
@@ -61,13 +71,18 @@ export function EditorialImage({
       )}
     >
       {present ? (
-        <RealImage image={image} sizes={sizes} priority={priority} />
+        <RealImage
+          image={image}
+          sizes={sizes}
+          priority={priority}
+          contain={isContain}
+        />
       ) : (
         <SlotPlaceholder image={image} />
       )}
 
-      {/* Optional gradient mask treatment */}
-      {image.mask && image.mask !== "none" && present && (
+      {/* Optional gradient mask treatment — suppressed for contain/mockup */}
+      {!isContain && image.mask && image.mask !== "none" && present && (
         <GradientMask mask={image.mask} />
       )}
 
@@ -77,9 +92,7 @@ export function EditorialImage({
     </div>
   );
 
-  if (!image.caption) return frame;
-
-  return (
+  const inner = image.caption ? (
     <figure className="flex flex-col gap-3">
       {frame}
       <figcaption className="text-eyebrow flex items-center gap-2 text-[10px]">
@@ -89,18 +102,34 @@ export function EditorialImage({
         </span>
       </figcaption>
     </figure>
+  ) : (
+    frame
   );
+
+  // Mockup wraps the whole element in a narrow centered column.
+  if (isMockup) {
+    return <div className="mx-auto w-full max-w-[440px]">{inner}</div>;
+  }
+  return inner;
 }
 
 function RealImage({
   image,
   sizes,
   priority,
+  contain,
 }: {
   image: EditorialImageRef;
   sizes: string;
   priority: boolean;
+  contain: boolean;
 }) {
+  // Optional crop refinement: objectPosition steers the visible region
+  // under cover; zoom scales the image past its own padding so the UI
+  // fills more of the frame. Both are no-ops when undefined.
+  const style: React.CSSProperties = {};
+  if (image.objectPosition) style.objectPosition = image.objectPosition;
+  if (image.zoom && image.zoom !== 1) style.transform = `scale(${image.zoom})`;
   return (
     <Image
       src={image.src}
@@ -108,7 +137,8 @@ function RealImage({
       fill
       sizes={sizes}
       priority={priority}
-      className="object-cover"
+      className={contain ? "object-contain" : "object-cover"}
+      style={Object.keys(style).length > 0 ? style : undefined}
     />
   );
 }

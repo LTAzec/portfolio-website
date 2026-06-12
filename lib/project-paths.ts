@@ -7,9 +7,10 @@ export const PROJECTS_PUBLIC_BASE = "/projects";
 /** Maps portfolio slug → directory name under `public/projects/`. */
 export const PROJECT_DIR_BY_SLUG: Record<string, string> = {
   "az-turnhout-tooling": "az-turnhout-tooling",
-  jarvis: "jarvis",
+  // Aria + BoulderBuddy assets live under /project_afbeeldingen/<Folder>/,
+  // referenced explicitly in data/projects.ts — no /projects/<slug>/ mapping
+  // needed for either.
   "jansen-car-detailing": "jansen-car-detailing",
-  "bouldering-app": "bouldering-app",
 };
 
 /**

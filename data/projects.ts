@@ -10,7 +10,7 @@ import { applyProjectMedia } from "@/lib/apply-project-media";
  * everything else falls back to the basic case-study renderer.
  *
  * Static assets live under `public/projects/<slug>/` (public URL `/projects/...`).
- * Card + basic gallery media for Jarvis / Jansen / Bouldering are merged from
+ * Card + basic gallery media for Jansen are merged from
  * `data/project-media-manifest.ts` (regenerate: `npm run media:discover`).
  *
  * AZ Turnhout nested folders are not renamed — paths use percent-encoding
@@ -448,31 +448,206 @@ const baseProjects: Project[] = [
     },
   },
   {
-    slug: "jarvis",
-    title: "Jarvis — AI assistant",
-    tagline: "A personal AI assistant for productivity and automation.",
+    slug: "aria",
+    title: "Aria — Adaptive Residential Intelligence Architecture",
+    tagline:
+      "An adaptive AI assistant architecture for voice interaction, local commands and a growing home-automation ecosystem.",
     description:
-      "A modular AI assistant designed to handle scheduling, knowledge lookup, and small daily automations. Built to be extensible — new skills plug in as discrete modules without touching the core runtime.",
+      "Aria — short for Adaptive Residential Intelligence Architecture — is a personal AI runtime built around voice-first interaction, modular skills and structured tool use. Not a chatbot, but a small ecosystem designed to grow into a residential intelligence layer over time.",
     role: "Creator",
     year: 2025,
-    stack: ["TypeScript", "Node.js", "LLM APIs", "Next.js"],
+    stack: [
+      "TypeScript",
+      "Python",
+      "OpenAI API",
+      "Speech-to-text",
+      "Text-to-speech",
+      "Tool use",
+    ],
     highlights: [
-      "Plug-in architecture for adding new skills without core changes",
-      "Streaming responses with structured tool-use",
+      "Voice-first interaction with structured tool use for real local commands",
+      "Modular skill architecture — capabilities plug in without touching the runtime",
+      "Designed to grow into a residential / home-automation intelligence layer",
     ],
     status: "in-progress",
     featured: true,
     accent: "blue",
     links: {},
+    // Aria video lives under /project_afbeeldingen/Aria/. Filename keeps
+    // its on-disk name (still contains "Jarvis" — pre-rename); the
+    // mediaOverrides caption below scrubs it for any visible label.
+    media: {
+      type: "video",
+      src: "/project_afbeeldingen/Aria/Demo%20Jarvis%20Nederlands.mp4",
+      alt: "Aria — voice interaction demo",
+    },
     caseStudy: {
       overview:
-        "Jarvis is an in-progress personal AI assistant designed around modular skills — discrete capabilities that plug in without touching the core runtime.",
+        "Aria — Adaptive Residential Intelligence Architecture — is a personal AI assistant project being built into a residential intelligence layer. The focus is not a chat window, but a runtime that handles voice, tool execution and a growing set of skill modules.",
       problem:
-        "Most AI assistants are either too generic (chat with no real abilities) or too rigid (a single workflow hard-coded). Adding new capabilities usually means rewriting the core.",
+        "Mainstream assistants stop at conversation. Home-automation lives behind a dozen vendor apps. Voice interfaces are only useful when they actually do something — execute a local command, open an app, trigger a workflow.",
       solution:
-        "A skill-pluggable architecture where each capability (scheduling, lookup, automation) is a self-contained module conforming to a small contract. The runtime handles streaming, tool use and orchestration; skills focus on their domain.",
+        "A modular runtime with three clean seams: voice I/O (speech-to-text → intent, then text-to-speech back), a tool/router layer that maps intents to real actions, and skill modules that own their own domain. Each layer can evolve independently without breaking the others.",
       result:
-        "Adding a new skill takes a single file and a registration entry. The assistant has shipped scheduling, knowledge lookup and a growing set of personal automations.",
+        "An evolving personal AI ecosystem. The current build handles voice interaction, structured tool use, and a starter set of local commands. Direction matters more than feature count — this is an architecture to grow into, not a launched product.",
+
+      /* ──────────────────────────────────────────────────────────
+         Long-form editorial layout — split hero with the demo video
+         ────────────────────────────────────────────────────────── */
+      longForm: {
+        contextTags: [
+          "Adaptive Residential Intelligence Architecture",
+          "Voice-first",
+          "Personal AI",
+          "In progress",
+        ],
+
+        /* Split hero — title text left, demo video right (Linear/Vercel
+           style). The same video re-appears as the showcase primary —
+           hero-filter is skipped under heroLayout: "split". */
+        heroLayout: "split",
+
+        heroMedia: {
+          kind: "video",
+          src: "/project_afbeeldingen/Aria/Demo%20Jarvis%20Nederlands.mp4",
+          alt: "Aria — voice interaction demo",
+          caption: "Aria · voice interaction demo (Dutch capture)",
+        },
+
+        /* Auto-discovery from the Aria folder. Currently just one video;
+           drop more captures here to expand the showcase. */
+        mediaDir: "/project_afbeeldingen/Aria",
+
+        /* The on-disk filename still has "Jarvis" in it (pre-rename).
+           This override scrubs the visible caption to Aria copy without
+           needing to rename the file on disk. */
+        mediaOverrides: {
+          "Demo Jarvis Nederlands.mp4": {
+            caption: "Aria · voice interaction demo (Dutch capture)",
+            alt: "Aria — voice interaction demo",
+          },
+        },
+
+        sectionLabels: {
+          problem: { eyebrow: "Problem" },
+          tooling: {
+            eyebrow: "Architecture",
+            heading: "Three clean seams",
+            description:
+              "Aria is small on purpose. The architecture is a runtime, a tool/router layer and a skill plug-in surface — each owning one concern, each replaceable without breaking the others.",
+          },
+          showcase: {
+            eyebrow: "Demo",
+            heading: "What it looks like in use",
+            description:
+              "A Dutch voice capture from a current build. Wake word → speech-to-text → intent → tool execution → spoken response, end-to-end.",
+          },
+          engineering: {
+            eyebrow: "What it can do",
+            heading: "Capabilities, today",
+            description:
+              "The current shape — not a feature list, a snapshot of what already works in the live runtime. Everything else is in progress.",
+          },
+          results: {
+            eyebrow: "Learnings",
+            heading: "What this is teaching me",
+          },
+          closing: { eyebrow: "Note" },
+        },
+
+        /* ── 2. Context ────────────────────────────────────────── */
+        context: [
+          "Aria is a personal AI assistant project I started because the off-the-shelf ones stop being interesting the moment you want them to actually do something. A chat window is fine for ideation; a residential intelligence layer that can open apps, trigger automations and respond by voice is a different category of product.",
+          "The name is also the brief: Adaptive Residential Intelligence Architecture. Adaptive — it grows with the skills I plug in. Residential — the long arc is home automation, not enterprise productivity. Intelligence Architecture — a runtime, not a single app, with room for new capabilities without rewriting the core.",
+          "This is an in-progress project. There's no launch date, no product page, no marketing. I'm building it because the architecture itself is the interesting bit — and because I want a real personal assistant, not another chat tab.",
+        ],
+
+        /* ── 3. Problem detail ─────────────────────────────────── */
+        problemDetail: {
+          paragraphs: [
+            "Mainstream AI assistants are conversation-shaped. They can describe what to do; they can't do it. For most queries that's enough. For the ones where you want a window opened, an automation triggered, a service called — they hit a wall.",
+            "Home automation is the inverse problem. Each device or platform comes with its own app, its own remote, its own routine syntax. Lights here, climate there, media in a third place. A unified voice layer over the top is the obvious idea — every assistant project from the past decade has tried it, and most have either gotten too generic to be useful or too narrow to be worth the install.",
+            "Aria's bet is that a small, opinionated architecture beats a sprawling feature surface. A few clean seams (voice in, tool out, skills plugged in), each replaceable, each safe to extend. Less product, more runtime.",
+          ],
+          media: [],
+        },
+
+        /* ── 4. Architecture (Tooling cards) ───────────────────── */
+        tooling: [
+          {
+            eyebrow: "01 · Central runtime",
+            title: "The orchestration layer",
+            description:
+              "A thin runtime that coordinates voice input, intent resolution, tool calls and spoken response. No domain logic lives here — only the choreography between layers. The whole point is that the runtime stays boring while the skills get interesting.",
+          },
+          {
+            eyebrow: "02 · Skill modules",
+            title: "Capabilities as plug-ins",
+            description:
+              "Each capability is a self-contained skill module: a small contract for what intents it claims, what tools it exposes, and how it responds. New skills land as new modules — the runtime doesn't change. Bad skills can be unplugged without consequence.",
+          },
+          {
+            eyebrow: "03 · Tool / router layer",
+            title: "From intent to real action",
+            description:
+              "The mediator between language and machines. Voice intents resolve to structured tool calls — open an app, query a service, trigger an automation — with strict argument shapes and explicit allow-lists. Tool execution is where assistants stop being toys.",
+          },
+          {
+            eyebrow: "04 · Voice I/O",
+            title: "Speech in, speech out",
+            description:
+              "Speech-to-text on the way in, text-to-speech on the way out, with intent extraction wedged between. The voice loop is the thing that turns a chat assistant into a residential one — the moment a phone or laptop becomes a microphone, the product changes.",
+          },
+        ],
+
+        /* ── 5. What it can do (Engineering cards, relabelled) ── */
+        engineering: [
+          {
+            index: "01",
+            title: "Voice-driven interaction",
+            body: "Full voice loop end-to-end: wake → capture → transcribe → understand → respond. The latency is good enough to feel like a conversation rather than a request-response cycle.",
+          },
+          {
+            index: "02",
+            title: "Structured tool calls",
+            body: "Intents resolve to typed tool calls with explicit argument shapes. Tools are registered with allow-lists so the runtime can't be cajoled into running anything that isn't pre-declared.",
+          },
+          {
+            index: "03",
+            title: "Local command execution",
+            body: "Open apps, trigger scripts, run small workflows on the host machine. The starter set is pragmatic — the kind of things a power-user keyboard shortcut already does, but exposed through voice.",
+          },
+          {
+            index: "04",
+            title: "Skill plug-in surface",
+            body: "Adding a new capability is a single module with a small contract. No runtime changes, no rebuild. Removing a skill is just as cheap — modular boundaries pay off most when you change your mind.",
+          },
+          {
+            index: "05",
+            title: "Future: residential integrations",
+            body: "Home-automation hooks are the direction of travel — lights, climate, media, presence. Not yet shipped; the architecture is shaped so they slot in as additional skill modules without touching anything that already works.",
+          },
+        ],
+
+        /* ── 6. Visual showcase via mediaDir ────────────────────── */
+        showcase: [],
+
+        /* ── 7. Learnings (Results) ─────────────────────────────── */
+        results: {
+          paragraphs: [
+            "Architecture over features. Every time I prototyped a single feature first, I ended up redesigning the runtime around it later. Starting from a runtime — even a small one — saved that loop.",
+            "Modularity is mostly about taste. Choosing where the seams go is more design work than implementation work. The skill / tool / runtime split feels right today; ask me in six months whether it still does.",
+            "Voice UX is its own discipline. Latency, error recovery, the way a slightly wrong intent still gets a useful response — none of these are LLM problems. They're product problems that only show up the moment a microphone is in the loop.",
+            "Safe boundaries beat raw capability. The interesting question on a runtime that can execute local commands isn't 'what else can it do', it's 'what is it not allowed to do, and how do I know'.",
+          ],
+        },
+
+        /* ── 8. Closing ────────────────────────────────────────── */
+        closing: [
+          "Aria is in progress and probably always will be in some form. It's a personal AI ecosystem, not a launched product — the direction is what matters more than the version number.",
+          "The premise is that residential intelligence is a runtime problem more than a model problem. The model is the easy part now. Voice loops, tool safety, skill boundaries and the way a home actually wants to be talked to — that's the part worth building.",
+        ],
+      },
     },
   },
   {
@@ -649,30 +824,474 @@ const baseProjects: Project[] = [
     },
   },
   {
-    slug: "bouldering-app",
-    title: "Bouldering tracker",
-    tagline: "Log routes, track progress, and review your climbing sessions.",
+    slug: "climbing-training-tool",
+    title: "Climbing Training Plan Generator",
+    tagline:
+      "A web tool that turns a six-question form into a personalised indoor climbing plan.",
     description:
-      "A mobile-first app for indoor bouldering — log attempts, tag routes by grade and gym, and visualise progress over time. Born from a personal need; built with a clean, focused UX.",
+      "A small web tool I built for my own climbing — six inputs in (level, current grade, target grade, training days, goal, optional injuries), one structured weekly plan out. Practical sport tech, not a SaaS, not a metric chart.",
     role: "Creator",
-    year: 2026,
-    stack: ["React Native", "TypeScript", "SQLite"],
+    year: 2025,
+    stack: ["React", "TypeScript", "Tailwind", "Vercel"],
     highlights: [
-      "Offline-first data layer",
-      "Session-based analytics with grade-progression charts",
+      "Form-driven plan generation — six inputs in, structured weekly routine out",
+      "Domain-aware logic — grade progression mapped to realistic training load",
+      "Deployed on Vercel with a clean, minimal product surface",
+    ],
+    status: "live",
+    featured: true,
+    accent: "violet",
+    links: {
+      live: "https://climbing-training-tool.vercel.app/",
+    },
+    // Explicit card media so /projects, home and the about shelf all render
+    // the form screenshot directly. The same folder is also used as the
+    // case-study mediaDir for auto-discovery of future captures.
+    media: {
+      type: "image",
+      src: "/project_afbeeldingen/climbing-training-tool/training_tool.png",
+      alt: "Climbing Training Plan Generator — form view",
+    },
+    caseStudy: {
+      overview:
+        "A web tool that takes a short form — climbing level, current grade, target grade, weekly availability, goal, optional injuries — and returns a structured indoor climbing plan. Built as a personal training utility, deployed on Vercel.",
+      problem:
+        "Generic fitness apps don't speak climbing. Climbing-specific resources are scattered across forums, coach articles and PDFs. None of them ask the right inputs and return something you can act on this week.",
+      solution:
+        "A single-page web form that gathers the inputs that actually matter for indoor climbing — level, grades, schedule, goal, limitations — and outputs a structured plan tuned to the climber's current state instead of a generic template.",
+      result:
+        "I use it for my own training cycles. The form-to-plan loop is fast enough to re-run when a goal changes mid-cycle; the output is structured enough to follow without re-reading every session.",
+
+      /* ──────────────────────────────────────────────────────────
+         Long-form editorial layout — compact personal sport-tech tool
+         Single-folder showcase via mediaDir auto-discovery.
+         ────────────────────────────────────────────────────────── */
+      longForm: {
+        contextTags: ["Sport tech", "Climbing", "Personal tool", "Web app"],
+
+        /* Split hero — title text left, product mockup right (SaaS/Linear
+           style). Collapses to a vertical stack on mobile. The standalone
+           hero media section is auto-omitted under split. */
+        heroLayout: "split",
+
+        /* Hero shows the form UI — the entry point of the tool. The renderer
+           auto-filters this file from the showcase below to avoid showing
+           the same image twice. */
+        heroMedia: {
+          kind: "image",
+          ref: {
+            src: "/project_afbeeldingen/climbing-training-tool/training_tool.png",
+            slot: "Climbing Training Plan Generator — form",
+            alt: "Climbing Training Plan Generator form UI on the live site",
+            caption: "climbing-training-tool · form view · live site",
+            // The screenshot is ~1274x1130 (near-square landscape).
+            // aspect-[1/1] matches its natural shape closely, so the
+            // form fills the card edge-to-edge with only ~25px letterbox
+            // top + bottom (down from ~80px under 4/5). Reads as a
+            // compact product card while staying centred and "portrait-
+            // leaning" in the layout.
+            frame: "mockup",
+            aspect: "aspect-[1/1]",
+            fit: "contain",
+          },
+        },
+
+        /* Auto-discovery folder. Drop further captures into
+           public/project_afbeeldingen/climbing-training-tool/ and they
+           appear in the showcase automatically. */
+        mediaDir: "/project_afbeeldingen/climbing-training-tool",
+
+        /* Explicit narrative order — form first (filtered out as hero),
+           then the two generated-plan screenshots in the showcase. */
+        mediaOrder: [
+          "training_tool.png",
+          "training_plan1.png",
+          "training_plan2.png",
+        ],
+
+        /* Showcase-context overrides. Note: training_tool.png ALSO appears
+           in the hero via heroMedia, but under heroLayout:"split" the
+           renderer does NOT auto-filter it from the showcase — the same
+           screenshot legitimately re-appears here as the first beat of
+           the user-flow sequence (form → plan output 1 → plan output 2).
+           All three get frame:"mockup" so the showcase stays in uniform
+           all-mockup grid mode (no full-width primary tile). aspect-[3/4]
+           keeps the tiles visually consistent in the 2-col grid; tool
+           letterboxes lightly (near-square content in a tall frame) but
+           the form is still recognisable, and the lightbox shows the
+           full sharp image on click. */
+        mediaOverrides: {
+          "training_tool.png": {
+            frame: "mockup",
+            fit: "contain",
+            // Form screenshot is near-square (1274x1130, aspect ~1.127),
+            // not a long text capture. aspect-[1/1] matches its natural
+            // shape: only ~25px letterbox top/bottom, no long grey frame.
+            // Plans below stay aspect-[3/4] — their content is tall text.
+            aspect: "aspect-[1/1]",
+            caption: "form input · the entry point",
+          },
+          "training_plan1.png": {
+            frame: "mockup",
+            fit: "contain",
+            aspect: "aspect-[3/4]",
+            caption: "generated plan · output (1 of 2)",
+          },
+          "training_plan2.png": {
+            frame: "mockup",
+            fit: "contain",
+            aspect: "aspect-[3/4]",
+            caption: "generated plan · output (2 of 2)",
+          },
+        },
+
+        sectionLabels: {
+          problem: { eyebrow: "Problem" },
+          tooling: {
+            eyebrow: "What it does",
+            heading: "Six inputs, one structured plan",
+            description:
+              "The form asks only what a climbing plan actually depends on. Nothing speculative, nothing decorative. Each input maps onto a concrete dimension of the generated routine.",
+          },
+          showcase: {
+            eyebrow: "UI / form flow",
+            heading: "The form, on the live site",
+            description:
+              "A single dark form, vertical scroll, one primary action. Click the image to open it fullscreen.",
+          },
+          engineering: {
+            eyebrow: "Product logic",
+            heading: "How the plan gets shaped",
+            description:
+              "The generation is not a coach-in-a-bottle. It is a small set of climbing-domain heuristics that turn structured inputs into a sensible weekly skeleton — leaving the actual session quality to the climber.",
+          },
+          results: {
+            eyebrow: "Learnings",
+            heading: "What this taught me",
+          },
+          closing: { eyebrow: "Note" },
+        },
+
+        /* ── 2. Context ────────────────────────────────────────── */
+        context: [
+          "I climb indoors regularly — boulder and route, mixed disciplines, with the kind of mid-grade plateau that most amateur climbers eventually meet. Training in climbing is its own discipline: it's not just 'climb more'. Volume, recovery, hangboard exposure, projecting density and antagonist work all interact, and what works at 6B doesn't work at 7A.",
+          "I kept reading the same advice spread across forums, coach blogs and PDFs, then trying to translate it into what to do this Tuesday. After enough rounds of that, building a tiny tool that just asked the right questions and produced a starting plan felt like the obvious move.",
+          "The audience is single-user: me, and any climber who'd recognise the inputs as the ones that actually matter for their week.",
+        ],
+
+        /* ── 3. Problem detail ─────────────────────────────────── */
+        problemDetail: {
+          paragraphs: [
+            "Mainstream fitness apps are built around running, lifting and step counts. They don't ask about grades, projecting cycles, or finger-recovery windows. Even when they let you log climbing as a freeform workout, they can't reason about the load.",
+            "Climbing-specific guidance exists, but it's scattered — forum threads, training-blog posts, coach interviews, the occasional structured PDF. Each piece is useful on its own; none of them ask for your inputs and hand you a plan you can run with.",
+            "The gap was small but real: a focused tool that takes the half-dozen variables a coach would ask about and returns a structured starting point. Not a replacement for a real coach, just the kind of scaffolding that turns intention into a schedule.",
+          ],
+          media: [],
+        },
+
+        /* ── 4. What it does (Tooling cards, relabelled) ───────── */
+        tooling: [
+          {
+            eyebrow: "01 · Level + grade",
+            title: "Where the climber is right now",
+            description:
+              "Climbing level (Beginner → Advanced) plus current grade and target grade. The grade pair anchors how aggressive the progression can be — chasing 7A from 5+ is not the same plan as 6C+ from 6B+.",
+          },
+          {
+            eyebrow: "02 · Schedule",
+            title: "How many sessions per week",
+            description:
+              "Training days per week sets the weekly volume budget. Two sessions and four sessions get fundamentally different plans — not just 'more of the same', but a different distribution of work, technique and recovery.",
+          },
+          {
+            eyebrow: "03 · Goal",
+            title: "What the climber is training for",
+            description:
+              "General improvement, endurance, power, or project send. The goal reshapes the emphasis — power blocks for project send, capacity work for endurance, balanced skill work for general improvement.",
+          },
+          {
+            eyebrow: "04 · Injuries / limitations",
+            title: "What the plan has to respect",
+            description:
+              "A free-text field for things like a recovering finger pulley or a sore shoulder. The plan adapts — fewer intense hangs, more antagonist work, modified projecting — instead of pretending the climber is at 100%.",
+          },
+        ],
+
+        /* ── 5. UI / form flow → MediaShowcase via mediaDir ────── */
+        showcase: [],
+
+        /* ── 6. Product logic (Engineering cards, relabelled) ─── */
+        engineering: [
+          {
+            index: "01",
+            title: "Grade-aware progression",
+            body: "The gap between current and target grade defines the load curve. Big gap means longer plan with skill-build phases; small gap means a denser projecting block. The grade pair is the spine of every other decision.",
+          },
+          {
+            index: "02",
+            title: "Volume scaling on session count",
+            body: "Two sessions a week is a focused plan with one technique focus and one project session. Four sessions opens room for hangboard, antagonists and a dedicated mileage day. Volume isn't multiplied — it's redistributed.",
+          },
+          {
+            index: "03",
+            title: "Recovery as a first-class block",
+            body: "Climbing plans break when recovery is implicit. Each generated week includes explicit rest framing — finger-recovery windows, off-day notes — rather than treating rest as the absence of work.",
+          },
+          {
+            index: "04",
+            title: "Climbing-domain heuristics",
+            body: "The mapping from inputs to outputs is small set of rules pulled from climbing literature, not an LLM call. That keeps it deterministic, fast and honest about what it is — a structured starting point, not a personalised coach.",
+          },
+          {
+            index: "05",
+            title: "Stateless, single-page",
+            body: "No accounts, no database, no session persistence. The form lives on a single page; the plan is generated client-side and rendered inline. The whole tool is small enough to deploy on Vercel's free tier.",
+          },
+        ],
+
+        /* ── 7. Learnings (Results, relabelled) ────────────────── */
+        results: {
+          paragraphs: [
+            "The clearest lesson was about input design. The early form had ten questions; the live one has six. Every dropped input forced a sharper rule on what the plan actually depends on. Removing fields turned out to be more product work than adding logic.",
+            "Climbing knowledge encoded as rules is more honest than wrapping an LLM around the same prompt. The output is reproducible, the reasoning is inspectable, and when the plan is wrong I can fix the rule instead of re-prompting.",
+            "Deploying on Vercel kept the loop short. The tool was usable in production after a single afternoon — which was the whole point. Sport tooling that doesn't ship doesn't get used.",
+          ],
+        },
+
+        /* ── 8. Closing note ───────────────────────────────────── */
+        closing: [
+          "This is the kind of tool that wouldn't make sense as a startup. It's small, single-user-shaped, and useful precisely because it doesn't try to be more. Personal sport tech earns its place by being practical first — by the climber actually using the plan it generates the following Tuesday.",
+        ],
+      },
+    },
+  },
+  {
+    slug: "boulder-buddy",
+    title: "BoulderBuddy — full-stack bouldering platform",
+    tagline:
+      "A full-stack bouldering platform — Next.js admin + Prisma/PostgreSQL backend + Expo mobile app for climbers.",
+    description:
+      "BoulderBuddy is a full-stack platform for indoor bouldering — a Next.js admin/backend and an Expo/React Native mobile app sharing a single Prisma/PostgreSQL schema. Auth + role-based access, gym → wall → sector → boulder content model, session logs and lightweight social (likes + comments), with a demo dataset of real climbing media.",
+    role: "Creator",
+    year: 2025,
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Expo",
+      "React Native",
+      "Tailwind",
+    ],
+    highlights: [
+      "Full-stack — Next.js admin/backend + Expo/React Native mobile app sharing one Prisma schema",
+      "Domain model: gyms, walls, sectors, boulders, sessions, logs, likes, comments — with role-based access",
+      "Demo dataset with real climbing photos and video — production-shaped, not lorem ipsum",
     ],
     status: "in-progress",
     featured: true,
     accent: "violet",
+    links: {},
+    // Project card shows both surfaces side-by-side, uncropped: the wide
+    // backend/admin loop (~72%) beside the narrow mobile loop (~28%).
+    cardMediaLayout: "split-platforms",
+    media: {
+      type: "video",
+      src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20backend.mp4",
+      alt: "BoulderBuddy — backend / admin demo",
+      label: "admin / backend",
+    },
+    cardMediaSecondary: {
+      type: "video",
+      src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20mobile.mp4",
+      alt: "BoulderBuddy — mobile app demo",
+      label: "mobile app",
+    },
     caseStudy: {
       overview:
-        "A mobile-first app for indoor bouldering — track attempts, tag routes by grade and gym, and visualise progress over time. Born from a personal need to keep climbing sessions honest.",
+        "BoulderBuddy is an in-progress full-stack platform for indoor bouldering. A Next.js admin and Expo mobile client share a single PostgreSQL/Prisma schema — gyms, walls, sectors, boulders, sessions, logs, likes and comments — with role-based access and a demo dataset of real climbing media.",
       problem:
-        "Existing climbing apps are bloated with social features and forget the basics: fast logging, offline reliability and clean analytics.",
+        "Existing climbing apps split badly between consumer-facing trackers and gym-admin tools that look like a forgotten spreadsheet. Climbers want a clean mobile experience; gyms want a real CMS for walls, sectors and routes; both need the same underlying content to stay in sync.",
       solution:
-        "An offline-first React Native app with a focused UX: log an attempt in seconds, tag routes by grade and gym, see clean session-based analytics and grade-progression charts. No social, no feed, no noise.",
+        "One Prisma schema, two front-ends. The Next.js admin is the operator surface — manage gyms, walls, sectors, boulders, accounts, roles, demo data. The Expo mobile app is the climber surface — browse, log sessions, react to other climbers' send notes. Auth + roles gate what each side can do.",
       result:
-        "Personal climbing sessions are now consistently logged with minimal friction. The grade-progression view is genuinely useful for spotting plateaus and pushing through them.",
+        "A working demo of both surfaces with a populated dataset. Admin handles real CRUD on the climbing content model; mobile renders that same data with a focused logging flow. The platform is still in progress, but the core architecture earns its keep already.",
+
+      /* ──────────────────────────────────────────────────────────
+         Long-form editorial layout — split hero with the admin demo
+         ────────────────────────────────────────────────────────── */
+      longForm: {
+        contextTags: ["Full-stack", "Climbing", "Mobile + Web", "In progress"],
+
+        /* Split hero — title text left, backend/admin demo video right.
+           Under heroLayout: "split" the hero-filter is skipped, so the
+           backend video legitimately reappears in the platform-split
+           showcase below at full size, next to the mobile capture. */
+        heroLayout: "split",
+
+        heroMedia: {
+          kind: "video",
+          src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20backend.mp4",
+          alt: "BoulderBuddy — backend / admin demo",
+          caption: "BoulderBuddy · admin / backend walk-through",
+          // Show the full backend recording in its native aspect — no crop,
+          // no baseline zoom — the hero frame hugs the 16/9 video.
+          aspect: "aspect-[16/9]",
+          fit: "contain",
+        },
+
+        /* Auto-discovery folder for the platform-split showcase below. */
+        mediaDir: "/project_afbeeldingen/BoulderBuddy",
+
+        /* Explicit narrative order — backend (wide left tile) first,
+           mobile (narrow right tile) second. */
+        mediaOrder: [
+          "BoulderBuddy backend.mp4",
+          "BoulderBuddy mobile.mp4",
+        ],
+
+        /* Platform-split showcase: two-tile asymmetric grid that puts the
+           backend/admin loop next to the mobile loop. Communicates "one
+           platform, two surfaces" in a single glance. */
+        showcaseLayout: "platform-split",
+
+        /* Per-video overrides: labels rendered above each tile + native
+           aspect ratio per surface so the mobile portrait recording isn't
+           letterboxed inside a landscape frame. */
+        mediaOverrides: {
+          "BoulderBuddy backend.mp4": {
+            label: "Admin / Backend",
+            caption: "admin · web · Next.js",
+            alt: "BoulderBuddy — backend / admin demo",
+            aspect: "aspect-[16/9]",
+          },
+          "BoulderBuddy mobile.mp4": {
+            label: "Mobile App",
+            caption: "mobile · Expo · React Native",
+            alt: "BoulderBuddy — mobile app demo",
+            aspect: "aspect-[9/16]",
+          },
+        },
+
+        sectionLabels: {
+          problem: { eyebrow: "Problem" },
+          tooling: {
+            eyebrow: "Architecture",
+            heading: "One schema, two surfaces",
+            description:
+              "BoulderBuddy is small on purpose. Four layers, each with one clean responsibility, all sharing the same Prisma model so the admin and the mobile client never drift.",
+          },
+          showcase: {
+            eyebrow: "Demo",
+            heading: "One platform, two interfaces",
+            description:
+              "The admin surface on the left, the mobile climber app on the right — both rendering the same gyms, walls, sectors and boulders from the shared Prisma schema. Each loop preserves its native aspect ratio so neither surface is stretched.",
+          },
+          engineering: {
+            eyebrow: "What it has",
+            heading: "Built today",
+            description:
+              "The current shape of the platform — not a wishlist. Auth, the content model, session logs and social are all in the demo dataset; mobile renders the same data the admin curates.",
+          },
+          results: {
+            eyebrow: "Learnings",
+            heading: "What this taught me",
+          },
+          closing: { eyebrow: "Note" },
+        },
+
+        /* ── 2. Context ────────────────────────────────────────── */
+        context: [
+          "BoulderBuddy is a personal full-stack project shaped around how indoor bouldering actually works. Climbers go to a gym, find a wall, pick a sector, try boulders, log sends and likes. Gym staff curate that content — set new routes, retire old ones, tag grades. The split between climber-facing and gym-facing software in this space is usually bad on at least one side; BoulderBuddy is the attempt at building both from the same Prisma schema.",
+          "It's a school-and-side project mash-up: started as part of an applied development course, kept going because the architecture got interesting. There's no launch date — the value is in the platform shape, not a version number.",
+        ],
+
+        /* ── 3. Problem detail ─────────────────────────────────── */
+        problemDetail: {
+          paragraphs: [
+            "Consumer climbing apps tend to ignore the operator side: they assume gym content magically appears. Gym-admin tools tend to ignore the climber side: they're spreadsheets with a login. Neither understands that the same gym → wall → sector → boulder hierarchy lives on both ends, and that it has to stay in lockstep.",
+            "The Prisma model is the bridge. One schema, generated client used by both Next.js (admin) and the API layer the Expo app talks to. Add a boulder in the admin → mobile sees it on next pull. Change a grade → both surfaces update. The data model becomes the contract, not a translation layer.",
+            "Auth is the second contract: roles decide who edits what (admin / gym staff / climber). Demo data is the third: realistic seeded content with real images so the platform looks like a product when it boots, not a blank schema waiting for input.",
+          ],
+          media: [],
+        },
+
+        /* ── 4. Architecture (Tooling cards) ───────────────────── */
+        tooling: [
+          {
+            eyebrow: "01 · Next.js admin",
+            title: "Operator surface",
+            description:
+              "Next.js App Router admin panel for managing gyms, walls, sectors, boulders, users and roles. Server actions handle mutations, the Prisma client owns persistence, Tailwind keeps the UI quiet and operator-shaped instead of consumer-flashy.",
+          },
+          {
+            eyebrow: "02 · PostgreSQL + Prisma",
+            title: "Shared data model",
+            description:
+              "One PostgreSQL database, one Prisma schema. The model encodes the real climbing hierarchy — gym → wall → sector → boulder — plus accounts, sessions, logs, likes and comments. The generated Prisma client is the same on both ends, so types stay aligned.",
+          },
+          {
+            eyebrow: "03 · Expo / React Native",
+            title: "Mobile climber surface",
+            description:
+              "Expo + React Native client for the climber-facing flow. Browse gyms and walls, see boulders, log session attempts, react to other climbers' sends. Shares its data shape with the admin via the generated Prisma types — the API contract is one source of truth.",
+          },
+          {
+            eyebrow: "04 · Auth + role layer",
+            title: "Who can see what",
+            description:
+              "Role-based access threaded through both surfaces. Admins manage the whole content tree; gym staff scope to their own gym; climbers see public content and their own session history. The same auth identity works across web admin and mobile.",
+          },
+        ],
+
+        /* ── 5. What it has (Engineering cards, relabelled) ──── */
+        engineering: [
+          {
+            index: "01",
+            title: "Auth + roles",
+            body: "Account model with role-gated access. Admin vs gym-staff vs climber permissions enforced at the API layer, not just hidden in the UI — both surfaces respect the same boundaries.",
+          },
+          {
+            index: "02",
+            title: "Climbing content model",
+            body: "Gyms, walls, sectors, boulders — modelled the way climbers actually talk about them. Grades, tags, photos and short descriptions per boulder; the hierarchy makes navigation in both UIs feel obvious.",
+          },
+          {
+            index: "03",
+            title: "Session logs",
+            body: "Climbers log attempts and sends against specific boulders. The model captures session date, climber, boulder, attempt count and outcome — enough to render a personal history and feed any future analytics.",
+          },
+          {
+            index: "04",
+            title: "Likes + comments",
+            body: "Lightweight social on the climbing content. Climbers can react to a boulder or another climber's session note. Kept deliberately small — this is a tracker with a community layer, not a social network.",
+          },
+          {
+            index: "05",
+            title: "Demo dataset with real media",
+            body: "Seeded data with realistic climbing photos and a backend demo capture. Means the platform looks alive on first boot — both surfaces render production-shaped content rather than placeholder skeletons.",
+          },
+        ],
+
+        /* ── 6. Visual showcase via mediaDir ────────────────────── */
+        showcase: [],
+
+        /* ── 7. Learnings ──────────────────────────────────────── */
+        results: {
+          paragraphs: [
+            "The schema is the product. Every time the admin and mobile started drifting it was because the data model was wrong somewhere. Fixing it once in Prisma fixed both surfaces — cheaper than parallel patches on either side.",
+            "Roles deserve real boundaries. Hiding admin-only controls in the UI feels safe until you remember the API is the actual boundary. Server-side role checks are the only ones that count; everything in the UI is just polite.",
+            "Demo data is part of the build. A working seed with realistic content turns 'is the platform working' into a question you can answer at a glance — for me, for visitors, for any future collaborator.",
+            "Mobile + web from one stack pays compounding interest. Sharing the Prisma client means a backend change ripples through both clients in one PR. The alternative (separate type generation per surface) would have cost real time.",
+          ],
+        },
+
+        /* ── 8. Closing ────────────────────────────────────────── */
+        closing: [
+          "BoulderBuddy is still in progress, but both surfaces now run on the same data: the admin loop on the left of the showcase, the mobile loop on the right, both reading from one Prisma schema and one auth identity.",
+          "The bet is that climbing software gets better when both sides share a model. Even as a school-and-side project, the platform shape teaches more than another single-purpose tracker would.",
+        ],
+      },
     },
   },
 ];

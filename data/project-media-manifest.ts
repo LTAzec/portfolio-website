@@ -14,41 +14,14 @@ export interface ProjectMediaManifestEntry {
   galleryVideos: CaseStudyVideoRef[];
 }
 
-const JARVIS = "/projects/jarvis";
 const JANSEN = "/projects/jansen-car-detailing";
-const BOULDER = "/projects/bouldering-app";
+
+// Aria (formerly Jarvis) and BoulderBuddy (formerly "bouldering-app")
+// wire their media explicitly in data/projects.ts — their assets live
+// outside /projects/<slug>/ (under /project_afbeeldingen/<Folder>/),
+// so no manifest entry is needed for either.
 
 export const projectMediaBySlug: Record<string, ProjectMediaManifestEntry> = {
-  jarvis: {
-    card: {
-      type: "video",
-      src: `${JARVIS}/hero.mp4`,
-      alt: "Jarvis — AI assistant interface",
-    },
-    gallery: [],
-    galleryVideos: [
-      {
-        src: `${JARVIS}/chat.mp4`,
-        alt: "Jarvis chat interface",
-        caption: "chat · loop",
-      },
-      {
-        src: `${JARVIS}/demo.mp4`,
-        alt: "Jarvis demo session",
-        caption: "demo · loop",
-      },
-      {
-        src: `${JARVIS}/jarvis.mp4`,
-        alt: "Jarvis overview",
-        caption: "jarvis · loop",
-      },
-      {
-        src: `${JARVIS}/skills.mp4`,
-        alt: "Jarvis skills module",
-        caption: "skills · loop",
-      },
-    ],
-  },
   "jansen-car-detailing": {
     card: {
       type: "video",
@@ -71,31 +44,6 @@ export const projectMediaBySlug: Record<string, ProjectMediaManifestEntry> = {
         src: `${JANSEN}/about.mp4`,
         alt: "About the studio",
         caption: "about · loop",
-      },
-    ],
-  },
-  "bouldering-app": {
-    card: {
-      type: "video",
-      src: `${BOULDER}/demo.mp4`,
-      alt: "Bouldering tracker — app demo",
-    },
-    gallery: [],
-    galleryVideos: [
-      {
-        src: `${BOULDER}/app.mp4`,
-        alt: "Bouldering tracker home screen",
-        caption: "app · loop",
-      },
-      {
-        src: `${BOULDER}/log.mp4`,
-        alt: "Session logging flow",
-        caption: "log · loop",
-      },
-      {
-        src: `${BOULDER}/stats.mp4`,
-        alt: "Grade progression analytics",
-        caption: "stats · loop",
       },
     ],
   },

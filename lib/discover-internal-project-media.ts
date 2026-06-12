@@ -52,6 +52,7 @@ export function discoverInternalProjectMedia(
 export function discoverMediaFolder(
   dir: string | undefined,
   mediaOverrides?: Record<string, Partial<EditorialImageRef>>,
+  mediaOrder?: string[],
 ): DiscoveredMedia {
   if (!dir) return { images: [], videos: [] };
 
@@ -105,9 +106,25 @@ export function discoverMediaFolder(
     }
   }
 
-  // Stable order by relative path — controls visual sequence via filename.
-  images.sort((a, b) => a.src.localeCompare(b.src));
-  videos.sort((a, b) => a.src.localeCompare(b.src));
+  // Stable order. Files listed in `mediaOrder` come first in the given
+  // sequence; everything else falls back to alphabetical-by-src so a
+  // `01-…/02-…` filename convention still controls the visual order.
+  // mediaOrder lookup is keyed by bare basename — matches how
+  // mediaOverrides keys work.
+  const orderIndex = (src: string): number => {
+    if (!mediaOrder?.length) return Number.MAX_SAFE_INTEGER;
+    const name = decodeURIComponent(src.split("/").pop() ?? "");
+    const idx = mediaOrder.indexOf(name);
+    return idx >= 0 ? idx : Number.MAX_SAFE_INTEGER;
+  };
+  const cmp = (a: { src: string }, b: { src: string }) => {
+    const oa = orderIndex(a.src);
+    const ob = orderIndex(b.src);
+    if (oa !== ob) return oa - ob;
+    return a.src.localeCompare(b.src);
+  };
+  images.sort(cmp);
+  videos.sort(cmp);
 
   return { images, videos };
 }

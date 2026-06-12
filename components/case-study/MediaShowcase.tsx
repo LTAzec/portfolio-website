@@ -1,5 +1,6 @@
 "use client";
 
+import type * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
@@ -11,33 +12,27 @@ import type {
 import { cn } from "@/lib/utils";
 
 export interface MediaShowcaseProps {
-  /** Discovered media — videos + images for the project. */
   media: {
     images: EditorialImageRef[];
     videos: CaseStudyVideoRef[];
   };
-  /** Mono eyebrow label, e.g. "Visual showcase". */
   eyebrow: string;
-  /** Section heading. */
   heading: string;
-  /** Optional supporting paragraph under the heading. */
   description?: string;
-  /** Layout variant — "default" places primary on top + 2x2 below;
-   *  "split" places primary as a tall left column with stacked secondaries
-   *  on the right. Default is "default". */
-  variant?: "default" | "split";
+  /** Layout variant.
+   *  - "default": primary tile + secondary 2-col grid (Jansen-style).
+   *  - "split": tall primary left + stacked secondaries right.
+   *  - "platform-split": 2-tile asymmetric grid (lg:col-span-2 + col-span-1)
+   *    with optional labels above each tile — used for full-stack platform
+   *    case studies where a wide admin/web surface sits next to a narrow
+   *    mobile surface, each preserving its native aspect ratio. */
+  variant?: "default" | "split" | "platform-split";
 }
 
 /**
  * Non-tabbed visual showcase used by single-folder case studies (Jansen,
  * future client work). Same curation + lightbox vocabulary as
  * InternalProjectsShowcase, without the tab navigator.
- *
- *   - Up to 1 primary media (prefers video) + up to 4 secondary media
- *   - Remaining files become a subtle "+N supporting captures archived" line
- *   - Image tiles open in fullscreen lightbox on click; videos play in-place
- *   - Server-side asset discovery happens upstream — this component is
- *     purely presentational
  */
 export function MediaShowcase({
   media,
@@ -48,8 +43,6 @@ export function MediaShowcase({
 }: MediaShowcaseProps) {
   const curated = useMemo(() => curateMedia(media), [media]);
 
-  // Lightbox playlist — all images in display order. Videos are NOT in
-  // the lightbox; they autoplay inline.
   const lightboxImages = useMemo(() => {
     const out: EditorialImageRef[] = [];
     if (curated.primary?.kind === "image") out.push(curated.primary.ref);
@@ -91,6 +84,11 @@ export function MediaShowcase({
         <div className="mt-12 sm:mt-16">
           {variant === "split" ? (
             <SplitLayout curated={curated} onOpenImage={onOpenImage} />
+          ) : variant === "platform-split" ? (
+            <PlatformSplitLayout
+              curated={curated}
+              onOpenImage={onOpenImage}
+            />
           ) : (
             <DefaultLayout curated={curated} onOpenImage={onOpenImage} />
           )}
@@ -142,10 +140,6 @@ function Header({
     </div>
   );
 }
-
-/* ──────────────────────────────────────────────────────────────
-   Layouts
-   ────────────────────────────────────────────────────────────── */
 
 function DefaultLayout({
   curated,
@@ -213,9 +207,70 @@ function SplitLayout({
   );
 }
 
-/* ──────────────────────────────────────────────────────────────
-   Curation
-   ────────────────────────────────────────────────────────────── */
+/**
+ * Platform-split layout: two tiles side-by-side on desktop (lg:col-span-2 +
+ * lg:col-span-1 of a 3-col grid), stacked on mobile. Each tile gets an
+ * optional label above it (e.g. "Admin / Backend", "Mobile App") and
+ * preserves its native aspect via per-media aspect override. Used to
+ * communicate "one platform, two surfaces" in full-stack case studies.
+ *
+ * Item order: primary becomes the wide left tile, first secondary becomes
+ * the narrow right tile. Additional media are ignored — this layout is
+ * intentionally a 2-item composition.
+ */
+function PlatformSplitLayout({
+  curated,
+  onOpenImage,
+}: {
+  curated: Curated;
+  onOpenImage: (src: string) => void;
+}) {
+  // Wide left = primary; narrow right = first secondary.
+  const left = curated.primary;
+  const right = curated.secondary[0];
+
+  return (
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start lg:gap-6">
+      {left && (
+        <div className="lg:col-span-2">
+          <PlatformTile media={left} onOpenImage={onOpenImage} />
+        </div>
+      )}
+      {right && (
+        <div className="lg:col-span-1">
+          <PlatformTile media={right} onOpenImage={onOpenImage} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PlatformTile({
+  media,
+  onOpenImage,
+}: {
+  media: CuratedMedia;
+  onOpenImage: (src: string) => void;
+}) {
+  const label = media.ref.label;
+  return (
+    <div className="flex flex-col gap-4">
+      {label && (
+        <span className="text-eyebrow text-[10px] tracking-[0.14em] text-accent">
+          {label}
+        </span>
+      )}
+      <CuratedFrame
+        media={media}
+        variant="secondary"
+        onOpenImage={onOpenImage}
+        // Platform-split shows full surfaces side-by-side: never crop the
+        // video — contain inside its native aspect with a dark backdrop.
+        videoFit="contain"
+      />
+    </div>
+  );
+}
 
 type CuratedMedia =
   | { kind: "video"; ref: CaseStudyVideoRef }
@@ -231,10 +286,29 @@ function curateMedia(discovered: {
   images: EditorialImageRef[];
   videos: CaseStudyVideoRef[];
 }): Curated {
+  // Trust the discovery order — `discoverMediaFolder` already applies
+  // mediaOrder (explicit narrative sequence) with an alphabetical fallback.
+  // Re-sorting here by localeCompare would undo any explicit ordering. We
+  // still prefer a video as the primary panel — handled below.
   const all: CuratedMedia[] = [
     ...discovered.videos.map((v) => ({ kind: "video" as const, ref: v })),
     ...discovered.images.map((i) => ({ kind: "image" as const, ref: i })),
-  ].sort((a, b) => a.ref.src.localeCompare(b.ref.src));
+  ];
+
+  // All-mockup mode: when every item is an image with frame="mockup",
+  // skip the primary/secondary split — mockup tiles are already narrow
+  // and centered, a dominant primary above would look unbalanced. Render
+  // everything in the uniform 2-col grid instead.
+  const allMockup =
+    all.length > 0 &&
+    all.every((m) => m.kind === "image" && m.ref.frame === "mockup");
+  if (allMockup) {
+    return {
+      primary: undefined,
+      secondary: all.slice(0, 4),
+      hiddenCount: Math.max(0, all.length - 4),
+    };
+  }
 
   const firstVideoIdx = all.findIndex((m) => m.kind === "video");
   let primary: CuratedMedia | undefined;
@@ -248,10 +322,6 @@ function curateMedia(discovered: {
   const hiddenCount = Math.max(0, all.length - 4);
   return { primary, secondary, hiddenCount };
 }
-
-/* ──────────────────────────────────────────────────────────────
-   Frames
-   ────────────────────────────────────────────────────────────── */
 
 type FrameVariant = "primary" | "secondary" | "split-primary" | "split-secondary";
 
@@ -268,18 +338,33 @@ function aspectFor(v: FrameVariant): string {
   }
 }
 
+/** True when a Tailwind aspect class (e.g. "aspect-[9/16]") is taller than
+ *  it is wide. Used to center+cap portrait video tiles under contain. */
+function isPortraitAspect(aspect: string): boolean {
+  const m = aspect.match(/aspect-\[(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)\]/);
+  if (!m) return false;
+  return Number(m[1]) < Number(m[2]);
+}
+
 function CuratedFrame({
   media,
   variant,
   onOpenImage,
+  videoFit = "cover",
 }: {
   media: CuratedMedia;
   variant: FrameVariant;
   onOpenImage: (src: string) => void;
+  /** How videos fill their frame. "contain" preserves the full native
+   *  aspect (no crop) — used by platform-split. Defaults to "cover". */
+  videoFit?: "cover" | "contain";
 }) {
-  const aspect = aspectFor(variant);
+  // Per-image aspect override (set via mediaOverrides) wins over the
+  // variant default — lets long text screenshots take a taller frame
+  // without affecting neighbouring tiles.
+  const aspect = media.ref.aspect ?? aspectFor(variant);
   if (media.kind === "video") {
-    return <VideoTile video={media.ref} aspect={aspect} />;
+    return <VideoTile video={media.ref} aspect={aspect} fit={videoFit} />;
   }
   return (
     <ImageTile
@@ -294,16 +379,31 @@ function CuratedFrame({
 function VideoTile({
   video,
   aspect,
+  fit = "cover",
 }: {
   video: CaseStudyVideoRef;
   aspect: string;
+  /** "contain" shows the whole video in its native aspect (no crop) and
+   *  drops the default baseline zoom; "cover" fills the frame. */
+  fit?: "cover" | "contain";
 }) {
+  const isContain = fit === "contain";
+  // Portrait surfaces (e.g. the mobile 9/16 loop) shouldn't stretch to the
+  // full column width — cap and center so the tile reads like a device card.
+  const isPortrait = isPortraitAspect(aspect);
   return (
-    <figure className="flex flex-col gap-3">
+    <figure
+      className={cn(
+        "flex flex-col gap-3",
+        isContain && isPortrait && "mx-auto w-full max-w-[300px]",
+      )}
+    >
       <div
         className={cn(
           "ring-highlight relative w-full overflow-hidden rounded-xl border border-border bg-charcoal-strong shadow-[0_22px_56px_-26px_rgba(0,0,0,0.7)]",
-          aspect,
+          // Cover owns the aspect; contain hands it to the video element so
+          // the bordered frame shrink-wraps it with no surrounding letterbox.
+          !isContain && aspect,
         )}
       >
         <video
@@ -315,7 +415,31 @@ function VideoTile({
           playsInline
           preload="metadata"
           aria-label={video.alt}
-          className="h-full w-full scale-[1.02] object-cover will-change-transform"
+          className={cn(
+            "will-change-transform",
+            // Contain: no forced aspect box — the video sizes to its own
+            // intrinsic ratio (h-auto) so the bordered frame wraps the real
+            // pixels exactly, with no pillarbox/letterbox gap. object-contain
+            // only guards the brief poster paint before autoplay.
+            isContain
+              ? "block h-auto w-full object-contain"
+              : "h-full w-full object-cover",
+            // Default baseline scale only under cover, and only when no
+            // per-video zoom override. Contain must never scale or it
+            // would crop the very edges we're trying to preserve.
+            !isContain && video.zoom === undefined && "scale-[1.02]",
+          )}
+          style={
+            !isContain && (video.zoom !== undefined || video.objectPosition)
+              ? {
+                  transform:
+                    video.zoom !== undefined
+                      ? `scale(${video.zoom})`
+                      : undefined,
+                  objectPosition: video.objectPosition,
+                }
+              : undefined
+          }
         />
       </div>
       {video.caption && (
@@ -346,7 +470,28 @@ function ImageTile({
       ? "(min-width: 1024px) 700px, 100vw"
       : "(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw";
 
-  return (
+  // "contain" preserves the full screenshot (no cropping) — used for
+  // long text-output captures. We drop the hover-scale and mask overlay
+  // for contained images: scaling a letterboxed image looks off, and a
+  // gradient mask over visible letterbox bars adds noise.
+  // Mockup defaults to contain; explicit fit="cover" wins so a product
+  // screenshot can tight-crop inside the same narrow centered mockup card.
+  const isMockup = image.frame === "mockup";
+  const isContain =
+    image.fit === "contain" || (image.fit === undefined && isMockup);
+  const imageClasses = isContain
+    ? "object-contain"
+    : "object-cover transition-transform duration-500 group-hover:scale-[1.025]";
+
+  // Optional crop refinement: objectPosition + zoom give tight-crop
+  // control under cover (lets a product screenshot fill the frame past
+  // its own empty padding). Both no-op when undefined.
+  const imageStyle: React.CSSProperties = {};
+  if (image.objectPosition) imageStyle.objectPosition = image.objectPosition;
+  if (image.zoom && image.zoom !== 1)
+    imageStyle.transform = `scale(${image.zoom})`;
+
+  const inner = (
     <figure className="flex flex-col gap-3">
       <button
         type="button"
@@ -362,9 +507,14 @@ function ImageTile({
           alt={image.alt}
           fill
           sizes={sizes}
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+          className={imageClasses}
+          style={
+            Object.keys(imageStyle).length > 0 ? imageStyle : undefined
+          }
         />
-        {image.mask && image.mask !== "none" && <MaskOverlay mask={image.mask} />}
+        {!isContain && image.mask && image.mask !== "none" && (
+          <MaskOverlay mask={image.mask} />
+        )}
         {image.blurZones?.map((zone, i) => (
           <div
             key={i}
@@ -394,6 +544,13 @@ function ImageTile({
       )}
     </figure>
   );
+
+  // Mockup tiles render as a narrow centered portrait card within their
+  // grid cell — caller's grid layout still controls column count.
+  if (isMockup) {
+    return <div className="mx-auto w-full max-w-[440px]">{inner}</div>;
+  }
+  return inner;
 }
 
 function MaskOverlay({
