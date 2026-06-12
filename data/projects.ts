@@ -40,11 +40,15 @@ const AZ_PROJECT_SERVICEDESK = `${AZ_PROJECTS_BASE}/ServiceDesk%20Dashboard`;
 const baseProjects: Project[] = [
   {
     slug: "az-turnhout-tooling",
-    title: "AZ Turnhout — internal tooling",
-    tagline:
+    title: loc("AZ Turnhout — internal tooling", "AZ Turnhout — interne tooling"),
+    tagline: loc(
       "Internal applications and migration tooling for the AZ Turnhout pharmacy compounding workflow.",
-    description:
+      "Interne applicaties en migratietooling voor het bereidingsproces van de apotheek van AZ Turnhout.",
+    ),
+    description: loc(
       "A focused suite of internal tools around the AZ Turnhout pharmacy compounding workflow — a SQL Server back-end with a repository layer of stored procedures, a Python pipeline that migrates legacy FileMaker data into the new schema, and an internal CLI for AD-bound Microsoft 365 license management.",
+      "Een gerichte set interne tools rond het bereidingsproces van de apotheek van AZ Turnhout — een SQL Server-backend met een repository-laag van stored procedures, een Python-pipeline die de oude FileMaker-data naar het nieuwe schema migreert, en een interne CLI voor Microsoft 365-licentiebeheer gekoppeld aan Active Directory.",
+    ),
     role: "Developer",
     year: 2025,
     stack: [
@@ -55,11 +59,18 @@ const baseProjects: Project[] = [
       "PowerShell",
       "Tailwind",
     ],
-    highlights: [
-      "Repository-style stored-procedure layer on SQL Server — Activate · Delete · Filter · Get · Insert · Sorteer · Update per entity",
-      "Idempotent migration pipeline from a legacy FileMaker export through a normalised xlsx staging layer into SQL Server",
-      "Audit-friendly logging on every preparation, with strict per-entity permissions",
-    ],
+    highlights: locArr(
+      [
+        "Repository-style stored-procedure layer on SQL Server — Activate · Delete · Filter · Get · Insert · Sorteer · Update per entity",
+        "Idempotent migration pipeline from a legacy FileMaker export through a normalised xlsx staging layer into SQL Server",
+        "Audit-friendly logging on every preparation, with strict per-entity permissions",
+      ],
+      [
+        "Repository-laag van stored procedures op SQL Server — Activate · Delete · Filter · Get · Insert · Sorteer · Update per entiteit",
+        "Idempotente migratiepipeline van een oude FileMaker-export via een genormaliseerde xlsx-staginglaag naar SQL Server",
+        "Controleerbare logging bij elke bereiding, met strikte rechten per entiteit",
+      ],
+    ),
     status: "private",
     featured: true,
     accent: "cyan",
@@ -71,14 +82,22 @@ const baseProjects: Project[] = [
       alt: "AZ Turnhout internal tooling — product preview",
     },
     caseStudy: {
-      overview:
+      overview: loc(
         "AZ Turnhout is a regional Belgian hospital. The brief was a small set of internal applications around the pharmacy's preparation logbook — replacing a long-running FileMaker setup with a SQL Server back-end, a Next.js front-end for daily use, and the surrounding migration and operations tooling.",
-      problem:
+        "AZ Turnhout is een regionaal Belgisch ziekenhuis. De opdracht was een kleine set interne applicaties rond het bereidingslogboek van de apotheek — een jarenlange FileMaker-opzet vervangen door een SQL Server-backend, een Next.js-frontend voor dagelijks gebruik en de bijbehorende migratie- en beheertooling.",
+      ),
+      problem: loc(
         "The pharmacy ran on a legacy FileMaker database with growing edge-cases, fragile reporting, and no clean way to introduce new workflows. Data integrity drifted over time and onboarding new staff to the existing system was slow.",
-      solution:
+        "De apotheek draaide op een verouderde FileMaker-database met steeds meer randgevallen, kwetsbare rapportage en geen nette manier om nieuwe workflows toe te voegen. De data-integriteit liep na verloop van tijd weg en nieuwe medewerkers inwerken op het bestaande systeem ging traag.",
+      ),
+      solution: loc(
         "A new SQL Server schema with a repository layer of stored procedures, a Next.js front-end that maps cleanly onto those operations, and a Python migration pipeline that converts the FileMaker export into normalised, idempotent SQL inserts. Alongside the main app, an internal CLI handles AD-bound Microsoft 365 licence assignments for endpoints.",
-      result:
+        "Een nieuw SQL Server-schema met een repository-laag van stored procedures, een Next.js-frontend die netjes op die operaties aansluit, en een Python-migratiepipeline die de FileMaker-export omzet naar genormaliseerde, idempotente SQL-inserts. Naast de hoofdapplicatie regelt een interne CLI de toewijzing van Microsoft 365-licenties, gekoppeld aan Active Directory.",
+      ),
+      result: loc(
         "Compounding records, stamdata and inventory now live in a single auditable system. Migration runs are repeatable; legacy data was lifted across without manual reconciliation. The pharmacy team works from a UI built for their actual workflow rather than a generic admin panel.",
+        "Bereidingsgegevens, stamdata en voorraad zitten nu in één controleerbaar systeem. Migraties zijn herhaalbaar; de oude data werd overgezet zonder handmatige correctie. Het apotheekteam werkt vanuit een UI die op hun echte workflow is gebouwd, niet vanuit een generiek adminpaneel.",
+      ),
 
       /* ──────────────────────────────────────────────────────────
          Long-form editorial layout
@@ -450,11 +469,18 @@ const baseProjects: Project[] = [
   },
   {
     slug: "aria",
-    title: "Aria — Adaptive Residential Intelligence Architecture",
-    tagline:
+    title: loc(
+      "Aria — Adaptive Residential Intelligence Architecture",
+      "Aria — Adaptive Residential Intelligence Architecture",
+    ),
+    tagline: loc(
       "An adaptive AI assistant architecture for voice interaction, local commands and a growing home-automation ecosystem.",
-    description:
+      "Een adaptieve AI-assistentarchitectuur voor spraakinteractie, lokale commando's en een groeiend domotica-ecosysteem.",
+    ),
+    description: loc(
       "Aria — short for Adaptive Residential Intelligence Architecture — is a personal AI runtime built around voice-first interaction, modular skills and structured tool use. Not a chatbot, but a small ecosystem designed to grow into a residential intelligence layer over time.",
+      "Aria — kort voor Adaptive Residential Intelligence Architecture — is een persoonlijke AI-runtime gebouwd rond voice-first interactie, modulaire skills en gestructureerde tool use. Geen chatbot, maar een klein ecosysteem dat na verloop van tijd moet uitgroeien tot een intelligentielaag voor in huis.",
+    ),
     role: "Creator",
     year: 2025,
     stack: [
@@ -465,11 +491,18 @@ const baseProjects: Project[] = [
       "Text-to-speech",
       "Tool use",
     ],
-    highlights: [
-      "Voice-first interaction with structured tool use for real local commands",
-      "Modular skill architecture — capabilities plug in without touching the runtime",
-      "Designed to grow into a residential / home-automation intelligence layer",
-    ],
+    highlights: locArr(
+      [
+        "Voice-first interaction with structured tool use for real local commands",
+        "Modular skill architecture — capabilities plug in without touching the runtime",
+        "Designed to grow into a residential / home-automation intelligence layer",
+      ],
+      [
+        "Voice-first interactie met gestructureerde tool use voor echte lokale commando's",
+        "Modulaire skill-architectuur — mogelijkheden klikken erin zonder de runtime aan te raken",
+        "Ontworpen om uit te groeien tot een intelligentielaag voor domotica in huis",
+      ],
+    ),
     status: "in-progress",
     featured: true,
     accent: "blue",
@@ -483,14 +516,22 @@ const baseProjects: Project[] = [
       alt: "Aria — voice interaction demo",
     },
     caseStudy: {
-      overview:
+      overview: loc(
         "Aria — Adaptive Residential Intelligence Architecture — is a personal AI assistant project being built into a residential intelligence layer. The focus is not a chat window, but a runtime that handles voice, tool execution and a growing set of skill modules.",
-      problem:
+        "Aria — Adaptive Residential Intelligence Architecture — is een persoonlijk AI-assistentproject dat uitgroeit tot een intelligentielaag voor in huis. De focus ligt niet op een chatvenster, maar op een runtime die spraak, tooluitvoering en een groeiende set skill-modules afhandelt.",
+      ),
+      problem: loc(
         "Mainstream assistants stop at conversation. Home-automation lives behind a dozen vendor apps. Voice interfaces are only useful when they actually do something — execute a local command, open an app, trigger a workflow.",
-      solution:
+        "Gangbare assistenten blijven steken bij een gesprek. Domotica zit achter een tiental aparte apps. Voice-interfaces zijn pas nuttig als ze echt iets dóén — een lokaal commando uitvoeren, een app openen, een workflow starten.",
+      ),
+      solution: loc(
         "A modular runtime with three clean seams: voice I/O (speech-to-text → intent, then text-to-speech back), a tool/router layer that maps intents to real actions, and skill modules that own their own domain. Each layer can evolve independently without breaking the others.",
-      result:
+        "Een modulaire runtime met drie heldere naden: voice-I/O (speech-to-text → intentie, daarna text-to-speech terug), een tool-/routerlaag die intenties aan echte acties koppelt, en skill-modules die hun eigen domein beheren. Elke laag kan apart evolueren zonder de andere te breken.",
+      ),
+      result: loc(
         "An evolving personal AI ecosystem. The current build handles voice interaction, structured tool use, and a starter set of local commands. Direction matters more than feature count — this is an architecture to grow into, not a launched product.",
+        "Een groeiend persoonlijk AI-ecosysteem. De huidige build verzorgt spraakinteractie, gestructureerde tool use en een eerste set lokale commando's. Richting telt meer dan het aantal features — dit is een architectuur om in te groeien, geen gelanceerd product.",
+      ),
 
       /* ──────────────────────────────────────────────────────────
          Long-form editorial layout — split hero with the demo video
@@ -653,18 +694,30 @@ const baseProjects: Project[] = [
   },
   {
     slug: "jansen-car-detailing",
-    title: "Jansen Car Detailing",
-    tagline: "A premium marketing site for a local detailing studio.",
-    description:
+    title: loc("Jansen Car Detailing", "Jansen Car Detailing"),
+    tagline: loc(
+      "A premium marketing site for a local detailing studio.",
+      "Een premium marketingsite voor een lokale detailingstudio.",
+    ),
+    description: loc(
       "A modern, conversion-focused website for Jansen Car Detailing — clear service presentation, polished mobile experience, and content that's easy for the owner to maintain. Built to feel as premium as the work.",
+      "Een moderne, conversiegerichte website voor Jansen Car Detailing — heldere dienstpresentatie, een verzorgde mobiele ervaring en content die de eigenaar makkelijk zelf bijhoudt. Gebouwd om net zo premium aan te voelen als het werk zelf.",
+    ),
     role: "Developer & Designer",
     year: 2025,
     stack: ["Next.js", "TypeScript", "Tailwind"],
-    highlights: [
-      "Premium dark editorial design tuned to the automotive detailing audience",
-      "Mobile-first — bookings and quote requests fit a single thumb path",
-      "Structured service catalogue the owner can extend without developer help",
-    ],
+    highlights: locArr(
+      [
+        "Premium dark editorial design tuned to the automotive detailing audience",
+        "Mobile-first — bookings and quote requests fit a single thumb path",
+        "Structured service catalogue the owner can extend without developer help",
+      ],
+      [
+        "Premium donker, editoriaal ontwerp afgestemd op het detailingpubliek",
+        "Mobile-first — boekingen en offerteaanvragen passen binnen één duimbeweging",
+        "Gestructureerde dienstencatalogus die de eigenaar zelf kan uitbreiden, zonder developer",
+      ],
+    ),
     status: "live",
     featured: true,
     accent: "cyan",
@@ -674,14 +727,22 @@ const baseProjects: Project[] = [
       live: "https://jansencardetailing.be",
     },
     caseStudy: {
-      overview:
+      overview: loc(
         "Jansen Car Detailing is a Belgian detailing studio. The brief was a marketing site that feels as premium as the work — clear service presentation, fast mobile experience, and content the owner can maintain.",
-      problem:
+        "Jansen Car Detailing is een Belgische detailingstudio. De opdracht was een marketingsite die net zo premium aanvoelt als het werk — heldere dienstpresentatie, een snelle mobiele ervaring en content die de eigenaar zelf kan beheren.",
+      ),
+      problem: loc(
         "An ageing site that didn't reflect the quality of the actual detailing work. Conversion was low; the owner couldn't update copy without developer help.",
-      solution:
+        "Een verouderde site die de kwaliteit van het echte detailingwerk niet weerspiegelde. De conversie was laag en de eigenaar kon teksten niet aanpassen zonder hulp van een developer.",
+      ),
+      solution: loc(
         "A fresh marketing site with a structured service catalogue, polished mobile experience, and a content layer the owner controls directly. Built with Next.js and Tailwind for fast loads on mobile networks.",
-      result:
+        "Een frisse marketingsite met een gestructureerde dienstencatalogus, een verzorgde mobiele ervaring en een contentlaag die de eigenaar zelf beheert. Gebouwd met Next.js en Tailwind voor snelle laadtijden op mobiele netwerken.",
+      ),
+      result: loc(
         "Visibly more bookings, more direct contact through the site, and a maintenance workflow that no longer requires developer involvement for ordinary content updates.",
+        "Zichtbaar meer boekingen, meer direct contact via de site en een onderhoudsproces waarbij een developer niet langer nodig is voor gewone contentupdates.",
+      ),
 
       /* ──────────────────────────────────────────────────────────
          Long-form editorial layout — premium frontend / client showcase
@@ -826,19 +887,33 @@ const baseProjects: Project[] = [
   },
   {
     slug: "climbing-training-tool",
-    title: "Climbing Training Plan Generator",
-    tagline:
+    title: loc(
+      "Climbing Training Plan Generator",
+      "Generator voor klimtrainingsschema's",
+    ),
+    tagline: loc(
       "A web tool that turns a six-question form into a personalised indoor climbing plan.",
-    description:
+      "Een webtool die een formulier van zes vragen omzet in een persoonlijk indoor-klimschema.",
+    ),
+    description: loc(
       "A small web tool I built for my own climbing — six inputs in (level, current grade, target grade, training days, goal, optional injuries), one structured weekly plan out. Practical sport tech, not a SaaS, not a metric chart.",
+      "Een kleine webtool die ik voor mijn eigen klimmen bouwde — zes invoervelden in (niveau, huidige graad, doelgraad, trainingsdagen, doel, optionele blessures), één gestructureerd weekschema uit. Praktische sporttech, geen SaaS, geen grafiek met cijfers.",
+    ),
     role: "Creator",
     year: 2025,
     stack: ["React", "TypeScript", "Tailwind", "Vercel"],
-    highlights: [
-      "Form-driven plan generation — six inputs in, structured weekly routine out",
-      "Domain-aware logic — grade progression mapped to realistic training load",
-      "Deployed on Vercel with a clean, minimal product surface",
-    ],
+    highlights: locArr(
+      [
+        "Form-driven plan generation — six inputs in, structured weekly routine out",
+        "Domain-aware logic — grade progression mapped to realistic training load",
+        "Deployed on Vercel with a clean, minimal product surface",
+      ],
+      [
+        "Formuliergedreven schemageneratie — zes invoervelden in, een gestructureerde weekroutine uit",
+        "Domeingerichte logica — graadprogressie gekoppeld aan een realistische trainingsbelasting",
+        "Uitgerold op Vercel met een strak, minimaal productoppervlak",
+      ],
+    ),
     status: "live",
     featured: true,
     accent: "violet",
@@ -854,14 +929,22 @@ const baseProjects: Project[] = [
       alt: "Climbing Training Plan Generator — form view",
     },
     caseStudy: {
-      overview:
+      overview: loc(
         "A web tool that takes a short form — climbing level, current grade, target grade, weekly availability, goal, optional injuries — and returns a structured indoor climbing plan. Built as a personal training utility, deployed on Vercel.",
-      problem:
+        "Een webtool die een kort formulier — klimniveau, huidige graad, doelgraad, wekelijkse beschikbaarheid, doel, optionele blessures — omzet in een gestructureerd indoor-klimschema. Gebouwd als persoonlijke trainingstool, uitgerold op Vercel.",
+      ),
+      problem: loc(
         "Generic fitness apps don't speak climbing. Climbing-specific resources are scattered across forums, coach articles and PDFs. None of them ask the right inputs and return something you can act on this week.",
-      solution:
+        "Generieke fitness-apps spreken de taal van klimmen niet. Klimspecifieke kennis ligt verspreid over forums, coachartikelen en pdf's. Geen ervan vraagt de juiste input en geeft iets terug waar je deze week mee aan de slag kunt.",
+      ),
+      solution: loc(
         "A single-page web form that gathers the inputs that actually matter for indoor climbing — level, grades, schedule, goal, limitations — and outputs a structured plan tuned to the climber's current state instead of a generic template.",
-      result:
+        "Een webformulier op één pagina dat de input verzamelt die er voor indoor klimmen echt toe doet — niveau, graden, schema, doel, beperkingen — en een gestructureerd schema teruggeeft dat is afgestemd op de huidige staat van de klimmer in plaats van een generiek sjabloon.",
+      ),
+      result: loc(
         "I use it for my own training cycles. The form-to-plan loop is fast enough to re-run when a goal changes mid-cycle; the output is structured enough to follow without re-reading every session.",
+        "Ik gebruik het voor mijn eigen trainingscycli. De stap van formulier naar schema gaat snel genoeg om opnieuw te draaien wanneer een doel halverwege verandert; de uitvoer is gestructureerd genoeg om te volgen zonder elke sessie opnieuw te lezen.",
+      ),
 
       /* ──────────────────────────────────────────────────────────
          Long-form editorial layout — compact personal sport-tech tool
@@ -1077,8 +1160,8 @@ const baseProjects: Project[] = [
       "Een full-stack boulderplatform — Next.js-admin + Prisma/PostgreSQL-backend + Expo-mobiele app voor klimmers.",
     ),
     description: loc(
-      "BoulderBuddy is a full-stack platform for indoor bouldering — a Next.js admin/backend and an Expo/React Native mobile app sharing a single Prisma/PostgreSQL schema. Auth + role-based access, gym → wall → sector → boulder content model, session logs and lightweight social (likes + comments), with a demo dataset of real climbing media.",
-      "BoulderBuddy is een full-stack platform voor indoor bouldering — een Next.js-admin/backend en een mobiele Expo/React Native-app die één Prisma/PostgreSQL-schema delen. Authenticatie + rolgebaseerde toegang, een gym → muur → sector → boulder-datamodel, sessielogs en lichte sociale functies (likes + reacties), met een demodataset vol echte klimmedia.",
+      "BoulderBuddy is a full-stack platform for indoor bouldering — a Next.js admin/backend and an Expo/React Native mobile app sharing a single Prisma/PostgreSQL schema. Auth + role-based access, gym → wall → sector → boulder content model, route interactions, media, likes and comments, with a demo dataset of real climbing media.",
+      "BoulderBuddy is een full-stack platform voor indoor bouldering — een Next.js-admin/backend en een mobiele Expo/React Native-app die één Prisma/PostgreSQL-schema delen. Authenticatie + rolgebaseerde toegang, een gym → muur → sector → boulder-datamodel, route-interacties, media, likes en reacties, met een demodataset vol echte klimmedia.",
     ),
     role: "Creator",
     year: 2025,
@@ -1094,12 +1177,12 @@ const baseProjects: Project[] = [
     highlights: locArr(
       [
         "Full-stack — Next.js admin/backend + Expo/React Native mobile app sharing one Prisma schema",
-        "Domain model: gyms, walls, sectors, boulders, sessions, logs, likes, comments — with role-based access",
+        "Domain model: gyms, walls, sectors, boulders, route interactions, media, likes, comments — with role-based access",
         "Demo dataset with real climbing photos and video — production-shaped, not lorem ipsum",
       ],
       [
         "Full-stack — Next.js-admin/backend + mobiele Expo/React Native-app op één gedeeld Prisma-schema",
-        "Datamodel: gyms, muren, sectoren, boulders, sessies, logs, likes en reacties — met rolgebaseerde toegang",
+        "Datamodel: gyms, muren, sectoren, boulders, route-interacties, media, likes en reacties — met rolgebaseerde toegang",
         "Demodataset met echte klimfoto's en -video — productie-waardig, geen lorem ipsum",
       ],
     ),
@@ -1130,16 +1213,16 @@ const baseProjects: Project[] = [
     },
     caseStudy: {
       overview: loc(
-        "BoulderBuddy is an in-progress full-stack platform for indoor bouldering. A Next.js admin and Expo mobile client share a single PostgreSQL/Prisma schema — gyms, walls, sectors, boulders, sessions, logs, likes and comments — with role-based access and a demo dataset of real climbing media.",
-        "BoulderBuddy is een full-stack platform voor indoor bouldering dat nog volop in ontwikkeling is. Een Next.js-admin en een mobiele Expo-client delen één PostgreSQL/Prisma-schema — gyms, muren, sectoren, boulders, sessies, logs, likes en reacties — met rolgebaseerde toegang en een demodataset vol echte klimmedia.",
+        "BoulderBuddy is an in-progress full-stack platform for indoor bouldering. A Next.js admin and Expo mobile client share a single PostgreSQL/Prisma schema — gyms, walls, sectors, boulders, route interactions, media, likes and comments — with role-based access and a demo dataset of real climbing media.",
+        "BoulderBuddy is een full-stack platform voor indoor bouldering dat nog volop in ontwikkeling is. Een Next.js-admin en een mobiele Expo-client delen één PostgreSQL/Prisma-schema — gyms, muren, sectoren, boulders, route-interacties, media, likes en reacties — met rolgebaseerde toegang en een demodataset vol echte klimmedia.",
       ),
       problem: loc(
         "Existing climbing apps split badly between consumer-facing trackers and gym-admin tools that look like a forgotten spreadsheet. Climbers want a clean mobile experience; gyms want a real CMS for walls, sectors and routes; both need the same underlying content to stay in sync.",
         "Bestaande klim-apps vallen slecht uiteen: aan de ene kant trackers voor klimmers, aan de andere kant gym-admintools die op een vergeten spreadsheet lijken. Klimmers willen een strakke mobiele ervaring; gyms willen een echt CMS voor muren, sectoren en routes; allebei hebben ze dezelfde onderliggende content nodig die synchroon blijft.",
       ),
       solution: loc(
-        "One Prisma schema, two front-ends. The Next.js admin is the operator surface — manage gyms, walls, sectors, boulders, accounts, roles, demo data. The Expo mobile app is the climber surface — browse, log sessions, react to other climbers' send notes. Auth + roles gate what each side can do.",
-        "Eén Prisma-schema, twee front-ends. De Next.js-admin is de beheerderskant — beheer gyms, muren, sectoren, boulders, accounts, rollen en demodata. De mobiele Expo-app is de klimmerskant — bladeren, sessies loggen, reageren op de sendnotities van andere klimmers. Authenticatie + rollen bepalen wat elke kant mag.",
+        "One Prisma schema, two front-ends. The Next.js admin is the operator surface — manage gyms, walls, sectors, boulders, accounts, roles, demo data. The Expo mobile app is the climber surface — browse, interact with routes, add media, react to other climbers' notes. Auth + roles gate what each side can do.",
+        "Eén Prisma-schema, twee front-ends. De Next.js-admin is de beheerderskant — beheer gyms, muren, sectoren, boulders, accounts, rollen en demodata. De mobiele Expo-app is de klimmerskant — bladeren, met routes interacteren, media toevoegen, reageren op de notities van andere klimmers. Authenticatie + rollen bepalen wat elke kant mag.",
       ),
       result: loc(
         "A working demo of both surfaces with a populated dataset. Admin handles real CRUD on the climbing content model; mobile renders that same data with a focused logging flow. The platform is still in progress, but the core architecture earns its keep already.",
@@ -1242,8 +1325,8 @@ const baseProjects: Project[] = [
             eyebrow: loc("What it has", "Wat het heeft"),
             heading: loc("Built today", "Wat er nu staat"),
             description: loc(
-              "The current shape of the platform — not a wishlist. Auth, the content model, session logs and social are all in the demo dataset; mobile renders the same data the admin curates.",
-              "De huidige vorm van het platform — geen verlanglijst. Authenticatie, het datamodel, sessielogs en sociale functies zitten allemaal in de demodataset; mobiel toont dezelfde data die de admin beheert.",
+              "The current shape of the platform — not a wishlist. Auth, the content model, route interactions, media and social are all in the demo dataset; mobile renders the same data the admin curates.",
+              "De huidige vorm van het platform — geen verlanglijst. Authenticatie, het datamodel, route-interacties, media en sociale functies zitten allemaal in de demodataset; mobiel toont dezelfde data die de admin beheert.",
             ),
           },
           results: {
@@ -1296,24 +1379,24 @@ const baseProjects: Project[] = [
             eyebrow: "02 · PostgreSQL + Prisma",
             title: loc("Shared data model", "Gedeeld datamodel"),
             description: loc(
-              "One PostgreSQL database, one Prisma schema. The model encodes the real climbing hierarchy — gym → wall → sector → boulder — plus accounts, sessions, logs, likes and comments. The generated Prisma client is the same on both ends, so types stay aligned.",
-              "Eén PostgreSQL-database, één Prisma-schema. Het model legt de echte klimhiërarchie vast — gym → muur → sector → boulder — plus accounts, sessies, logs, likes en reacties. De gegenereerde Prisma-client is aan beide kanten dezelfde, zodat de types op elkaar afgestemd blijven.",
+              "One PostgreSQL database, one Prisma schema. The model encodes the real climbing hierarchy — gym → wall → sector → boulder — plus accounts, route interactions, media, likes and comments. The generated Prisma client is the same on both ends, so types stay aligned.",
+              "Eén PostgreSQL-database, één Prisma-schema. Het model legt de echte klimhiërarchie vast — gym → muur → sector → boulder — plus accounts, route-interacties, media, likes en reacties. De gegenereerde Prisma-client is aan beide kanten dezelfde, zodat de types op elkaar afgestemd blijven.",
             ),
           },
           {
             eyebrow: "03 · Expo / React Native",
             title: loc("Mobile climber surface", "Mobiele klimmerskant"),
             description: loc(
-              "Expo + React Native client for the climber-facing flow. Browse gyms and walls, see boulders, log session attempts, react to other climbers' sends. Shares its data shape with the admin via the generated Prisma types — the API contract is one source of truth.",
-              "Een Expo + React Native-client voor de klimmersflow. Blader door gyms en muren, bekijk boulders, log sessiepogingen en reageer op de sends van andere klimmers. Deelt zijn datavorm met de admin via de gegenereerde Prisma-types — het API-contract is één bron van waarheid.",
+              "Expo + React Native client for the climber-facing flow. Browse gyms and walls, see boulders, interact with routes, react to other climbers' sends. Shares its data shape with the admin via the generated Prisma types — the API contract is one source of truth.",
+              "Een Expo + React Native-client voor de klimmersflow. Blader door gyms en muren, bekijk boulders, interacteer met routes en reageer op de sends van andere klimmers. Deelt zijn datavorm met de admin via de gegenereerde Prisma-types — het API-contract is één bron van waarheid.",
             ),
           },
           {
             eyebrow: loc("04 · Auth + role layer", "04 · Auth- en rollenlaag"),
             title: loc("Who can see what", "Wie wat mag zien"),
             description: loc(
-              "Role-based access threaded through both surfaces. Admins manage the whole content tree; gym staff scope to their own gym; climbers see public content and their own session history. The same auth identity works across web admin and mobile.",
-              "Rolgebaseerde toegang door beide kanten heen. Admins beheren de hele contentboom; gymmedewerkers blijven bij hun eigen gym; klimmers zien publieke content en hun eigen sessiegeschiedenis. Dezelfde auth-identiteit werkt over de web-admin en mobiel heen.",
+              "Role-based access threaded through both surfaces. Admins manage the whole content tree; gym staff scope to their own gym; climbers see public content and their own route history. The same auth identity works across web admin and mobile.",
+              "Rolgebaseerde toegang door beide kanten heen. Admins beheren de hele contentboom; gymmedewerkers blijven bij hun eigen gym; klimmers zien publieke content en hun eigen route-geschiedenis. Dezelfde auth-identiteit werkt over de web-admin en mobiel heen.",
             ),
           },
         ],
@@ -1338,18 +1421,18 @@ const baseProjects: Project[] = [
           },
           {
             index: "03",
-            title: loc("Session logs", "Sessielogs"),
+            title: loc("Route interactions & media", "Route-interacties en media"),
             body: loc(
-              "Climbers log attempts and sends against specific boulders. The model captures session date, climber, boulder, attempt count and outcome — enough to render a personal history and feed any future analytics.",
-              "Klimmers loggen pogingen en sends op specifieke boulders. Het model legt sessiedatum, klimmer, boulder, aantal pogingen en uitkomst vast — genoeg voor een persoonlijke geschiedenis en input voor toekomstige analytics.",
+              "Climbers record how they interact with each boulder — tried, projecting, sent — and can attach media. The model ties each interaction to a climber, boulder and date, enough to render a personal history and feed any future analytics.",
+              "Klimmers leggen vast hoe ze met elke boulder omgaan — geprobeerd, aan het projecteren, gesend — en kunnen er media aan koppelen. Het model koppelt elke interactie aan een klimmer, boulder en datum — genoeg voor een persoonlijke geschiedenis en input voor toekomstige analytics.",
             ),
           },
           {
             index: "04",
             title: loc("Likes + comments", "Likes + reacties"),
             body: loc(
-              "Lightweight social on the climbing content. Climbers can react to a boulder or another climber's session note. Kept deliberately small — this is a tracker with a community layer, not a social network.",
-              "Lichte sociale functies op de klimcontent. Klimmers kunnen reageren op een boulder of op de sessienotitie van een andere klimmer. Bewust klein gehouden — dit is een tracker met een communitylaag, geen sociaal netwerk.",
+              "Lightweight social on the climbing content. Climbers can react to a boulder or another climber's note. Kept deliberately small — this is a tracker with a community layer, not a social network.",
+              "Lichte sociale functies op de klimcontent. Klimmers kunnen reageren op een boulder of op de notitie van een andere klimmer. Bewust klein gehouden — dit is een tracker met een communitylaag, geen sociaal netwerk.",
             ),
           },
           {

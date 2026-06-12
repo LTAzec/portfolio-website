@@ -16,6 +16,7 @@ import { getProjects } from "@/data/projects";
 import { resolveProjectsCardMedia } from "@/lib/resolve-project-media";
 import { capabilities } from "@/data/capabilities";
 import { experience } from "@/data/experience";
+import { resolveLocalizedDeep } from "@/lib/i18n";
 import { routing } from "@/i18n/routing";
 import { site } from "@/data/site";
 
@@ -49,6 +50,15 @@ export default async function AboutPage({
     : routing.defaultLocale;
   const t = await getTranslations("aboutPage");
 
+  // Resolve the bilingual data files for the active locale before passing
+  // to the (unchanged) presentational components.
+  const chips = resolveLocalizedDeep(roleChips, activeLocale);
+  const profile = resolveLocalizedDeep(profileParagraphs, activeLocale);
+  const focus = resolveLocalizedDeep(focusAreas, activeLocale);
+  const stack = resolveLocalizedDeep(capabilities, activeLocale);
+  const work = resolveLocalizedDeep(workEntries, activeLocale);
+  const education = resolveLocalizedDeep(educationEntries, activeLocale);
+
   const resolvedShelfProjects = resolveProjectsCardMedia(
     getProjects(activeLocale),
   );
@@ -60,7 +70,7 @@ export default async function AboutPage({
         index="02"
         eyebrow={t("heroEyebrow")}
         title={site.founder}
-        chips={roleChips}
+        chips={chips}
         intro={t("heroIntro")}
         availability={`${site.location} · ${site.availability}`}
         portrait={{
@@ -85,7 +95,7 @@ export default async function AboutPage({
               </h2>
             </div>
             <div className="flex flex-col gap-5 text-[16px] leading-[1.7] text-foreground/90 lg:col-span-8 sm:text-[17px] sm:leading-[1.72]">
-              {profileParagraphs.map((p, i) => (
+              {profile.map((p, i) => (
                 <p key={i} className="max-w-2xl text-pretty">
                   {p}
                 </p>
@@ -105,7 +115,7 @@ export default async function AboutPage({
             subtitle={t("backgroundSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
-            <BackgroundSection items={workEntries} />
+            <BackgroundSection items={work} />
           </div>
         </Container>
       </section>
@@ -120,7 +130,7 @@ export default async function AboutPage({
             subtitle={t("educationSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
-            <Timeline items={educationEntries} />
+            <Timeline items={education} />
           </div>
         </Container>
       </section>
@@ -135,7 +145,7 @@ export default async function AboutPage({
             subtitle={t("stackSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
-            <CapabilityGrid capabilities={capabilities} />
+            <CapabilityGrid capabilities={stack} />
           </div>
         </Container>
       </section>
@@ -165,7 +175,7 @@ export default async function AboutPage({
             subtitle={t("focusSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
-            <FocusGrid areas={focusAreas} />
+            <FocusGrid areas={focus} />
           </div>
         </Container>
       </section>
