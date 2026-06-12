@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { Project } from "@/lib/types";
 import { Container } from "@/components/layout/Container";
 import { Tag } from "@/components/ui/Tag";
@@ -34,6 +35,7 @@ export function LongFormCaseStudy({
   project,
   nextProject,
 }: LongFormCaseStudyProps) {
+  const t = useTranslations("common");
   const lf = project.caseStudy?.longForm;
   if (!lf) return null;
 
@@ -125,7 +127,7 @@ export function LongFormCaseStudy({
             >
               ←
             </span>
-            Back to projects
+            {t("backToProjects")}
           </Link>
         </Container>
       </section>
@@ -134,7 +136,10 @@ export function LongFormCaseStudy({
       <CaseStudyHero project={heroProject} />
 
       {/* ── 2. Context ────────────────────────────────────────────── */}
-      <EditorialSection eyebrow="Context" heading="Where this lives">
+      <EditorialSection
+        eyebrow={t("contextEyebrow")}
+        heading={t("contextHeading")}
+      >
         <EditorialProse paragraphs={lf.context} />
       </EditorialSection>
 
@@ -265,7 +270,7 @@ export function LongFormCaseStudy({
       {nextProject && (
         <section className="py-16 sm:py-24">
           <Container>
-            <span className="text-eyebrow">Next case</span>
+            <span className="text-eyebrow">{t("nextCase")}</span>
             <Link
               href={`/projects/${nextProject.slug}`}
               className="ring-highlight group mt-5 flex flex-col gap-6 rounded-xl border border-border bg-charcoal/60 p-6 transition-colors hover:border-border-strong hover:bg-charcoal-strong/70 sm:flex-row sm:items-center sm:justify-between sm:p-8"
@@ -307,7 +312,7 @@ export function LongFormCaseStudy({
             >
               ↑
             </span>
-            Back to all projects
+            {t("backToAllProjects")}
           </Link>
         </Container>
       </section>

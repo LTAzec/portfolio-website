@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
 
 import { AboutHero } from "@/components/about/AboutHero";
 import { BackgroundSection } from "@/components/about/BackgroundSection";
@@ -9,39 +11,57 @@ import { CapabilityGrid } from "@/components/ui/CapabilityGrid";
 import { CTASection } from "@/components/ui/CTASection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Timeline } from "@/components/ui/Timeline";
-import {
-  focusAreas,
-  profileParagraphs,
-  roleChips,
-} from "@/data/about";
-import { projects as allProjects } from "@/data/projects";
+import { focusAreas, profileParagraphs, roleChips } from "@/data/about";
+import { getProjects } from "@/data/projects";
 import { resolveProjectsCardMedia } from "@/lib/resolve-project-media";
 import { capabilities } from "@/data/capabilities";
 import { experience } from "@/data/experience";
+import { routing } from "@/i18n/routing";
 import { site } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: `About — ${site.name}`,
-  description: `${site.founder} — Junior Software Developer based in Turnhout. Full-stack, automation and AI work behind AZEC Digital.`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "aboutPage" });
+  return {
+    title: `${t("metaTitle")} — ${site.name}`,
+    description: `${site.founder} — Junior Software Developer based in Turnhout. Full-stack, automation and AI work behind AZEC Digital.`,
+  };
+}
 
 const workEntries = experience.filter(
   (e) => e.type === "work" || e.type === "studio",
 );
 const educationEntries = experience.filter((e) => e.type === "education");
 
-export default function AboutPage() {
-  const resolvedShelfProjects = resolveProjectsCardMedia(allProjects);
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const activeLocale = hasLocale(routing.locales, locale)
+    ? locale
+    : routing.defaultLocale;
+  const t = await getTranslations("aboutPage");
+
+  const resolvedShelfProjects = resolveProjectsCardMedia(
+    getProjects(activeLocale),
+  );
 
   return (
     <>
       {/* ── 1. Hero ───────────────────────────────────────────────── */}
       <AboutHero
         index="02"
-        eyebrow="About"
+        eyebrow={t("heroEyebrow")}
         title={site.founder}
         chips={roleChips}
-        intro="Developer in Turnhout, Belgium. Building practical software at the intersection of full-stack engineering, automation and AI — under the AZEC Digital banner."
+        intro={t("heroIntro")}
         availability={`${site.location} · ${site.availability}`}
         portrait={{
           src: "/portrait/yannis.jpg",
@@ -58,10 +78,10 @@ export default function AboutPage() {
               <span className="text-eyebrow flex items-center gap-3">
                 <span className="text-accent">A</span>
                 <span className="h-px w-6 bg-faint" />
-                <span>Profile</span>
+                <span>{t("profileEyebrow")}</span>
               </span>
               <h2 className="mt-5 text-balance text-[1.75rem] font-medium leading-[1.15] tracking-[-0.02em] text-foreground sm:text-[2rem]">
-                Building practical software, end to end.
+                {t("profileTitle")}
               </h2>
             </div>
             <div className="flex flex-col gap-5 text-[16px] leading-[1.7] text-foreground/90 lg:col-span-8 sm:text-[17px] sm:leading-[1.72]">
@@ -80,9 +100,9 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             index="B"
-            eyebrow="Relevant background"
-            title="Work that shaped how I {build}."
-            subtitle="Three roles, very different worlds — what each one actually taught me, not what fits on a CV line."
+            eyebrow={t("backgroundEyebrow")}
+            title={t("backgroundTitle")}
+            subtitle={t("backgroundSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
             <BackgroundSection items={workEntries} />
@@ -95,9 +115,9 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             index="C"
-            eyebrow="Education"
-            title="Foundations and {fundamentals}."
-            subtitle="Software engineering training — programming, data, full-stack web and mobile, with applied real-world projects."
+            eyebrow={t("educationEyebrow")}
+            title={t("educationTitle")}
+            subtitle={t("educationSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
             <Timeline items={educationEntries} />
@@ -110,9 +130,9 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             index="D"
-            eyebrow="Technical stack"
-            title="What I {actually use}."
-            subtitle="Five buckets, mapped to the work the studio takes on day-to-day."
+            eyebrow={t("stackEyebrow")}
+            title={t("stackTitle")}
+            subtitle={t("stackSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
             <CapabilityGrid capabilities={capabilities} />
@@ -125,9 +145,9 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             index="E"
-            eyebrow="Project shelf"
-            title="Things I've {built}."
-            subtitle="Pulled live from the project index — swipe through to see every case, internal and personal. New entries land here automatically."
+            eyebrow={t("shelfEyebrow")}
+            title={t("shelfTitle")}
+            subtitle={t("shelfSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
             <ProjectShelf items={resolvedShelfProjects} />
@@ -140,9 +160,9 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             index="F"
-            eyebrow="Focus"
-            title="Where I {gravitate}."
-            subtitle="The corners of the stack the work keeps pulling me back to."
+            eyebrow={t("focusEyebrow")}
+            title={t("focusTitle")}
+            subtitle={t("focusSubtitle")}
           />
           <div className="mt-12 sm:mt-14">
             <FocusGrid areas={focusAreas} />
@@ -152,11 +172,11 @@ export default function AboutPage() {
 
       {/* ── 8. CTA ────────────────────────────────────────────────── */}
       <CTASection
-        eyebrow="Open for work"
-        title="Want to {work together}?"
-        subtitle="I take on a small number of projects at a time. Reach out with a brief — let's see if there's a good fit."
-        primary={{ label: "Get in touch", href: "/contact" }}
-        secondary={{ label: "See projects", href: "/projects" }}
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        subtitle={t("ctaSubtitle")}
+        primary={{ label: t("ctaPrimary"), href: "/contact" }}
+        secondary={{ label: t("ctaSecondary"), href: "/projects" }}
       />
     </>
   );

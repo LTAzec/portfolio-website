@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Container } from "@/components/layout/Container";
 import { ContactCard } from "@/components/ui/ContactCard";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { site, socials } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: `Contact — ${site.name}`,
-  description: "Get in touch with AZEC Digital — projects, collaborations, opportunities.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contactPage" });
+  return {
+    title: `${t("metaTitle")} — ${site.name}`,
+    description: t("metaDescription"),
+  };
+}
 
 function MailIcon() {
   return (
@@ -50,13 +59,21 @@ function valueFor(label: string, defaultHref: string) {
   return defaultHref;
 }
 
-export default function ContactPage() {
+export default async function ContactPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("contactPage");
+
   return (
     <>
       <PageHeader
-        eyebrow="Contact"
-        title="{Let's} build something."
-        subtitle="Open for projects, collaborations and opportunities. The fastest way to start a conversation is email."
+        eyebrow={t("headerEyebrow")}
+        title={t("headerTitle")}
+        subtitle={t("headerSubtitle")}
       />
 
       <section className="pb-20 sm:pb-28">
@@ -65,15 +82,15 @@ export default function ContactPage() {
             <div className="lg:col-span-4">
               <span className="text-eyebrow flex items-center gap-3">
                 <span className="text-accent">●</span>
-                <span>Status</span>
+                <span>{t("status")}</span>
               </span>
               <p className="mt-4 text-[15px] leading-relaxed text-foreground/90">
-                Currently available for new projects, collaborations and opportunities.
+                {t("availability")}
               </p>
               <div className="mt-7 space-y-2">
-                <div className="text-eyebrow text-[10px]">Based in</div>
+                <div className="text-eyebrow text-[10px]">{t("basedIn")}</div>
                 <div className="text-[15px] text-foreground">
-                  {site.location} · Remote
+                  {site.location} · {t("remote")}
                 </div>
               </div>
             </div>
@@ -97,8 +114,10 @@ export default function ContactPage() {
       <section className="border-t border-border py-12 sm:py-16">
         <Container>
           <div className="text-eyebrow flex flex-wrap items-center justify-between gap-y-2 text-[10px]">
-            <span>{site.name} · Est. {site.founded}</span>
-            <span className="text-muted">For most enquiries, email is fastest.</span>
+            <span>
+              {site.name} · {t("est", { year: String(site.founded) })}
+            </span>
+            <span className="text-muted">{t("footerNote")}</span>
           </div>
         </Container>
       </section>

@@ -1,3 +1,5 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
 import { About } from "@/components/sections/About";
 import { Capabilities } from "@/components/sections/Capabilities";
 import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
@@ -13,7 +15,15 @@ import { CTASection } from "@/components/ui/CTASection";
  *   Capabilities  → tools, surfaces and systems
  *   CTASection    → closing call-to-action toward /contact
  */
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("home");
+
   return (
     <>
       <Hero />
@@ -21,11 +31,11 @@ export default function Home() {
       <FeaturedProjects />
       <Capabilities />
       <CTASection
-        eyebrow="Open for work"
-        title="Have a project in mind? {Let's talk.}"
-        subtitle="The studio takes on a small number of projects per year. Get in touch with a brief and we'll see if there's a good fit."
-        primary={{ label: "Get in touch", href: "/contact" }}
-        secondary={{ label: "See all projects", href: "/projects" }}
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        subtitle={t("ctaSubtitle")}
+        primary={{ label: t("ctaPrimary"), href: "/contact" }}
+        secondary={{ label: t("ctaSecondary"), href: "/projects" }}
       />
     </>
   );

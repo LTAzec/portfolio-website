@@ -1,17 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { Tag } from "@/components/ui/Tag";
-import { projects as allProjects } from "@/data/projects";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface ProjectShelfProps {
-  /** Override the project list. Defaults to every entry in data/projects.ts
-   *  so the shelf auto-grows as new projects are added. */
-  items?: Project[];
+  /** Project list to render. Passed in (locale-resolved) by the page so the
+   *  shelf stays in sync with the project index. */
+  items: Project[];
   className?: string;
 }
 
@@ -34,10 +34,7 @@ interface ProjectShelfProps {
  * Marked `"use client"` because the arrow controls need scroll-position
  * state. The data import works the same on either side.
  */
-export function ProjectShelf({
-  items = allProjects,
-  className,
-}: ProjectShelfProps) {
+export function ProjectShelf({ items, className }: ProjectShelfProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
@@ -151,14 +148,15 @@ function ScrollButton({
   );
 }
 
-const STATUS_LABEL: Record<Project["status"], string> = {
-  live: "Live",
-  "in-progress": "In progress",
-  private: "Private",
-  concept: "Concept",
+const STATUS_KEY: Record<Project["status"], string> = {
+  live: "live",
+  "in-progress": "inProgress",
+  private: "private",
+  concept: "concept",
 };
 
 function ShelfCard({ project, index }: { project: Project; index: number }) {
+  const t = useTranslations("common");
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -174,7 +172,7 @@ function ShelfCard({ project, index }: { project: Project; index: number }) {
             <span>{project.year}</span>
           </span>
           <span className="font-mono text-[9.5px] tracking-[0.08em] text-muted uppercase">
-            {STATUS_LABEL[project.status]}
+            {t(`status.${STATUS_KEY[project.status]}`)}
           </span>
         </div>
 
@@ -196,7 +194,7 @@ function ShelfCard({ project, index }: { project: Project; index: number }) {
           aria-hidden
           className="mt-1 inline-flex items-center gap-1 font-mono text-[11px] text-muted transition-colors group-hover:text-accent"
         >
-          View case
+          {t("viewCase")}
           <span className="transition-transform duration-200 group-hover:translate-x-0.5">
             →
           </span>

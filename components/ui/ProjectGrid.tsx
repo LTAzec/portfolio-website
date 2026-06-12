@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ProjectMediaFrame } from "@/components/ui/ProjectMedia";
 import { Tag } from "@/components/ui/Tag";
 import type { Project } from "@/lib/types";
@@ -44,6 +45,7 @@ function caseHref(project: Project): string {
 }
 
 function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
+  const t = useTranslations("common");
   const idx = String(index + 1).padStart(2, "0");
   const totalLabel = String(total).padStart(2, "0");
   const isCompact = layout === "compact";
@@ -146,7 +148,7 @@ function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
               aria-hidden
               className="inline-flex items-center gap-1.5 font-medium text-foreground transition-colors group-hover:text-accent"
             >
-              View case
+              {t("viewCase")}
               <span className="transition-transform duration-200 group-hover:translate-x-0.5">
                 →
               </span>
@@ -194,11 +196,12 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 }
 
 function StatusBadge({ status }: { status: Project["status"] }) {
-  const labels: Record<Project["status"], string> = {
-    live: "Live",
-    "in-progress": "In progress",
-    private: "Private",
-    concept: "Concept",
+  const t = useTranslations("common.status");
+  const keys: Record<Project["status"], string> = {
+    live: "live",
+    "in-progress": "inProgress",
+    private: "private",
+    concept: "concept",
   };
   const tones: Record<Project["status"], string> = {
     live: "text-accent border-accent/40",
@@ -217,7 +220,7 @@ function StatusBadge({ status }: { status: Project["status"] }) {
       {status === "live" && (
         <span className="animate-pulse-glow h-1.5 w-1.5 rounded-full bg-accent" />
       )}
-      {labels[status]}
+      {t(keys[status])}
     </span>
   );
 }

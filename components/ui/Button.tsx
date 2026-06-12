@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "ghost";
@@ -72,11 +73,19 @@ export function Button({
   );
 
   if ("href" in rest && rest.href !== undefined) {
+    const { href, ...anchorRest } = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
+    // Internal routes go through next-intl's locale-aware <Link> so the
+    // active locale prefix (e.g. /nl) is preserved; external URLs stay <a>.
+    const isInternal = typeof href === "string" && href.startsWith("/");
+    if (isInternal) {
+      return (
+        <Link href={href as string} className={classes} {...anchorRest}>
+          {children}
+        </Link>
+      );
+    }
     return (
-      <a
-        className={classes}
-        {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
+      <a className={classes} href={href} {...anchorRest}>
         {children}
       </a>
     );

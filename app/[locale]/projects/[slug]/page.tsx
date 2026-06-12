@@ -1,24 +1,32 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
 
 import { CaseStudy } from "@/components/sections/CaseStudy";
 import { LongFormCaseStudy } from "@/components/case-study/LongFormCaseStudy";
-import { projects } from "@/data/projects";
+import { getProjects, projectSlugs } from "@/data/projects";
+import { routing } from "@/i18n/routing";
 import { site } from "@/data/site";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
+// Slugs are locale-independent; the [locale] param is supplied by the
+// parent layout's generateStaticParams, so Next composes both locales.
 export function generateStaticParams(): { slug: string }[] {
-  return projects.map((p) => ({ slug: p.slug }));
+  return projectSlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const { locale, slug } = await params;
+  const activeLocale = hasLocale(routing.locales, locale)
+    ? locale
+    : routing.defaultLocale;
+  const project = getProjects(activeLocale).find((p) => p.slug === slug);
   if (!project) return {};
   return {
     title: `${project.title} — ${site.name}`,
@@ -31,7 +39,13 @@ export async function generateMetadata({
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  const activeLocale = hasLocale(routing.locales, locale)
+    ? locale
+    : routing.defaultLocale;
+
+  const projects = getProjects(activeLocale);
   const idx = projects.findIndex((p) => p.slug === slug);
   if (idx === -1) notFound();
   const project = projects[idx];

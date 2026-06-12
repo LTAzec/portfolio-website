@@ -1,8 +1,10 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { AzecDigitalLockup } from "@/components/brand/AzecDigitalLockup";
 import { AzecWordmark } from "@/components/brand/AzecWordmark";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
-import { navLinks } from "@/data/nav";
+import { navItems } from "@/data/nav";
 import { site } from "@/data/site";
 
 /**
@@ -12,13 +14,12 @@ import { site } from "@/data/site";
  *   - Left brand:
  *       · mobile  → compact <AzecWordmark /> (AZEC only, no DIGITAL rule)
  *       · ≥ sm    → full <AzecDigitalLockup /> with hairlines & DIGITAL
- *   - Centre: mono uppercase nav links (real page routes)
- *   - Right: mobile hamburger only; width-balanced spacer on desktop
- *
- * The mobile swap keeps the pill from feeling cramped while preserving
- * the premium AZEC type on every breakpoint.
+ *   - Centre: mono uppercase nav links (translated, locale-aware routes)
+ *   - Right: EN | NL switcher (desktop) + mobile hamburger
  */
 export function Navbar() {
+  const t = useTranslations("nav");
+
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-30 px-4 sm:top-4">
       <div className="pointer-events-auto mx-auto w-full max-w-[760px]">
@@ -36,21 +37,22 @@ export function Navbar() {
           {/* Primary nav — desktop only, mono caps */}
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="flex items-center gap-6">
-              {navLinks.map((link) => (
-                <li key={link.href}>
+              {navItems.map((item) => (
+                <li key={item.key}>
                   <Link
-                    href={link.href}
+                    href={item.href}
                     className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-foreground"
                   >
-                    {link.label}
+                    {t(item.key)}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Right slot — width-balanced spacer + mobile trigger */}
-          <div className="flex min-w-[36px] items-center justify-end">
+          {/* Right slot — EN | NL switcher (desktop) + mobile trigger */}
+          <div className="flex items-center justify-end gap-3 pl-2">
+            <LocaleSwitcher className="hidden md:flex" />
             <MobileNav />
           </div>
         </div>

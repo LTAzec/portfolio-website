@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/layout/Container";
 import {
   HeroVisual,
@@ -12,14 +13,17 @@ import { site } from "@/data/site";
  * Two layouts: mobile flex column + desktop 7/5 grid. Shared content
  * blocks defined once as local JSX vars.
  *
- * CTAs route to the new dedicated pages (/projects, /contact).
+ * CTAs route to the dedicated pages (/projects, /contact) via locale-aware
+ * links so the active language is preserved on navigation.
  */
 export function Hero() {
+  const t = useTranslations("hero");
+
   const eyebrow = (
     <span className="text-eyebrow flex items-center gap-3">
       <span className="text-accent">01</span>
       <span className="h-px w-6 bg-faint" />
-      <span>Studio</span>
+      <span>{t("eyebrow")}</span>
     </span>
   );
 
@@ -31,23 +35,23 @@ export function Hero() {
 
   const subtitle = (
     <p className="max-w-lg text-pretty text-base leading-relaxed text-muted sm:text-[17px] sm:leading-[1.65]">
-      A portfolio of digital products, interfaces, tooling and AI-driven
-      experiments — built with clarity, usability and{" "}
-      <span className="accent-underline">clean</span> execution.
+      {t.rich("subtitle", {
+        accent: (chunks) => <span className="accent-underline">{chunks}</span>,
+      })}
     </p>
   );
 
   const ctas = (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
       <Button href="/projects" variant="primary" size="lg">
-        View work
+        {t("viewWork")}
         <Arrow />
       </Button>
       <Link
         href="/contact"
         className="group inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground transition-colors hover:text-accent"
       >
-        Get in touch
+        {t("getInTouch")}
         <span
           aria-hidden
           className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -95,13 +99,17 @@ export function Hero() {
 
         <div className="mt-12 border-t border-border pt-5 sm:mt-20 lg:mt-32">
           <div className="text-eyebrow flex flex-wrap items-center justify-between gap-y-2 text-[10px]">
-            <span>{site.location} · Remote</span>
-            <span className="hidden sm:inline">Est. {site.founded}</span>
+            <span>
+              {site.location} · {t("remote")}
+            </span>
+            <span className="hidden sm:inline">
+              {t("est", { year: String(site.founded) })}
+            </span>
             <Link
               href="/projects"
               className="group inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
             >
-              <span>See projects</span>
+              <span>{t("seeProjects")}</span>
               <span
                 aria-hidden
                 className="transition-transform duration-200 group-hover:translate-x-0.5"

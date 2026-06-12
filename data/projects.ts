@@ -1,5 +1,6 @@
 import type { Project } from "@/lib/types";
 import { applyProjectMedia } from "@/lib/apply-project-media";
+import { loc, locArr, resolveLocalizedDeep, type Locale } from "@/lib/i18n";
 
 /**
  * Single source of truth for portfolio projects.
@@ -1067,11 +1068,18 @@ const baseProjects: Project[] = [
   },
   {
     slug: "boulder-buddy",
-    title: "BoulderBuddy — full-stack bouldering platform",
-    tagline:
+    title: loc(
+      "BoulderBuddy — full-stack bouldering platform",
+      "BoulderBuddy — full-stack boulderplatform",
+    ),
+    tagline: loc(
       "A full-stack bouldering platform — Next.js admin + Prisma/PostgreSQL backend + Expo mobile app for climbers.",
-    description:
+      "Een full-stack boulderplatform — Next.js-admin + Prisma/PostgreSQL-backend + Expo-mobiele app voor klimmers.",
+    ),
+    description: loc(
       "BoulderBuddy is a full-stack platform for indoor bouldering — a Next.js admin/backend and an Expo/React Native mobile app sharing a single Prisma/PostgreSQL schema. Auth + role-based access, gym → wall → sector → boulder content model, session logs and lightweight social (likes + comments), with a demo dataset of real climbing media.",
+      "BoulderBuddy is een full-stack platform voor indoor bouldering — een Next.js-admin/backend en een mobiele Expo/React Native-app die één Prisma/PostgreSQL-schema delen. Authenticatie + rolgebaseerde toegang, een gym → muur → sector → boulder-datamodel, sessielogs en lichte sociale functies (likes + reacties), met een demodataset vol echte klimmedia.",
+    ),
     role: "Creator",
     year: 2025,
     stack: [
@@ -1083,11 +1091,18 @@ const baseProjects: Project[] = [
       "React Native",
       "Tailwind",
     ],
-    highlights: [
-      "Full-stack — Next.js admin/backend + Expo/React Native mobile app sharing one Prisma schema",
-      "Domain model: gyms, walls, sectors, boulders, sessions, logs, likes, comments — with role-based access",
-      "Demo dataset with real climbing photos and video — production-shaped, not lorem ipsum",
-    ],
+    highlights: locArr(
+      [
+        "Full-stack — Next.js admin/backend + Expo/React Native mobile app sharing one Prisma schema",
+        "Domain model: gyms, walls, sectors, boulders, sessions, logs, likes, comments — with role-based access",
+        "Demo dataset with real climbing photos and video — production-shaped, not lorem ipsum",
+      ],
+      [
+        "Full-stack — Next.js-admin/backend + mobiele Expo/React Native-app op één gedeeld Prisma-schema",
+        "Datamodel: gyms, muren, sectoren, boulders, sessies, logs, likes en reacties — met rolgebaseerde toegang",
+        "Demodataset met echte klimfoto's en -video — productie-waardig, geen lorem ipsum",
+      ],
+    ),
     status: "in-progress",
     featured: true,
     accent: "violet",
@@ -1098,30 +1113,47 @@ const baseProjects: Project[] = [
     media: {
       type: "video",
       src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20backend.mp4",
-      alt: "BoulderBuddy — backend / admin demo",
+      alt: loc(
+        "BoulderBuddy — backend / admin demo",
+        "BoulderBuddy — backend-/admin-demo",
+      ),
       label: "admin / backend",
     },
     cardMediaSecondary: {
       type: "video",
       src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20mobile.mp4",
-      alt: "BoulderBuddy — mobile app demo",
+      alt: loc(
+        "BoulderBuddy — mobile app demo",
+        "BoulderBuddy — demo mobiele app",
+      ),
       label: "mobile app",
     },
     caseStudy: {
-      overview:
+      overview: loc(
         "BoulderBuddy is an in-progress full-stack platform for indoor bouldering. A Next.js admin and Expo mobile client share a single PostgreSQL/Prisma schema — gyms, walls, sectors, boulders, sessions, logs, likes and comments — with role-based access and a demo dataset of real climbing media.",
-      problem:
+        "BoulderBuddy is een full-stack platform voor indoor bouldering dat nog volop in ontwikkeling is. Een Next.js-admin en een mobiele Expo-client delen één PostgreSQL/Prisma-schema — gyms, muren, sectoren, boulders, sessies, logs, likes en reacties — met rolgebaseerde toegang en een demodataset vol echte klimmedia.",
+      ),
+      problem: loc(
         "Existing climbing apps split badly between consumer-facing trackers and gym-admin tools that look like a forgotten spreadsheet. Climbers want a clean mobile experience; gyms want a real CMS for walls, sectors and routes; both need the same underlying content to stay in sync.",
-      solution:
+        "Bestaande klim-apps vallen slecht uiteen: aan de ene kant trackers voor klimmers, aan de andere kant gym-admintools die op een vergeten spreadsheet lijken. Klimmers willen een strakke mobiele ervaring; gyms willen een echt CMS voor muren, sectoren en routes; allebei hebben ze dezelfde onderliggende content nodig die synchroon blijft.",
+      ),
+      solution: loc(
         "One Prisma schema, two front-ends. The Next.js admin is the operator surface — manage gyms, walls, sectors, boulders, accounts, roles, demo data. The Expo mobile app is the climber surface — browse, log sessions, react to other climbers' send notes. Auth + roles gate what each side can do.",
-      result:
+        "Eén Prisma-schema, twee front-ends. De Next.js-admin is de beheerderskant — beheer gyms, muren, sectoren, boulders, accounts, rollen en demodata. De mobiele Expo-app is de klimmerskant — bladeren, sessies loggen, reageren op de sendnotities van andere klimmers. Authenticatie + rollen bepalen wat elke kant mag.",
+      ),
+      result: loc(
         "A working demo of both surfaces with a populated dataset. Admin handles real CRUD on the climbing content model; mobile renders that same data with a focused logging flow. The platform is still in progress, but the core architecture earns its keep already.",
+        "Een werkende demo van beide kanten met een gevulde dataset. De admin doet echte CRUD op het klim-datamodel; mobiel toont diezelfde data met een gefocuste logflow. Het platform is nog in ontwikkeling, maar de kernarchitectuur bewijst nu al haar waarde.",
+      ),
 
       /* ──────────────────────────────────────────────────────────
          Long-form editorial layout — split hero with the admin demo
          ────────────────────────────────────────────────────────── */
       longForm: {
-        contextTags: ["Full-stack", "Climbing", "Mobile + Web", "In progress"],
+        contextTags: locArr(
+          ["Full-stack", "Climbing", "Mobile + Web", "In progress"],
+          ["Full-stack", "Klimmen", "Mobiel + web", "In ontwikkeling"],
+        ),
 
         /* Split hero — title text left, backend/admin demo video right.
            Under heroLayout: "split" the hero-filter is skipped, so the
@@ -1132,8 +1164,14 @@ const baseProjects: Project[] = [
         heroMedia: {
           kind: "video",
           src: "/project_afbeeldingen/BoulderBuddy/BoulderBuddy%20backend.mp4",
-          alt: "BoulderBuddy — backend / admin demo",
-          caption: "BoulderBuddy · admin / backend walk-through",
+          alt: loc(
+            "BoulderBuddy — backend / admin demo",
+            "BoulderBuddy — backend-/admin-demo",
+          ),
+          caption: loc(
+            "BoulderBuddy · admin / backend walk-through",
+            "BoulderBuddy · rondleiding admin / backend",
+          ),
           // Show the full backend recording in its native aspect — no crop,
           // no baseline zoom — the hero frame hugs the 16/9 video.
           aspect: "aspect-[16/9]",
@@ -1162,85 +1200,121 @@ const baseProjects: Project[] = [
           "BoulderBuddy backend.mp4": {
             label: "Admin / Backend",
             caption: "admin · web · Next.js",
-            alt: "BoulderBuddy — backend / admin demo",
+            alt: loc(
+              "BoulderBuddy — backend / admin demo",
+              "BoulderBuddy — backend-/admin-demo",
+            ),
             aspect: "aspect-[16/9]",
           },
           "BoulderBuddy mobile.mp4": {
             label: "Mobile App",
             caption: "mobile · Expo · React Native",
-            alt: "BoulderBuddy — mobile app demo",
+            alt: loc(
+              "BoulderBuddy — mobile app demo",
+              "BoulderBuddy — demo mobiele app",
+            ),
             aspect: "aspect-[9/16]",
           },
         },
 
         sectionLabels: {
-          problem: { eyebrow: "Problem" },
+          problem: { eyebrow: loc("Problem", "Probleem") },
           tooling: {
-            eyebrow: "Architecture",
-            heading: "One schema, two surfaces",
-            description:
+            eyebrow: loc("Architecture", "Architectuur"),
+            heading: loc("One schema, two surfaces", "Eén schema, twee kanten"),
+            description: loc(
               "BoulderBuddy is small on purpose. Four layers, each with one clean responsibility, all sharing the same Prisma model so the admin and the mobile client never drift.",
+              "BoulderBuddy is bewust klein gehouden. Vier lagen, elk met één heldere verantwoordelijkheid, die allemaal hetzelfde Prisma-model delen zodat de admin en de mobiele client nooit uit elkaar lopen.",
+            ),
           },
           showcase: {
-            eyebrow: "Demo",
-            heading: "One platform, two interfaces",
-            description:
+            eyebrow: loc("Demo", "Demo"),
+            heading: loc(
+              "One platform, two interfaces",
+              "Eén platform, twee interfaces",
+            ),
+            description: loc(
               "The admin surface on the left, the mobile climber app on the right — both rendering the same gyms, walls, sectors and boulders from the shared Prisma schema. Each loop preserves its native aspect ratio so neither surface is stretched.",
+              "De adminkant links, de mobiele klimmersapp rechts — allebei tonen ze dezelfde gyms, muren, sectoren en boulders uit het gedeelde Prisma-schema. Elke loop behoudt zijn eigen beeldverhouding, zodat geen van beide kanten wordt uitgerekt.",
+            ),
           },
           engineering: {
-            eyebrow: "What it has",
-            heading: "Built today",
-            description:
+            eyebrow: loc("What it has", "Wat het heeft"),
+            heading: loc("Built today", "Wat er nu staat"),
+            description: loc(
               "The current shape of the platform — not a wishlist. Auth, the content model, session logs and social are all in the demo dataset; mobile renders the same data the admin curates.",
+              "De huidige vorm van het platform — geen verlanglijst. Authenticatie, het datamodel, sessielogs en sociale functies zitten allemaal in de demodataset; mobiel toont dezelfde data die de admin beheert.",
+            ),
           },
           results: {
-            eyebrow: "Learnings",
-            heading: "What this taught me",
+            eyebrow: loc("Learnings", "Lessen"),
+            heading: loc("What this taught me", "Wat ik hiervan leerde"),
           },
-          closing: { eyebrow: "Note" },
+          closing: { eyebrow: loc("Note", "Noot") },
         },
 
         /* ── 2. Context ────────────────────────────────────────── */
-        context: [
-          "BoulderBuddy is a personal full-stack project shaped around how indoor bouldering actually works. Climbers go to a gym, find a wall, pick a sector, try boulders, log sends and likes. Gym staff curate that content — set new routes, retire old ones, tag grades. The split between climber-facing and gym-facing software in this space is usually bad on at least one side; BoulderBuddy is the attempt at building both from the same Prisma schema.",
-          "It's a school-and-side project mash-up: started as part of an applied development course, kept going because the architecture got interesting. There's no launch date — the value is in the platform shape, not a version number.",
-        ],
+        context: locArr(
+          [
+            "BoulderBuddy is a personal full-stack project shaped around how indoor bouldering actually works. Climbers go to a gym, find a wall, pick a sector, try boulders, log sends and likes. Gym staff curate that content — set new routes, retire old ones, tag grades. The split between climber-facing and gym-facing software in this space is usually bad on at least one side; BoulderBuddy is the attempt at building both from the same Prisma schema.",
+            "It's a school-and-side project mash-up: started as part of an applied development course, kept going because the architecture got interesting. There's no launch date — the value is in the platform shape, not a version number.",
+          ],
+          [
+            "BoulderBuddy is een persoonlijk full-stack project, gebouwd rond hoe indoor bouldering echt werkt. Klimmers gaan naar een gym, zoeken een muur, kiezen een sector, proberen boulders, loggen sends en likes. Gymmedewerkers beheren die content — zetten nieuwe routes, halen oude weg, taggen graden. De kloof tussen software voor klimmers en software voor gyms is meestal aan minstens één kant slecht; BoulderBuddy is de poging om beide vanuit hetzelfde Prisma-schema te bouwen.",
+            "Het is een kruising tussen een school- en een hobbyproject: begonnen binnen een toegepaste ontwikkelcursus, doorgezet omdat de architectuur interessant werd. Er is geen releasedatum — de waarde zit in de vorm van het platform, niet in een versienummer.",
+          ],
+        ),
 
         /* ── 3. Problem detail ─────────────────────────────────── */
         problemDetail: {
-          paragraphs: [
-            "Consumer climbing apps tend to ignore the operator side: they assume gym content magically appears. Gym-admin tools tend to ignore the climber side: they're spreadsheets with a login. Neither understands that the same gym → wall → sector → boulder hierarchy lives on both ends, and that it has to stay in lockstep.",
-            "The Prisma model is the bridge. One schema, generated client used by both Next.js (admin) and the API layer the Expo app talks to. Add a boulder in the admin → mobile sees it on next pull. Change a grade → both surfaces update. The data model becomes the contract, not a translation layer.",
-            "Auth is the second contract: roles decide who edits what (admin / gym staff / climber). Demo data is the third: realistic seeded content with real images so the platform looks like a product when it boots, not a blank schema waiting for input.",
-          ],
+          paragraphs: locArr(
+            [
+              "Consumer climbing apps tend to ignore the operator side: they assume gym content magically appears. Gym-admin tools tend to ignore the climber side: they're spreadsheets with a login. Neither understands that the same gym → wall → sector → boulder hierarchy lives on both ends, and that it has to stay in lockstep.",
+              "The Prisma model is the bridge. One schema, generated client used by both Next.js (admin) and the API layer the Expo app talks to. Add a boulder in the admin → mobile sees it on next pull. Change a grade → both surfaces update. The data model becomes the contract, not a translation layer.",
+              "Auth is the second contract: roles decide who edits what (admin / gym staff / climber). Demo data is the third: realistic seeded content with real images so the platform looks like a product when it boots, not a blank schema waiting for input.",
+            ],
+            [
+              "Klim-apps voor consumenten negeren meestal de beheerderskant: ze gaan ervan uit dat gymcontent vanzelf verschijnt. Gym-admintools negeren juist de klimmerskant: het zijn spreadsheets met een login. Geen van beide snapt dat dezelfde gym → muur → sector → boulder-hiërarchie aan beide kanten leeft en synchroon moet blijven.",
+              "Het Prisma-model is de brug. Eén schema, één gegenereerde client die zowel door Next.js (admin) als door de API-laag van de Expo-app wordt gebruikt. Voeg een boulder toe in de admin → mobiel ziet het bij de volgende pull. Wijzig een graad → beide kanten updaten. Het datamodel wordt het contract, niet een vertaallaag.",
+              "Authenticatie is het tweede contract: rollen bepalen wie wat bewerkt (admin / gymmedewerker / klimmer). Demodata is het derde: realistisch gevulde content met echte foto's, zodat het platform er bij het opstarten als een product uitziet en niet als een leeg schema dat op invoer wacht.",
+            ],
+          ),
           media: [],
         },
 
         /* ── 4. Architecture (Tooling cards) ───────────────────── */
         tooling: [
           {
-            eyebrow: "01 · Next.js admin",
-            title: "Operator surface",
-            description:
+            eyebrow: loc("01 · Next.js admin", "01 · Next.js-admin"),
+            title: loc("Operator surface", "Beheerderskant"),
+            description: loc(
               "Next.js App Router admin panel for managing gyms, walls, sectors, boulders, users and roles. Server actions handle mutations, the Prisma client owns persistence, Tailwind keeps the UI quiet and operator-shaped instead of consumer-flashy.",
+              "Een Next.js App Router-adminpaneel voor het beheren van gyms, muren, sectoren, boulders, gebruikers en rollen. Server actions verzorgen de mutaties, de Prisma-client beheert de persistentie en Tailwind houdt de UI rustig en beheerdersgericht in plaats van flashy voor consumenten.",
+            ),
           },
           {
             eyebrow: "02 · PostgreSQL + Prisma",
-            title: "Shared data model",
-            description:
+            title: loc("Shared data model", "Gedeeld datamodel"),
+            description: loc(
               "One PostgreSQL database, one Prisma schema. The model encodes the real climbing hierarchy — gym → wall → sector → boulder — plus accounts, sessions, logs, likes and comments. The generated Prisma client is the same on both ends, so types stay aligned.",
+              "Eén PostgreSQL-database, één Prisma-schema. Het model legt de echte klimhiërarchie vast — gym → muur → sector → boulder — plus accounts, sessies, logs, likes en reacties. De gegenereerde Prisma-client is aan beide kanten dezelfde, zodat de types op elkaar afgestemd blijven.",
+            ),
           },
           {
             eyebrow: "03 · Expo / React Native",
-            title: "Mobile climber surface",
-            description:
+            title: loc("Mobile climber surface", "Mobiele klimmerskant"),
+            description: loc(
               "Expo + React Native client for the climber-facing flow. Browse gyms and walls, see boulders, log session attempts, react to other climbers' sends. Shares its data shape with the admin via the generated Prisma types — the API contract is one source of truth.",
+              "Een Expo + React Native-client voor de klimmersflow. Blader door gyms en muren, bekijk boulders, log sessiepogingen en reageer op de sends van andere klimmers. Deelt zijn datavorm met de admin via de gegenereerde Prisma-types — het API-contract is één bron van waarheid.",
+            ),
           },
           {
-            eyebrow: "04 · Auth + role layer",
-            title: "Who can see what",
-            description:
+            eyebrow: loc("04 · Auth + role layer", "04 · Auth- en rollenlaag"),
+            title: loc("Who can see what", "Wie wat mag zien"),
+            description: loc(
               "Role-based access threaded through both surfaces. Admins manage the whole content tree; gym staff scope to their own gym; climbers see public content and their own session history. The same auth identity works across web admin and mobile.",
+              "Rolgebaseerde toegang door beide kanten heen. Admins beheren de hele contentboom; gymmedewerkers blijven bij hun eigen gym; klimmers zien publieke content en hun eigen sessiegeschiedenis. Dezelfde auth-identiteit werkt over de web-admin en mobiel heen.",
+            ),
           },
         ],
 
@@ -1248,28 +1322,46 @@ const baseProjects: Project[] = [
         engineering: [
           {
             index: "01",
-            title: "Auth + roles",
-            body: "Account model with role-gated access. Admin vs gym-staff vs climber permissions enforced at the API layer, not just hidden in the UI — both surfaces respect the same boundaries.",
+            title: loc("Auth + roles", "Auth + rollen"),
+            body: loc(
+              "Account model with role-gated access. Admin vs gym-staff vs climber permissions enforced at the API layer, not just hidden in the UI — both surfaces respect the same boundaries.",
+              "Een accountmodel met rolgebaseerde toegang. Rechten voor admin, gymmedewerker en klimmer worden afgedwongen in de API-laag, niet alleen verstopt in de UI — beide kanten respecteren dezelfde grenzen.",
+            ),
           },
           {
             index: "02",
-            title: "Climbing content model",
-            body: "Gyms, walls, sectors, boulders — modelled the way climbers actually talk about them. Grades, tags, photos and short descriptions per boulder; the hierarchy makes navigation in both UIs feel obvious.",
+            title: loc("Climbing content model", "Klim-datamodel"),
+            body: loc(
+              "Gyms, walls, sectors, boulders — modelled the way climbers actually talk about them. Grades, tags, photos and short descriptions per boulder; the hierarchy makes navigation in both UIs feel obvious.",
+              "Gyms, muren, sectoren, boulders — gemodelleerd zoals klimmers er echt over praten. Graden, tags, foto's en korte beschrijvingen per boulder; de hiërarchie maakt navigeren in beide UI's vanzelfsprekend.",
+            ),
           },
           {
             index: "03",
-            title: "Session logs",
-            body: "Climbers log attempts and sends against specific boulders. The model captures session date, climber, boulder, attempt count and outcome — enough to render a personal history and feed any future analytics.",
+            title: loc("Session logs", "Sessielogs"),
+            body: loc(
+              "Climbers log attempts and sends against specific boulders. The model captures session date, climber, boulder, attempt count and outcome — enough to render a personal history and feed any future analytics.",
+              "Klimmers loggen pogingen en sends op specifieke boulders. Het model legt sessiedatum, klimmer, boulder, aantal pogingen en uitkomst vast — genoeg voor een persoonlijke geschiedenis en input voor toekomstige analytics.",
+            ),
           },
           {
             index: "04",
-            title: "Likes + comments",
-            body: "Lightweight social on the climbing content. Climbers can react to a boulder or another climber's session note. Kept deliberately small — this is a tracker with a community layer, not a social network.",
+            title: loc("Likes + comments", "Likes + reacties"),
+            body: loc(
+              "Lightweight social on the climbing content. Climbers can react to a boulder or another climber's session note. Kept deliberately small — this is a tracker with a community layer, not a social network.",
+              "Lichte sociale functies op de klimcontent. Klimmers kunnen reageren op een boulder of op de sessienotitie van een andere klimmer. Bewust klein gehouden — dit is een tracker met een communitylaag, geen sociaal netwerk.",
+            ),
           },
           {
             index: "05",
-            title: "Demo dataset with real media",
-            body: "Seeded data with realistic climbing photos and a backend demo capture. Means the platform looks alive on first boot — both surfaces render production-shaped content rather than placeholder skeletons.",
+            title: loc(
+              "Demo dataset with real media",
+              "Demodataset met echte media",
+            ),
+            body: loc(
+              "Seeded data with realistic climbing photos and a backend demo capture. Means the platform looks alive on first boot — both surfaces render production-shaped content rather than placeholder skeletons.",
+              "Geseede data met realistische klimfoto's en een backend-demo-opname. Daardoor oogt het platform meteen levend bij het opstarten — beide kanten tonen productie-waardige content in plaats van lege skeletten.",
+            ),
           },
         ],
 
@@ -1278,24 +1370,61 @@ const baseProjects: Project[] = [
 
         /* ── 7. Learnings ──────────────────────────────────────── */
         results: {
-          paragraphs: [
-            "The schema is the product. Every time the admin and mobile started drifting it was because the data model was wrong somewhere. Fixing it once in Prisma fixed both surfaces — cheaper than parallel patches on either side.",
-            "Roles deserve real boundaries. Hiding admin-only controls in the UI feels safe until you remember the API is the actual boundary. Server-side role checks are the only ones that count; everything in the UI is just polite.",
-            "Demo data is part of the build. A working seed with realistic content turns 'is the platform working' into a question you can answer at a glance — for me, for visitors, for any future collaborator.",
-            "Mobile + web from one stack pays compounding interest. Sharing the Prisma client means a backend change ripples through both clients in one PR. The alternative (separate type generation per surface) would have cost real time.",
-          ],
+          paragraphs: locArr(
+            [
+              "The schema is the product. Every time the admin and mobile started drifting it was because the data model was wrong somewhere. Fixing it once in Prisma fixed both surfaces — cheaper than parallel patches on either side.",
+              "Roles deserve real boundaries. Hiding admin-only controls in the UI feels safe until you remember the API is the actual boundary. Server-side role checks are the only ones that count; everything in the UI is just polite.",
+              "Demo data is part of the build. A working seed with realistic content turns 'is the platform working' into a question you can answer at a glance — for me, for visitors, for any future collaborator.",
+              "Mobile + web from one stack pays compounding interest. Sharing the Prisma client means a backend change ripples through both clients in one PR. The alternative (separate type generation per surface) would have cost real time.",
+            ],
+            [
+              "Het schema is het product. Telkens als de admin en mobiel uit elkaar begonnen te lopen, kwam dat doordat het datamodel ergens fout zat. Het één keer in Prisma oplossen repareerde beide kanten — goedkoper dan parallelle patches aan elke kant.",
+              "Rollen verdienen echte grenzen. Admin-only knoppen verbergen in de UI voelt veilig, tot je je herinnert dat de API de echte grens is. Alleen rolcontroles aan de serverkant tellen; alles in de UI is slechts beleefdheid.",
+              "Demodata hoort bij de build. Een werkende seed met realistische content verandert 'werkt het platform' in een vraag die je in één oogopslag beantwoordt — voor mezelf, voor bezoekers, voor elke toekomstige medewerker.",
+              "Mobiel + web vanuit één stack levert samengestelde rente op. Door de Prisma-client te delen, raakt een backendwijziging beide clients in één PR. Het alternatief (aparte type-generatie per kant) had echt tijd gekost.",
+            ],
+          ),
         },
 
         /* ── 8. Closing ────────────────────────────────────────── */
-        closing: [
-          "BoulderBuddy is still in progress, but both surfaces now run on the same data: the admin loop on the left of the showcase, the mobile loop on the right, both reading from one Prisma schema and one auth identity.",
-          "The bet is that climbing software gets better when both sides share a model. Even as a school-and-side project, the platform shape teaches more than another single-purpose tracker would.",
-        ],
+        closing: locArr(
+          [
+            "BoulderBuddy is still in progress, but both surfaces now run on the same data: the admin loop on the left of the showcase, the mobile loop on the right, both reading from one Prisma schema and one auth identity.",
+            "The bet is that climbing software gets better when both sides share a model. Even as a school-and-side project, the platform shape teaches more than another single-purpose tracker would.",
+          ],
+          [
+            "BoulderBuddy is nog in ontwikkeling, maar beide kanten draaien nu op dezelfde data: de admin-loop links in de showcase, de mobiele loop rechts, allebei lezend uit één Prisma-schema en één auth-identiteit.",
+            "De gok is dat klimsoftware beter wordt wanneer beide kanten één model delen. Zelfs als school- en hobbyproject leert de vorm van dit platform meer dan zoveelste tracker met één doel zou doen.",
+          ],
+        ),
       },
     },
   },
 ];
 
-export const projects = applyProjectMedia(baseProjects);
-export const featuredProjects = projects.filter((p) => p.featured);
-export const otherProjects = projects.filter((p) => !p.featured);
+// Card/gallery media is locale-independent — merge it once at module load,
+// then resolve the inline translations (`loc` / `locArr`) per request.
+const mediaApplied = applyProjectMedia(baseProjects);
+
+/** Stable, locale-independent slug list for `generateStaticParams`. */
+export const projectSlugs: string[] = mediaApplied.map((p) => p.slug);
+
+/** All projects, resolved to the requested locale. */
+export function getProjects(locale: Locale): Project[] {
+  return mediaApplied.map((p) => resolveLocalizedDeep(p, locale));
+}
+
+export function getFeaturedProjects(locale: Locale): Project[] {
+  return getProjects(locale).filter((p) => p.featured);
+}
+
+export function getOtherProjects(locale: Locale): Project[] {
+  return getProjects(locale).filter((p) => !p.featured);
+}
+
+export function getProjectBySlug(
+  slug: string,
+  locale: Locale,
+): Project | undefined {
+  return getProjects(locale).find((p) => p.slug === slug);
+}

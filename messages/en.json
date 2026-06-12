@@ -1,0 +1,131 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleNav": "Toggle navigation",
+    "openForWork": "Open for work",
+    "getInTouch": "Get in touch",
+    "viewCase": "View case",
+    "backToProjects": "Back to projects",
+    "backToAllProjects": "Back to all projects",
+    "nextCase": "Next case",
+    "contextEyebrow": "Context",
+    "contextHeading": "Where this lives",
+    "status": {
+      "live": "Live",
+      "inProgress": "In progress",
+      "private": "Private",
+      "concept": "Concept"
+    }
+  },
+  "hero": {
+    "eyebrow": "Studio",
+    "subtitle": "A portfolio of digital products, interfaces, tooling and AI-driven experiments — built with clarity, usability and <accent>clean</accent> execution.",
+    "viewWork": "View work",
+    "getInTouch": "Get in touch",
+    "remote": "Remote",
+    "est": "Est. {year}",
+    "seeProjects": "See projects"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "A studio of '{'one'}', building practical software.",
+    "subtitle": "Run by {founder} — a developer focused on digital products, internal tooling and AI-driven experiments. Background in full-stack engineering with a strong focus on product, usability and clean execution.",
+    "p1": "Most projects start as practical problems. An internal team needs better tooling. A small business wants a polished web presence. An experiment wants to become a real product. The studio takes those briefs and ships them end-to-end.",
+    "p2": "The work spans web applications, internal interfaces, automation tools and AI-driven side projects. Different domains, same approach — build the thing that actually solves the problem, make it feel professional, ship it.",
+    "readMore": "Read full profile",
+    "approachEyebrow": "Approach",
+    "approach": {
+      "practicalTitle": "Practical first",
+      "practicalDesc": "Solve the real problem first. Polish, refinement and visual craft come after the thing actually works.",
+      "cleanTitle": "Clean execution",
+      "cleanDesc": "Strong typography, restrained motion, focused interactions. Details compound — the small ones decide whether software feels professional.",
+      "endToEndTitle": "Built end-to-end",
+      "endToEndDesc": "From data layer to UX, shipped as one piece. No hand-offs in the middle, no rough edges between parts.",
+      "iterateTitle": "Iterate small",
+      "iterateDesc": "Ship the smallest valuable thing, then refine from real feedback. Speed of feedback is the single biggest predictor of quality."
+    }
+  },
+  "capabilities": {
+    "eyebrow": "Capabilities",
+    "title": "Practical '{'tools'}', surfaces and systems.",
+    "subtitle": "The technologies, disciplines and ways of working that show up across most projects — from data layer to interface, end-to-end."
+  },
+  "featured": {
+    "eyebrow": "Selected work",
+    "title": "Recent '{'projects'}' — shipped end-to-end.",
+    "subtitle": "A snapshot of recent work — internal tooling, AI products, marketing sites and personal projects.",
+    "showing": "Showing {shown} of {total}",
+    "featuredCount": "{count} featured",
+    "viewAll": "View all projects"
+  },
+  "home": {
+    "ctaEyebrow": "Open for work",
+    "ctaTitle": "Have a project in mind? '{'Let''s talk.'}'",
+    "ctaSubtitle": "The studio takes on a small number of projects per year. Get in touch with a brief and we''ll see if there''s a good fit.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "See all projects"
+  },
+  "projectsPage": {
+    "metaTitle": "Projects",
+    "metaDescription": "All projects by AZEC Digital — internal tooling, AI products, web experiences and personal experiments.",
+    "headerEyebrow": "Projects",
+    "headerTitle": "All '{'projects'}', shipped end-to-end.",
+    "headerSubtitle": "A complete index of work — internal tooling, AI products, marketing sites and personal experiments. Each project links to a full case study.",
+    "featured": "Featured",
+    "otherWork": "Other work",
+    "entries": "{count} entries",
+    "ctaEyebrow": "Open for work",
+    "ctaTitle": "Have a project that fits the studio? '{'Let''s talk.'}'",
+    "ctaSubtitle": "The studio takes on a small number of projects per year. Get in touch with a brief and we''ll see if there''s a good fit.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "More about the studio"
+  },
+  "contactPage": {
+    "metaTitle": "Contact",
+    "metaDescription": "Get in touch with AZEC Digital — projects, collaborations, opportunities.",
+    "headerEyebrow": "Contact",
+    "headerTitle": "'{'Let''s'}' build something.",
+    "headerSubtitle": "Open for projects, collaborations and opportunities. The fastest way to start a conversation is email.",
+    "status": "Status",
+    "availability": "Currently available for new projects, collaborations and opportunities.",
+    "basedIn": "Based in",
+    "remote": "Remote",
+    "footerNote": "For most enquiries, email is fastest.",
+    "est": "Est. {year}"
+  },
+  "aboutPage": {
+    "metaTitle": "About",
+    "heroEyebrow": "About",
+    "heroIntro": "Developer in Turnhout, Belgium. Building practical software at the intersection of full-stack engineering, automation and AI — under the AZEC Digital banner.",
+    "profileEyebrow": "Profile",
+    "profileTitle": "Building practical software, end to end.",
+    "backgroundEyebrow": "Relevant background",
+    "backgroundTitle": "Work that shaped how I '{'build'}'.",
+    "backgroundSubtitle": "Three roles, very different worlds — what each one actually taught me, not what fits on a CV line.",
+    "educationEyebrow": "Education",
+    "educationTitle": "Foundations and '{'fundamentals'}'.",
+    "educationSubtitle": "Software engineering training — programming, data, full-stack web and mobile, with applied real-world projects.",
+    "stackEyebrow": "Technical stack",
+    "stackTitle": "What I '{'actually use'}'.",
+    "stackSubtitle": "Five buckets, mapped to the work the studio takes on day-to-day.",
+    "shelfEyebrow": "Project shelf",
+    "shelfTitle": "Things I''ve '{'built'}'.",
+    "shelfSubtitle": "Pulled live from the project index — swipe through to see every case, internal and personal. New entries land here automatically.",
+    "focusEyebrow": "Focus",
+    "focusTitle": "Where I '{'gravitate'}'.",
+    "focusSubtitle": "The corners of the stack the work keeps pulling me back to.",
+    "ctaEyebrow": "Open for work",
+    "ctaTitle": "Want to '{'work together'}'?",
+    "ctaSubtitle": "I take on a small number of projects at a time. Reach out with a brief — let''s see if there''s a good fit.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "See projects"
+  }
+}

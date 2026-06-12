@@ -1,16 +1,21 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { navLinks } from "@/data/nav";
+import { Link } from "@/i18n/navigation";
+import { LocaleSwitcher } from "./LocaleSwitcher";
+import { navItems } from "@/data/nav";
 import { cn } from "@/lib/utils";
 
 /**
  * Mobile menu trigger + full-screen overlay.
- * Lives inside <Navbar /> and only renders on small screens.
+ * Lives inside <Navbar /> and only renders on small screens. The language
+ * switcher sits at the bottom of the overlay so it's reachable on mobile.
  */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
 
   useEffect(() => {
     if (!open) return;
@@ -34,12 +39,12 @@ export function MobileNav() {
     <div className="md:hidden">
       <button
         type="button"
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? tc("closeMenu") : tc("openMenu")}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:bg-surface-strong"
       >
-        <span className="sr-only">Toggle navigation</span>
+        <span className="sr-only">{tc("toggleNav")}</span>
         <Hamburger open={open} />
       </button>
 
@@ -56,18 +61,21 @@ export function MobileNav() {
 
         <nav className="relative flex h-full flex-col items-center justify-center gap-8 px-8">
           <ul className="flex flex-col items-center gap-6">
-            {navLinks.map((link) => (
-              <li key={link.href}>
+            {navItems.map((item) => (
+              <li key={item.key}>
                 <Link
-                  href={link.href}
+                  href={item.href}
                   onClick={() => setOpen(false)}
                   className="text-2xl font-medium tracking-tight text-foreground transition-colors hover:text-accent"
                 >
-                  {link.label}
+                  {t(item.key)}
                 </Link>
               </li>
             ))}
           </ul>
+
+          {/* Language switcher — generous tap targets on mobile */}
+          <LocaleSwitcher className="mt-2 text-[13px]" />
         </nav>
       </div>
     </div>

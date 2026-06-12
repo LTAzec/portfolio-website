@@ -1,0 +1,131 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projecten",
+    "about": "Over",
+    "contact": "Contact"
+  },
+  "common": {
+    "language": "Taal",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "toggleNav": "Navigatie wisselen",
+    "openForWork": "Open voor werk",
+    "getInTouch": "Neem contact op",
+    "viewCase": "Bekijk case",
+    "backToProjects": "Terug naar projecten",
+    "backToAllProjects": "Terug naar alle projecten",
+    "nextCase": "Volgende case",
+    "contextEyebrow": "Context",
+    "contextHeading": "Waar dit leeft",
+    "status": {
+      "live": "Live",
+      "inProgress": "In ontwikkeling",
+      "private": "Privé",
+      "concept": "Concept"
+    }
+  },
+  "hero": {
+    "eyebrow": "Studio",
+    "subtitle": "Een portfolio van digitale producten, interfaces, tooling en AI-gedreven experimenten — gebouwd met helderheid, bruikbaarheid en <accent>strakke</accent> uitvoering.",
+    "viewWork": "Bekijk werk",
+    "getInTouch": "Neem contact op",
+    "remote": "Remote",
+    "est": "Sinds {year}",
+    "seeProjects": "Bekijk projecten"
+  },
+  "about": {
+    "eyebrow": "Over",
+    "title": "Een studio van '{'één'}' die praktische software bouwt.",
+    "subtitle": "Gerund door {founder} — een developer gericht op digitale producten, interne tooling en AI-gedreven experimenten. Achtergrond in full-stack engineering met een sterke focus op product, bruikbaarheid en strakke uitvoering.",
+    "p1": "De meeste projecten beginnen als praktische problemen. Een intern team heeft betere tooling nodig. Een kleine onderneming wil een verzorgde online aanwezigheid. Een experiment wil een echt product worden. De studio neemt die briefings en levert ze end-to-end op.",
+    "p2": "Het werk loopt van webapplicaties en interne interfaces tot automatiseringstools en AI-gedreven hobbyprojecten. Verschillende domeinen, dezelfde aanpak — bouw datgene wat het probleem echt oplost, laat het professioneel aanvoelen, lever het op.",
+    "readMore": "Lees het volledige profiel",
+    "approachEyebrow": "Aanpak",
+    "approach": {
+      "practicalTitle": "Praktisch eerst",
+      "practicalDesc": "Los eerst het echte probleem op. Afwerking, verfijning en visuele zorg komen pas nadat het ding echt werkt.",
+      "cleanTitle": "Strakke uitvoering",
+      "cleanDesc": "Sterke typografie, ingetogen beweging, gefocuste interacties. Details tellen op — de kleine bepalen of software professioneel aanvoelt.",
+      "endToEndTitle": "End-to-end gebouwd",
+      "endToEndDesc": "Van datalaag tot UX, als één geheel opgeleverd. Geen overdrachten halverwege, geen ruwe randen tussen onderdelen.",
+      "iterateTitle": "Klein itereren",
+      "iterateDesc": "Lever het kleinste waardevolle ding op en verfijn daarna op echte feedback. De snelheid van feedback voorspelt kwaliteit het sterkst."
+    }
+  },
+  "capabilities": {
+    "eyebrow": "Capaciteiten",
+    "title": "Praktische '{'tools'}', interfaces en systemen.",
+    "subtitle": "De technologieën, disciplines en werkwijzen die in de meeste projecten terugkomen — van datalaag tot interface, end-to-end."
+  },
+  "featured": {
+    "eyebrow": "Geselecteerd werk",
+    "title": "Recente '{'projecten'}' — end-to-end opgeleverd.",
+    "subtitle": "Een momentopname van recent werk — interne tooling, AI-producten, marketingsites en persoonlijke projecten.",
+    "showing": "{shown} van {total} getoond",
+    "featuredCount": "{count} uitgelicht",
+    "viewAll": "Bekijk alle projecten"
+  },
+  "home": {
+    "ctaEyebrow": "Open voor werk",
+    "ctaTitle": "Een project in gedachten? '{'Laten we praten.'}'",
+    "ctaSubtitle": "De studio neemt een klein aantal projecten per jaar aan. Stuur een briefing door, dan kijken we of het een goede match is.",
+    "ctaPrimary": "Neem contact op",
+    "ctaSecondary": "Bekijk alle projecten"
+  },
+  "projectsPage": {
+    "metaTitle": "Projecten",
+    "metaDescription": "Alle projecten van AZEC Digital — interne tooling, AI-producten, webervaringen en persoonlijke experimenten.",
+    "headerEyebrow": "Projecten",
+    "headerTitle": "Alle '{'projecten'}', end-to-end opgeleverd.",
+    "headerSubtitle": "Een volledig overzicht van het werk — interne tooling, AI-producten, marketingsites en persoonlijke experimenten. Elk project linkt naar een volledige case study.",
+    "featured": "Uitgelicht",
+    "otherWork": "Ander werk",
+    "entries": "{count} items",
+    "ctaEyebrow": "Open voor werk",
+    "ctaTitle": "Een project dat bij de studio past? '{'Laten we praten.'}'",
+    "ctaSubtitle": "De studio neemt een klein aantal projecten per jaar aan. Stuur een briefing door, dan kijken we of het een goede match is.",
+    "ctaPrimary": "Neem contact op",
+    "ctaSecondary": "Meer over de studio"
+  },
+  "contactPage": {
+    "metaTitle": "Contact",
+    "metaDescription": "Neem contact op met AZEC Digital — projecten, samenwerkingen, kansen.",
+    "headerEyebrow": "Contact",
+    "headerTitle": "'{'Laten we'}' iets bouwen.",
+    "headerSubtitle": "Open voor projecten, samenwerkingen en kansen. De snelste manier om een gesprek te starten is e-mail.",
+    "status": "Status",
+    "availability": "Momenteel beschikbaar voor nieuwe projecten, samenwerkingen en kansen.",
+    "basedIn": "Gevestigd in",
+    "remote": "Remote",
+    "footerNote": "Voor de meeste vragen is e-mail het snelst.",
+    "est": "Sinds {year}"
+  },
+  "aboutPage": {
+    "metaTitle": "Over",
+    "heroEyebrow": "Over",
+    "heroIntro": "Developer in Turnhout, België. Praktische software bouwen op het snijvlak van full-stack engineering, automatisering en AI — onder de vlag van AZEC Digital.",
+    "profileEyebrow": "Profiel",
+    "profileTitle": "Praktische software bouwen, van begin tot eind.",
+    "backgroundEyebrow": "Relevante achtergrond",
+    "backgroundTitle": "Werk dat vormde hoe ik '{'bouw'}'.",
+    "backgroundSubtitle": "Drie rollen, totaal verschillende werelden — wat elk me echt leerde, niet wat op een cv-regel past.",
+    "educationEyebrow": "Opleiding",
+    "educationTitle": "Fundamenten en '{'basis'}'.",
+    "educationSubtitle": "Opleiding tot software-ontwikkelaar — programmeren, data, full-stack web en mobiel, met toegepaste praktijkprojecten.",
+    "stackEyebrow": "Technische stack",
+    "stackTitle": "Wat ik '{'echt gebruik'}'.",
+    "stackSubtitle": "Vijf categorieën, afgestemd op het werk dat de studio dagelijks oppakt.",
+    "shelfEyebrow": "Projectenrek",
+    "shelfTitle": "Dingen die ik '{'bouwde'}'.",
+    "shelfSubtitle": "Live opgehaald uit het projectoverzicht — swipe erdoorheen om elke case te zien, intern en persoonlijk. Nieuwe items verschijnen hier automatisch.",
+    "focusEyebrow": "Focus",
+    "focusTitle": "Waar ik naartoe '{'neig'}'.",
+    "focusSubtitle": "De hoeken van de stack waar het werk me steeds naar terugtrekt.",
+    "ctaEyebrow": "Open voor werk",
+    "ctaTitle": "Wil je '{'samenwerken'}'?",
+    "ctaSubtitle": "Ik neem een klein aantal projecten tegelijk aan. Stuur een briefing — dan kijken we of het een goede match is.",
+    "ctaPrimary": "Neem contact op",
+    "ctaSecondary": "Bekijk projecten"
+  }
+}

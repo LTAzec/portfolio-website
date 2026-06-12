@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/data/site";
@@ -13,30 +14,11 @@ import { site } from "@/data/site";
  * Acts as a preview on the home page — the full profile, tooling and
  * experience timeline live on the dedicated /about page.
  */
-const approach = [
-  {
-    title: "Practical first",
-    description:
-      "Solve the real problem first. Polish, refinement and visual craft come after the thing actually works.",
-  },
-  {
-    title: "Clean execution",
-    description:
-      "Strong typography, restrained motion, focused interactions. Details compound — the small ones decide whether software feels professional.",
-  },
-  {
-    title: "Built end-to-end",
-    description:
-      "From data layer to UX, shipped as one piece. No hand-offs in the middle, no rough edges between parts.",
-  },
-  {
-    title: "Iterate small",
-    description:
-      "Ship the smallest valuable thing, then refine from real feedback. Speed of feedback is the single biggest predictor of quality.",
-  },
-];
+const approachKeys = ["practical", "clean", "endToEnd", "iterate"] as const;
 
 export function About() {
+  const t = useTranslations("about");
+
   return (
     <section id="about" className="py-24 sm:py-32 lg:py-40">
       <Container>
@@ -45,24 +27,14 @@ export function About() {
           <div className="lg:col-span-7">
             <SectionHeading
               index="02"
-              eyebrow="About"
-              title="A studio of {one}, building practical software."
-              subtitle={`Run by ${site.founder} — a developer focused on digital products, internal tooling and AI-driven experiments. Background in full-stack engineering with a strong focus on product, usability and clean execution.`}
+              eyebrow={t("eyebrow")}
+              title={t("title")}
+              subtitle={t("subtitle", { founder: site.founder })}
             />
 
             <div className="mt-10 max-w-xl space-y-5 text-base leading-relaxed text-muted">
-              <p>
-                Most projects start as practical problems. An internal team
-                needs better tooling. A small business wants a polished web
-                presence. An experiment wants to become a real product. The
-                studio takes those briefs and ships them end-to-end.
-              </p>
-              <p>
-                The work spans web applications, internal interfaces, automation
-                tools and AI-driven side projects. Different domains, same
-                approach — build the thing that actually solves the problem,
-                make it feel professional, ship it.
-              </p>
+              <p>{t("p1")}</p>
+              <p>{t("p2")}</p>
             </div>
 
             <div className="mt-10">
@@ -70,7 +42,7 @@ export function About() {
                 href="/about"
                 className="group inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground transition-colors hover:text-accent"
               >
-                Read full profile
+                {t("readMore")}
                 <span
                   aria-hidden
                   className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -86,13 +58,13 @@ export function About() {
             <span className="text-eyebrow flex items-center gap-3">
               <span className="text-accent">A</span>
               <span className="h-px w-6 bg-faint" />
-              <span>Approach</span>
+              <span>{t("approachEyebrow")}</span>
             </span>
 
             <ul className="mt-7 divide-y divide-border border-y border-border">
-              {approach.map((item, i) => (
+              {approachKeys.map((key, i) => (
                 <li
-                  key={item.title}
+                  key={key}
                   className="grid grid-cols-[auto_1fr] gap-x-5 py-5"
                 >
                   <span className="font-mono text-[11px] text-faint">
@@ -100,10 +72,10 @@ export function About() {
                   </span>
                   <div>
                     <div className="text-[14px] font-medium text-foreground">
-                      {item.title}
+                      {t(`approach.${key}Title`)}
                     </div>
                     <p className="mt-1 text-[13px] leading-relaxed text-muted">
-                      {item.description}
+                      {t(`approach.${key}Desc`)}
                     </p>
                   </div>
                 </li>
