@@ -1,11 +1,15 @@
+"use client";
+
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { AzecDigitalLockup } from "@/components/brand/AzecDigitalLockup";
 import { AzecWordmark } from "@/components/brand/AzecWordmark";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
 import { navItems } from "@/data/nav";
 import { site } from "@/data/site";
+import { cn } from "@/lib/utils";
+import { isNavItemActive } from "./nav-active";
 
 /**
  * Floating navigation pill — product-studio feel.
@@ -14,11 +18,14 @@ import { site } from "@/data/site";
  *   - Left brand:
  *       · mobile  → compact <AzecWordmark /> (AZEC only, no DIGITAL rule)
  *       · ≥ sm    → full <AzecDigitalLockup /> with hairlines & DIGITAL
- *   - Centre: mono uppercase nav links (translated, locale-aware routes)
- *   - Right: EN | NL switcher (desktop) + mobile hamburger
+ *   - Centre: mono uppercase nav links (translated, locale-aware routes).
+ *     The link matching the current route lifts to text-foreground so the
+ *     visitor knows where they are at a glance.
+ *   - Right: EN / NL switcher (desktop) + mobile hamburger
  */
 export function Navbar() {
   const t = useTranslations("nav");
+  const pathname = usePathname();
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-30 px-4 sm:top-4">
@@ -37,16 +44,25 @@ export function Navbar() {
           {/* Primary nav — desktop only, mono caps */}
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="flex items-center gap-6">
-              {navItems.map((item) => (
-                <li key={item.key}>
-                  <Link
-                    href={item.href}
-                    className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-foreground"
-                  >
-                    {t(item.key)}
-                  </Link>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const active = isNavItemActive(pathname, item.href);
+                return (
+                  <li key={item.key}>
+                    <Link
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "font-mono text-[11px] uppercase tracking-[0.18em] transition-colors",
+                        active
+                          ? "text-foreground"
+                          : "text-muted hover:text-foreground",
+                      )}
+                    >
+                      {t(item.key)}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
