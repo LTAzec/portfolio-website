@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Link, usePathname } from "@/i18n/navigation";
 import { AzecWordmark } from "@/components/brand/AzecWordmark";
@@ -28,15 +28,21 @@ import { isNavItemActive } from "./nav-active";
  */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const t = useTranslations("nav");
   const tc = useTranslations("common");
   const pathname = usePathname();
 
-  // Portals need document.body which is only there client-side.
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Portals need document.body, which only exists on the client. We use
+  // useSyncExternalStore with split snapshots — `false` during SSR and
+  // first hydration render, `true` after — so we can skip rendering the
+  // portal until we're safely on the client. This is the React 19
+  // recommended replacement for the "setMounted(true) in useEffect"
+  // pattern (which trips react-hooks/set-state-in-effect).
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -158,6 +164,12 @@ export function MobileNav() {
     </div>
   );
 }
+
+/* useSyncExternalStore inputs — module-level so their identity stays
+   stable across renders and the store treats them as a no-op subscription. */
+const subscribeNoop = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 function Hamburger({ open }: { open: boolean }) {
   return (

@@ -60,7 +60,7 @@ export async function generateMetadata({
       title: `${site.name} — ${site.role}`,
       description: site.description,
     },
-    icons: { icon: "/favicon.ico" },
+    icons: { icon: "/icon.svg", apple: "/apple-icon.svg" },
   };
 }
 

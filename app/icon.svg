@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="AZEC">
+  <!-- Dark rounded backplate -->
+  <rect width="64" height="64" rx="12" fill="#0B0E14"/>
+  <!-- A — two diagonals converging at the apex; round caps + join for clean
+       16/32px anti-aliasing. Generous padding inside the tile. -->
+  <path
+    d="M 16 52 L 32 14 L 48 52"
+    stroke="#FAFAFA"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Subtle blue accent — short cross-bar sitting between the diagonals -->
+  <line
+    x1="25" y1="38" x2="39" y2="38"
+    stroke="#2D7BFF"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>

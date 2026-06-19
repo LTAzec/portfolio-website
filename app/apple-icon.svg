@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none" role="img" aria-label="AZEC">
+  <!-- Dark rounded backplate — iOS-style ~22% corner radius -->
+  <rect width="180" height="180" rx="40" fill="#0B0E14"/>
+  <!-- A — two diagonals; same proportions as the favicon, scaled up with
+       slightly more padding for the Apple-icon convention -->
+  <path
+    d="M 52 140 L 90 45 L 128 140"
+    stroke="#FAFAFA"
+    stroke-width="14"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Subtle blue accent cross-bar -->
+  <line
+    x1="78" y1="110" x2="102" y2="110"
+    stroke="#2D7BFF"
+    stroke-width="10"
+    stroke-linecap="round"
+  />
+</svg>
