@@ -470,8 +470,8 @@ const baseProjects: Project[] = [
   {
     slug: "aria",
     title: loc(
-      "Aria — Adaptive Residential Intelligence Architecture",
-      "Aria — Adaptive Residential Intelligence Architecture",
+      "Aria (AI) — Adaptive Residential Intelligence Architecture",
+      "Aria (AI) — Adaptive Residential Intelligence Architecture",
     ),
     tagline: loc(
       "An adaptive AI assistant architecture for voice interaction, local commands and a growing home-automation ecosystem.",
