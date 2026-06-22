@@ -4,6 +4,7 @@ import type {
   CaseStudyVideoRef,
   EditorialImageRef,
   InternalProject,
+  MediaOverride,
 } from "@/lib/types";
 
 const publicDir = path.join(process.cwd(), "public");
@@ -51,7 +52,7 @@ export function discoverInternalProjectMedia(
  */
 export function discoverMediaFolder(
   dir: string | undefined,
-  mediaOverrides?: Record<string, Partial<EditorialImageRef>>,
+  mediaOverrides?: Record<string, MediaOverride>,
   mediaOrder?: string[],
 ): DiscoveredMedia {
   if (!dir) return { images: [], videos: [] };

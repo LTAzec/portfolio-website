@@ -87,6 +87,18 @@ export interface EditorialImageRef {
   height?: number;
 }
 
+/**
+ * Per-file media override applied by `discoverMediaFolder` to either
+ * an `EditorialImageRef` (image) or a `CaseStudyVideoRef` (video) at
+ * runtime — the discovery helper spreads the same override object onto
+ * whichever ref type the file resolves to. The type is the intersection
+ * of both so video-only fields (e.g. `soundToggle`, `poster`) and
+ * image-only fields (e.g. `mask`, `blurZones`, `frame`, `fit`) can both
+ * appear in an override map. Unknown fields are silently ignored by the
+ * non-matching target ref.
+ */
+export type MediaOverride = Partial<EditorialImageRef & CaseStudyVideoRef>;
+
 export interface ToolingModule {
   /** Mono eyebrow, e.g. "01 · Bereidings-logboek". */
   eyebrow: string;
@@ -150,7 +162,7 @@ export interface InternalProject {
   mediaDir?: string;
   /** Optional explicit overrides — keyed by filename — for blur zones,
    *  masks or captions that auto-discovery can't infer. */
-  mediaOverrides?: Record<string, Partial<EditorialImageRef>>;
+  mediaOverrides?: Record<string, MediaOverride>;
 }
 
 export interface LongFormCaseStudy {
@@ -217,7 +229,7 @@ export interface LongFormCaseStudy {
   mediaDir?: string;
   /** Optional explicit overrides for the auto-discovered media — keyed by
    *  bare filename or relative path under mediaDir. */
-  mediaOverrides?: Record<string, Partial<EditorialImageRef>>;
+  mediaOverrides?: Record<string, MediaOverride>;
   /** Optional explicit ordering for the auto-discovered media — listed
    *  filenames come first in the given order; unlisted files fall back to
    *  alphabetical sort. Use when the natural filename sort doesn't match the
@@ -258,6 +270,10 @@ export interface CaseStudyVideoRef {
    *  support it (e.g. MediaShowcase platform-split). Used to identify a
    *  surface — "Admin / Backend", "Mobile App", etc. */
   label?: string;
+  /** When true, the showcase VideoTile renders a small overlay toggle in
+   *  the bottom-right corner that lets the visitor unmute / re-mute the
+   *  video. Autoplay still happens muted; the toggle is opt-in audio. */
+  soundToggle?: boolean;
 }
 
 export interface ProjectCaseStudy {

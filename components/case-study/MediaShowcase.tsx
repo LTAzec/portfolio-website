@@ -1,7 +1,7 @@
 "use client";
 
 import type * as React from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { ImageLightbox } from "./ImageLightbox";
@@ -391,6 +391,18 @@ function VideoTile({
   // Portrait surfaces (e.g. the mobile 9/16 loop) shouldn't stretch to the
   // full column width — cap and center so the tile reads like a device card.
   const isPortrait = isPortraitAspect(aspect);
+
+  // Optional sound toggle — autoplay is always muted (browser policy), but
+  // when `video.soundToggle` is set we render a small overlay button that
+  // lets visitors flip muted off and back on via a user gesture. The ref +
+  // useEffect path is safer than passing a reactive `muted` prop, which can
+  // sometimes desync from the underlying DOM element on rapid re-renders.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted;
+  }, [muted]);
+
   return (
     <figure
       className={cn(
@@ -407,6 +419,7 @@ function VideoTile({
         )}
       >
         <video
+          ref={videoRef}
           src={video.src}
           poster={video.poster}
           autoPlay
@@ -441,6 +454,21 @@ function VideoTile({
               : undefined
           }
         />
+
+        {video.soundToggle && (
+          <button
+            type="button"
+            onClick={() => setMuted((v) => !v)}
+            aria-label={muted ? "Unmute video" : "Mute video"}
+            aria-pressed={!muted}
+            className="ring-highlight absolute right-3 bottom-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-charcoal/65 text-foreground backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-charcoal-strong/80"
+          >
+            <span className="sr-only">
+              {muted ? "Unmute video" : "Mute video"}
+            </span>
+            {muted ? <SoundOffIcon /> : <SoundOnIcon />}
+          </button>
+        )}
       </div>
       {video.caption && (
         <figcaption className="text-eyebrow flex items-center gap-2 text-[10px]">
@@ -572,6 +600,48 @@ function MaskOverlay({
       aria-hidden
       className={cn("pointer-events-none absolute inset-0", styles[mask])}
     />
+  );
+}
+
+/* Speaker icons for the optional VideoTile sound toggle. Stroke-only SVGs
+   that inherit currentColor so they pick up the button's text-foreground. */
+function SoundOffIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="15"
+      height="15"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="22" y1="9" x2="16" y2="15" />
+      <line x1="16" y1="9" x2="22" y2="15" />
+    </svg>
+  );
+}
+
+function SoundOnIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="15"
+      height="15"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+    </svg>
   );
 }
 

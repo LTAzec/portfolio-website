@@ -567,6 +567,10 @@ const baseProjects: Project[] = [
           "Demo Jarvis Nederlands.mp4": {
             caption: "Aria · voice interaction demo (Dutch capture)",
             alt: "Aria — voice interaction demo",
+            // Aria-only: render a small overlay sound toggle on the
+            // showcase VideoTile so visitors can flip the demo audio on.
+            // Autoplay stays muted by browser policy; the toggle is opt-in.
+            soundToggle: true,
           },
         },
 
