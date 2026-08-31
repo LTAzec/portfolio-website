@@ -160,7 +160,7 @@ function ProjectRow({ project, index, total, layout }: ProjectRowProps) {
                 rel="noopener noreferrer"
                 className="ring-highlight relative z-[2] group/live inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent-soft px-3.5 py-1.5 text-[12px] font-medium tracking-[0.005em] text-accent shadow-[0_6px_18px_-10px_rgba(45,123,255,0.45),inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/55 hover:bg-[rgba(45,123,255,0.16)] hover:text-foreground hover:shadow-[0_10px_24px_-10px_rgba(45,123,255,0.6),inset_0_1px_0_0_rgba(255,255,255,0.08)]"
               >
-                Live site
+                {t("liveSite")}
                 <span
                   aria-hidden
                   className="text-[13px] leading-none transition-transform duration-200 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"

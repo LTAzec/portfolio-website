@@ -4,6 +4,7 @@ import { EditorialImage } from "./EditorialImage";
 import { VideoPanel } from "./VideoPanel";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface CaseStudyHeroProps {
   project: Project;
@@ -108,6 +109,8 @@ const DEFAULT_MEDIA_SIZES = "(min-width: 1024px) 1100px, 100vw";
    ────────────────────────────────────────────────────────────────── */
 
 function TitleContent({ project }: { project: Project }) {
+  const t = useTranslations("common");
+
   return (
     <>
       <Reveal>
@@ -144,7 +147,7 @@ function TitleContent({ project }: { project: Project }) {
             rel="noopener noreferrer"
             className="ring-highlight group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/35 bg-accent-soft px-5 py-2.5 text-[13px] font-medium tracking-[0.005em] text-accent shadow-[0_10px_30px_-14px_rgba(45,123,255,0.5),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/55 hover:bg-[rgba(45,123,255,0.16)] hover:text-foreground hover:shadow-[0_16px_38px_-12px_rgba(45,123,255,0.65),inset_0_1px_0_0_rgba(255,255,255,0.1)] sm:mt-8"
           >
-            <span>Visit live site</span>
+            <span>{t("visitLiveSite")}</span>
             <span
               aria-hidden
               className="inline-flex items-center text-[14px] leading-none transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

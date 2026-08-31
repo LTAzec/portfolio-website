@@ -39,6 +39,296 @@ const AZ_PROJECT_SERVICEDESK = `${AZ_PROJECTS_BASE}/ServiceDesk%20Dashboard`;
 
 const baseProjects: Project[] = [
   {
+    slug: "bsmetallic",
+    title: loc("BSMetallic", "BSMetallic"),
+    tagline: loc(
+      "Premium website for custom metalwork.",
+      "Premium website voor maatwerk in metaal.",
+    ),
+    description: loc(
+      "A complete design and development project for BSMetallic — an editorial, photography-led website that brings custom metalwork, completed projects, contact and moderated customer reviews together in one production-ready platform.",
+      "Een volledig ontwerp- en ontwikkeltraject voor BSMetallic — een editoriale, fotografiegedreven website die metaalmaatwerk, realisaties, contact en gemodereerde klantreviews samenbrengt in één productieklare omgeving.",
+    ),
+    role: loc("Designer & Developer", "Designer & Developer"),
+    year: 2026,
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Resend",
+      "GitHub API",
+      "Vercel",
+    ],
+    highlights: locArr(
+      [
+        "Designed and developed end-to-end for a real custom metalwork business",
+        "Project portfolio with dynamic detail pages and curated realisation galleries",
+        "Moderated review flow using signed links, Resend and the GitHub Contents API",
+      ],
+      [
+        "Van ontwerp tot ontwikkeling uitgevoerd voor een echt maatwerkbedrijf",
+        "Realisatieportfolio met dynamische detailpagina's en zorgvuldig opgebouwde galerijen",
+        "Gemodereerde reviewflow met ondertekende links, Resend en de GitHub Contents API",
+      ],
+    ),
+    status: "live",
+    featured: true,
+    accent: "cyan",
+    links: {
+      live: "https://www.bsmetallic.com",
+    },
+    media: {
+      type: "video",
+      src: "/project_afbeeldingen/bsmetallic/Video%20Website%20BSMetallic.mp4",
+      alt: loc(
+        "BSMetallic website preview",
+        "Preview van de BSMetallic-website",
+      ),
+    },
+    caseStudy: {
+      overview: loc(
+        "BSMetallic creates custom steel and metalwork, from steel-and-glass doors and window constructions to furniture, railings and one-off structures. The website was designed and built to give that craftsmanship the visual space it deserves and turn interest into direct contact.",
+        "BSMetallic maakt maatwerk in staal en metaal, van stalen en glazen deuren en raamconstructies tot meubels, leuningen en unieke constructies. De website werd ontworpen en gebouwd om dat vakmanschap visueel centraal te zetten en interesse om te zetten in rechtstreeks contact.",
+      ),
+      problem: loc(
+        "The work is highly visual and project-specific, but it needed a coherent digital presentation. Visitors had to understand the range quickly, browse real work without losing context, and reach Bram just as easily on mobile as on desktop.",
+        "Het werk is sterk visueel en projectspecifiek, maar had nood aan een samenhangende digitale presentatie. Bezoekers moesten het aanbod snel begrijpen, echte realisaties met context kunnen bekijken en Bram op mobiel even eenvoudig bereiken als op desktop.",
+      ),
+      solution: loc(
+        "A responsive editorial website built around real photography, restrained typography and a structured realisation portfolio. Contact, Instagram and customer reviews sit inside the same experience, with production mail and moderation flows behind the visible interface.",
+        "Een responsieve editoriale website rond echte fotografie, rustige typografie en een gestructureerd realisatieportfolio. Contact, Instagram en klantreviews maken deel uit van dezelfde ervaring, met productieklare mail- en moderatieflows achter de zichtbare interface.",
+      ),
+      result: loc(
+        "A complete commercial web presence on its own domain: clear positioning, seven project routes, responsive navigation, direct contact, moderated social proof and a production SEO baseline.",
+        "Een volledige commerciële webaanwezigheid op een eigen domein: duidelijke positionering, zeven projectroutes, responsieve navigatie, rechtstreeks contact, gemodereerde social proof en een productieklare SEO-basis.",
+      ),
+      longForm: {
+        contextTags: locArr(
+          ["Client work", "Metalwork", "Design & development", "Belgium"],
+          ["Klantwerk", "Metaalmaatwerk", "Design & development", "België"],
+        ),
+        heroLayout: "split",
+        heroMedia: {
+          kind: "video",
+          src: "/project_afbeeldingen/bsmetallic/Video%20Website%20BSMetallic.mp4",
+          alt: loc(
+            "BSMetallic website preview",
+            "Preview van de BSMetallic-website",
+          ),
+          caption: loc(
+            "BSMetallic · live website walkthrough",
+            "BSMetallic · rondleiding door de live website",
+          ),
+          aspect: "aspect-[1/1]",
+          fit: "contain",
+        },
+        mediaDir: "/project_afbeeldingen/bsmetallic/showcase",
+        mediaOrder: [
+          "dubbele-stalen-deur-met-glas-dressing-01.jpg",
+          "asymmetrische-stalen-boekenkast-houten-planken-01.jpg",
+          "trapleuning-01.jpeg",
+        ],
+        mediaOverrides: {
+          "dubbele-stalen-deur-met-glas-dressing-01.jpg": {
+            alt: loc(
+              "Custom steel-and-glass double doors by BSMetallic",
+              "Dubbele stalen deuren met glas op maat van BSMetallic",
+            ),
+            caption: loc(
+              "custom steel-and-glass double doors",
+              "dubbele stalen deuren met glas op maat",
+            ),
+            aspect: "aspect-[3/4]",
+            objectPosition: "center center",
+          },
+          "asymmetrische-stalen-boekenkast-houten-planken-01.jpg": {
+            alt: loc(
+              "Asymmetric custom steel bookcase with wooden shelves",
+              "Asymmetrische stalen maatwerkkast met houten legvlakken",
+            ),
+            caption: loc(
+              "custom steel bookcase with wooden shelves",
+              "stalen maatwerkkast met houten legvlakken",
+            ),
+            aspect: "aspect-[3/4]",
+          },
+          "trapleuning-01.jpeg": {
+            alt: loc(
+              "Minimal custom steel stair railing by BSMetallic",
+              "Minimalistische stalen trapleuning op maat van BSMetallic",
+            ),
+            caption: loc(
+              "minimal steel stair railing",
+              "minimalistische stalen trapleuning",
+            ),
+            aspect: "aspect-[3/4]",
+          },
+        },
+        sectionLabels: {
+          problem: { eyebrow: loc("The brief", "De opdracht") },
+          tooling: {
+            eyebrow: loc("Design direction", "Designrichting"),
+            heading: loc(
+              "Quiet design, strong craftsmanship",
+              "Rustig ontwerp, sterk vakmanschap",
+            ),
+            description: loc(
+              "The interface stays deliberately restrained so the project photography, materials and details remain the focus.",
+              "De interface blijft bewust ingetogen zodat de projectfotografie, materialen en details centraal blijven staan.",
+            ),
+          },
+          showcase: {
+            eyebrow: loc("Selected work", "Geselecteerd werk"),
+            heading: loc(
+              "Real projects, not stock imagery",
+              "Echte realisaties, geen stockbeelden",
+            ),
+            description: loc(
+              "A selection of the photography that shapes the live website and its project portfolio.",
+              "Een selectie uit de fotografie die de live website en het realisatieportfolio vormgeeft.",
+            ),
+          },
+          engineering: {
+            eyebrow: loc("Development", "Development"),
+            heading: loc(
+              "A small site with complete production flows",
+              "Een compacte site met volledige productieflows",
+            ),
+            description: loc(
+              "The visible experience stays simple; the implementation behind contact, reviews and publishing does the heavier work.",
+              "De zichtbare ervaring blijft eenvoudig; de implementatie achter contact, reviews en publicatie doet het zwaardere werk.",
+            ),
+          },
+          results: {
+            eyebrow: loc("Outcome", "Resultaat"),
+            heading: loc(
+              "A complete digital home for BSMetallic",
+              "Een volledige digitale thuis voor BSMetallic",
+            ),
+          },
+          closing: { eyebrow: loc("Live", "Live") },
+        },
+        context: locArr(
+          [
+            "BSMetallic is Bram's custom metalwork business in Zoersel. The work ranges from steel-and-glass doors and large window constructions to furniture, railings and smaller one-off pieces. Every commission is different, which made the real project photography the most important content on the site.",
+            "I handled both design and development. The goal was not to turn the company into a generic construction brand, but to build a calm, premium frame around the work: enough structure to explain the offer, enough space to let each realisation speak for itself.",
+          ],
+          [
+            "BSMetallic is Brams maatwerkbedrijf in Zoersel. Het werk gaat van stalen en glazen deuren en grote raamconstructies tot meubels, leuningen en kleinere unieke stukken. Elke opdracht is anders, waardoor de echte projectfotografie de belangrijkste inhoud van de site werd.",
+            "Ik stond in voor zowel design als development. Het doel was niet om van het bedrijf een generiek bouwmerk te maken, maar om een rustig, premium kader rond het werk te bouwen: genoeg structuur om het aanbod uit te leggen en genoeg ruimte om elke realisatie voor zichzelf te laten spreken.",
+          ],
+        ),
+        problemDetail: {
+          paragraphs: locArr(
+            [
+              "The website had to communicate range without becoming a catalogue. A visitor looking for a steel door should immediately recognise the service, while someone interested in a custom cabinet or railing still needs to feel that the same maker can help them.",
+              "The second constraint was trust. This is commissioned work in people's homes, so clear contact, real photography, readable project context and a polished mobile experience mattered more than decorative effects.",
+              "Finally, the production layer had to be real: a working contact flow, a safe review process, proper metadata and a deployment setup that could keep the site current after launch.",
+            ],
+            [
+              "De website moest het brede aanbod tonen zonder een catalogus te worden. Een bezoeker die een stalen deur zoekt, moest die dienst meteen herkennen, terwijl iemand met interesse in een kast of leuning ook moest voelen dat dezelfde maker kan helpen.",
+              "De tweede uitdaging was vertrouwen. Het gaat om maatwerk in woningen, waardoor duidelijke contactmogelijkheden, echte fotografie, leesbare projectcontext en een verzorgde mobiele ervaring belangrijker waren dan decoratieve effecten.",
+              "Ten slotte moest ook de productielaag echt werken: een contactflow, een veilige reviewprocedure, correcte metadata en een deploymentopzet waarmee de site na lancering actueel kan blijven.",
+            ],
+          ),
+          media: [],
+        },
+        tooling: [
+          {
+            eyebrow: loc("01 · Art direction", "01 · Art direction"),
+            title: loc("Photography leads", "Fotografie leidt"),
+            description: loc(
+              "Large, rounded image frames and deliberate crops give the real metalwork priority throughout the site.",
+              "Grote afgeronde beeldkaders en bewuste uitsneden geven het echte metaalwerk overal voorrang.",
+            ),
+          },
+          {
+            eyebrow: loc("02 · Typography", "02 · Typografie"),
+            title: loc("Editorial, not industrial", "Editoriaal, niet industrieel"),
+            description: loc(
+              "Cormorant Garamond brings character to headings; Manrope keeps navigation, labels and body copy precise and accessible.",
+              "Cormorant Garamond geeft karakter aan de titels; Manrope houdt navigatie, labels en lopende tekst precies en toegankelijk.",
+            ),
+          },
+          {
+            eyebrow: loc("03 · Structure", "03 · Structuur"),
+            title: loc("From overview to detail", "Van overzicht naar detail"),
+            description: loc(
+              "A central project model drives the realisations overview, dynamic detail pages, galleries and related-project navigation.",
+              "Een centraal projectmodel stuurt het realisatieoverzicht, dynamische detailpagina's, galerijen en navigatie naar andere projecten aan.",
+            ),
+          },
+          {
+            eyebrow: loc("04 · Responsive", "04 · Responsive"),
+            title: loc("The same hierarchy at every size", "Dezelfde hiërarchie op elk formaat"),
+            description: loc(
+              "The editorial grids collapse cleanly, while the compact mobile header keeps every page and Instagram within reach.",
+              "De editoriale grids schalen helder terug, terwijl de compacte mobiele header elke pagina en Instagram bereikbaar houdt.",
+            ),
+          },
+        ],
+        showcase: [],
+        engineering: [
+          {
+            index: "01",
+            title: loc("Dynamic realisation architecture", "Dynamische realisatiearchitectuur"),
+            body: loc(
+              "Seven project routes are generated from one typed data source, including galleries, multi-realisation groupings and deterministic related-project cards.",
+              "Zeven projectroutes worden vanuit één getypeerde databron opgebouwd, inclusief galerijen, groeperingen van realisaties en deterministische kaarten met gerelateerde projecten.",
+            ),
+          },
+          {
+            index: "02",
+            title: loc("Production contact flow", "Productieklare contactflow"),
+            body: loc(
+              "The contact form validates and escapes input server-side, uses a honeypot, and sends through Resend with the visitor address as reply-to.",
+              "Het contactformulier valideert en escaped invoer server-side, gebruikt een honeypot en verzendt via Resend met het adres van de bezoeker als reply-to.",
+            ),
+          },
+          {
+            index: "03",
+            title: loc("Moderated customer reviews", "Gemodereerde klantreviews"),
+            body: loc(
+              "Submissions never publish immediately. Bram receives signed approve/reject links; approval strips the email and writes the public review through the GitHub Contents API, triggering the normal deployment flow.",
+              "Inzendingen verschijnen nooit meteen. Bram ontvangt ondertekende goedkeurings- en afwijzingslinks; bij goedkeuring wordt het e-mailadres verwijderd en schrijft de GitHub Contents API de publieke review weg, waarna de gewone deploymentflow start.",
+            ),
+          },
+          {
+            index: "04",
+            title: loc("SEO and production polish", "SEO en productiepolish"),
+            body: loc(
+              "Unique metadata, canonical URLs, Open Graph data, sitemap and robots routes support the custom-domain Vercel deployment.",
+              "Unieke metadata, canonicals, Open Graph-data, sitemap- en robotsroutes ondersteunen de Vercel-deployment op het eigen domein.",
+            ),
+          },
+        ],
+        results: {
+          paragraphs: locArr(
+            [
+              "The result is a focused commercial website that makes the work understandable without over-explaining it. Visitors can move from the homepage into individual realisations, compare related projects and contact Bram without losing the visual thread.",
+              "The finished build combines the parts a small business site actually needs: responsive presentation, a maintainable project model, direct Instagram access, reliable email delivery, moderated reviews and a production SEO baseline on a custom domain.",
+              "For AZEC Digital, BSMetallic is a complete client case: brand-sensitive design and frontend craft, backed by the less visible server and publishing flows needed to keep the site useful after launch.",
+            ],
+            [
+              "Het resultaat is een gerichte commerciële website die het werk begrijpelijk maakt zonder het te oververklaren. Bezoekers gaan van de homepage naar afzonderlijke realisaties, vergelijken verwante projecten en nemen contact op zonder de visuele lijn te verliezen.",
+              "De afgewerkte build combineert wat een website voor een klein bedrijf echt nodig heeft: responsieve presentatie, een onderhoudbaar projectmodel, rechtstreekse Instagram-toegang, betrouwbare e-mail, gemodereerde reviews en een productieklare SEO-basis op een eigen domein.",
+              "Voor AZEC Digital is BSMetallic een volledige klantcase: merkgevoelig design en frontendafwerking, ondersteund door de minder zichtbare server- en publicatieflows die de site ook na lancering bruikbaar houden.",
+            ],
+          ),
+        },
+        closing: locArr(
+          [
+            "BSMetallic is live at bsmetallic.com. The case is a good example of the kind of client work I like most: a tangible craft, strong source material and a digital product that stays quiet enough to let both speak.",
+          ],
+          [
+            "BSMetallic staat live op bsmetallic.com. De case is een goed voorbeeld van het soort klantwerk dat ik het liefst doe: tastbaar vakmanschap, sterk bronmateriaal en een digitaal product dat rustig genoeg blijft om beide te laten spreken.",
+          ],
+        ),
+      },
+    },
+  },
+  {
     slug: "az-turnhout-tooling",
     title: loc("AZ Turnhout — internal tooling", "AZ Turnhout — interne tooling"),
     tagline: loc(
@@ -1489,9 +1779,26 @@ const baseProjects: Project[] = [
   },
 ];
 
+// Keep the editorial project order explicit and independent from where a
+// large case-study object lives in this file.
+const featuredProjectOrder = [
+  "az-turnhout-tooling",
+  "aria",
+  "bsmetallic",
+  "jansen-car-detailing",
+];
+
+const orderedProjects = [...baseProjects].sort((a, b) => {
+  const aIndex = featuredProjectOrder.indexOf(a.slug);
+  const bIndex = featuredProjectOrder.indexOf(b.slug);
+  const aRank = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
+  const bRank = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
+  return aRank - bRank;
+});
+
 // Card/gallery media is locale-independent — merge it once at module load,
 // then resolve the inline translations (`loc` / `locArr`) per request.
-const mediaApplied = applyProjectMedia(baseProjects);
+const mediaApplied = applyProjectMedia(orderedProjects);
 
 /** Stable, locale-independent slug list for `generateStaticParams`. */
 export const projectSlugs: string[] = mediaApplied.map((p) => p.slug);

@@ -236,7 +236,7 @@ export function LongFormCaseStudy({
           <Reveal>
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-4">
-                <span className="text-eyebrow">Built with</span>
+                <span className="text-eyebrow">{t("builtWith")}</span>
               </div>
               <div className="lg:col-span-8">
                 <div className="flex flex-wrap gap-1.5">
